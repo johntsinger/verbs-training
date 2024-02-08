@@ -1,0 +1,26 @@
+<div class="modal fade" id="{{ object.time_created|date:'U' }}{{ modal_id }}" tabindex="-1" aria-modal="true" aria-labelledby="deleteFormModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-3 border" style="background-color: #f0f2f5;">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ modal_title }} <strong class="text-danger">{{ modal_context_data }}</strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {% if action %}
+            <form method="post" action="{% url action object_id %}">
+            {% else %}
+            <form method="post">
+            {% endif %}
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% include form with object=object %}
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex flex-column w-100">
+                        <button type="button" class="btn btn-secondary mb-4" aria-label="Return" data-bs-dismiss="modal" onclick="this.body">No, I've changed my mind</button>
+                        <button type="submit" class="btn btn-danger" aria-label="Delete it">{{ modal_button_value }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
