@@ -1,3 +1,7 @@
 from django.contrib import admin
+from profiles.models import Profile, UserVerb, UserTable
 
-# Register your models here.
+
+admin.site.register(Profile)
+admin.site.register(UserVerb)
+admin.site.register(UserTable)
