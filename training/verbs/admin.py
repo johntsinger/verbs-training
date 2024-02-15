@@ -1,3 +1,5 @@
 from django.contrib import admin
+from verbs.models import Verb
 
-# Register your models here.
+
+admin.site.register(Verb)
