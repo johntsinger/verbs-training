@@ -1,0 +1,632 @@
+[
+    {
+        "infinitive": "abide",
+        "simple_past": "abode",
+        "past_participle": "abode",
+        "translation": "supporter / (suivi de by) se conformer \u00e0 / demeurer"
+    },
+    {
+        "infinitive": "arise",
+        "simple_past": "arose",
+        "past_participle": "arisen",
+        "translation": "survenir"
+    },
+    {
+        "infinitive": "awake",
+        "simple_past": "awoke",
+        "past_participle": "awoken",
+        "translation": "se r\u00e9veiller"
+    },
+    {
+        "infinitive": "breed",
+        "simple_past": "bred",
+        "past_participle": "bred",
+        "translation": "\u00e9lever (des animaux)"
+    },
+    {
+        "infinitive": "beat",
+        "simple_past": "beat",
+        "past_participle": "beaten",
+        "translation": "battre"
+    },
+    {
+        "infinitive": "bend",
+        "simple_past": "bent",
+        "past_participle": "bent",
+        "translation": "plier / se courber"
+    },
+    {
+        "infinitive": "bid",
+        "simple_past": "bade/bid",
+        "past_participle": "bidden/bid",
+        "translation": "offrir / faire une ench\u00e8re / demander"
+    },
+    {
+        "infinitive": "bind",
+        "simple_past": "bound",
+        "past_participle": "bound",
+        "translation": "engager / lier"
+    },
+    {
+        "infinitive": "bleed",
+        "simple_past": "bled",
+        "past_participle": "bled",
+        "translation": "saigner."
+    },
+    {
+        "infinitive": "burst",
+        "simple_past": "burst",
+        "past_participle": "burst",
+        "translation": "\u00e9clater"
+    },
+    {
+        "infinitive": "cast",
+        "simple_past": "cast",
+        "past_participle": "cast",
+        "translation": "jeter / distribuer (r\u00f4les)"
+    },
+    {
+        "infinitive": "cling",
+        "simple_past": "clung",
+        "past_participle": "clung",
+        "translation": "s'accrocher"
+    },
+    {
+        "infinitive": "creep",
+        "simple_past": "crept",
+        "past_participle": "crept",
+        "translation": "ramper"
+    },
+    {
+        "infinitive": "deal",
+        "simple_past": "dealt",
+        "past_participle": "dealt",
+        "translation": "distribuer"
+    },
+    {
+        "infinitive": "dig",
+        "simple_past": "dug",
+        "past_participle": "dug",
+        "translation": "creuser"
+    },
+    {
+        "infinitive": "dwell",
+        "simple_past": "dwelt",
+        "past_participle": "dwelled/dwelt",
+        "translation": "habiter"
+    },
+    {
+        "infinitive": "feed",
+        "simple_past": "fed",
+        "past_participle": "fed",
+        "translation": "nourrir"
+    },
+    {
+        "infinitive": "flee",
+        "simple_past": "fled",
+        "past_participle": "fled",
+        "translation": "s'enfuir"
+    },
+    {
+        "infinitive": "fling",
+        "simple_past": "flung",
+        "past_participle": "flung",
+        "translation": "lancer"
+    },
+    {
+        "infinitive": "forbid",
+        "simple_past": "forbade",
+        "past_participle": "forbidden",
+        "translation": "interdire"
+    },
+    {
+        "infinitive": "freeze",
+        "simple_past": "froze",
+        "past_participle": "frozen",
+        "translation": "geler"
+    },
+    {
+        "infinitive": "grind",
+        "simple_past": "ground",
+        "past_participle": "ground",
+        "translation": "moudre / opprimer"
+    },
+    {
+        "infinitive": "grow",
+        "simple_past": "grew",
+        "past_participle": "grown",
+        "translation": "pousser / grandir"
+    },
+    {
+        "infinitive": "hang",
+        "simple_past": "hung",
+        "past_participle": "hung",
+        "translation": "tenir / pendre"
+    },
+    {
+        "infinitive": "hide",
+        "simple_past": "hid",
+        "past_participle": "hidden",
+        "translation": "cacher"
+    },
+    {
+        "infinitive": "hit",
+        "simple_past": "hit",
+        "past_participle": "hit",
+        "translation": "taper / appuyer"
+    },
+    {
+        "infinitive": "hold",
+        "simple_past": "held",
+        "past_participle": "held",
+        "translation": "tenir"
+    },
+    {
+        "infinitive": "hurt",
+        "simple_past": "hurt",
+        "past_participle": "hurt",
+        "translation": "blesser"
+    },
+    {
+        "infinitive": "kneel",
+        "simple_past": "kneeled/knelt",
+        "past_participle": "kneeled/knelt",
+        "translation": "s'agenouiller"
+    },
+    {
+        "infinitive": "lay",
+        "simple_past": "laid",
+        "past_participle": "laid",
+        "translation": "poser (\u00e0 plat-\u00e9tendre)"
+    },
+    {
+        "infinitive": "lead",
+        "simple_past": "led",
+        "past_participle": "led",
+        "translation": "mener / guider"
+    },
+    {
+        "infinitive": "lean",
+        "simple_past": "leant/leaned",
+        "past_participle": "leant/leaned",
+        "translation": "s'incliner / se pencher"
+    },
+    {
+        "infinitive": "leap",
+        "simple_past": "leapt/leaped",
+        "past_participle": "leapt/leaped",
+        "translation": "sauter / bondir"
+    },
+    {
+        "infinitive": "learn",
+        "simple_past": "learnt",
+        "past_participle": "learnt",
+        "translation": "apprendre"
+    },
+    {
+        "infinitive": "lend",
+        "simple_past": "lent",
+        "past_participle": "lent",
+        "translation": "pr\u00eater"
+    },
+    {
+        "infinitive": "let",
+        "simple_past": "let",
+        "past_participle": "let",
+        "translation": "permettre / louer"
+    },
+    {
+        "infinitive": "lie",
+        "simple_past": "lay",
+        "past_participle": "lain",
+        "translation": "s'allonger"
+    },
+    {
+        "infinitive": "light",
+        "simple_past": "lighted/lit",
+        "past_participle": "lighted/lit",
+        "translation": "allumer"
+    },
+    {
+        "infinitive": "mean",
+        "simple_past": "meant",
+        "past_participle": "meant",
+        "translation": "signifier"
+    },
+    {
+        "infinitive": "pay",
+        "simple_past": "paid",
+        "past_participle": "paid",
+        "translation": "payer"
+    },
+    {
+        "infinitive": "put",
+        "simple_past": "put",
+        "past_participle": "put",
+        "translation": "mettre"
+    },
+    {
+        "infinitive": "quit",
+        "simple_past": "quit",
+        "past_participle": "quit",
+        "translation": "quitter"
+    },
+    {
+        "infinitive": "rid",
+        "simple_past": "rid",
+        "past_participle": "rid",
+        "translation": "d\u00e9barrasser"
+    },
+    {
+        "infinitive": "ride",
+        "simple_past": "rode",
+        "past_participle": "ridden",
+        "translation": "faire du cheval / voyager \u00e0 bicyclette"
+    },
+    {
+        "infinitive": "rise",
+        "simple_past": "rose",
+        "past_participle": "risen",
+        "translation": "lever"
+    },
+    {
+        "infinitive": "run",
+        "simple_past": "ran",
+        "past_participle": "run",
+        "translation": "courir"
+    },
+    {
+        "infinitive": "saw",
+        "simple_past": "sawed/saw",
+        "past_participle": "sawed/sawn",
+        "translation": "scier"
+    },
+    {
+        "infinitive": "seek",
+        "simple_past": "sought",
+        "past_participle": "sought",
+        "translation": "chercher"
+    },
+    {
+        "infinitive": "sell",
+        "simple_past": "sold",
+        "past_participle": "sold",
+        "translation": "vendre"
+    },
+    {
+        "infinitive": "send",
+        "simple_past": "sent",
+        "past_participle": "sent",
+        "translation": "envoyer"
+    },
+    {
+        "infinitive": "set",
+        "simple_past": "set",
+        "past_participle": "set",
+        "translation": "fixer"
+    },
+    {
+        "infinitive": "sew",
+        "simple_past": "sewed",
+        "past_participle": "sewn",
+        "translation": "coudre"
+    },
+    {
+        "infinitive": "shake",
+        "simple_past": "shook",
+        "past_participle": "shaken",
+        "translation": "secouer"
+    },
+    {
+        "infinitive": "shear",
+        "simple_past": "shore/sheared",
+        "past_participle": "shorn/sheared",
+        "translation": "tondre (animaux)"
+    },
+    {
+        "infinitive": "shed",
+        "simple_past": "shed",
+        "past_participle": "shed",
+        "translation": "r\u00e9pandre"
+    },
+    {
+        "infinitive": "shine",
+        "simple_past": "shone",
+        "past_participle": "shone",
+        "translation": "briller"
+    },
+    {
+        "infinitive": "shoe",
+        "simple_past": "shod",
+        "past_participle": "shod",
+        "translation": "chausser"
+    },
+    {
+        "infinitive": "shoot",
+        "simple_past": "shot",
+        "past_participle": "shot",
+        "translation": "tirer / fusilier"
+    },
+    {
+        "infinitive": "show",
+        "simple_past": "showed",
+        "past_participle": "shown",
+        "translation": "montrer"
+    },
+    {
+        "infinitive": "shrink",
+        "simple_past": "shrank",
+        "past_participle": "shrunk",
+        "translation": "r\u00e9tr\u00e9cir"
+    },
+    {
+        "infinitive": "shut",
+        "simple_past": "shut",
+        "past_participle": "shut",
+        "translation": "fermer"
+    },
+    {
+        "infinitive": "sing",
+        "simple_past": "sang",
+        "past_participle": "sung",
+        "translation": "chanter"
+    },
+    {
+        "infinitive": "slide",
+        "simple_past": "slid",
+        "past_participle": "slid",
+        "translation": "glisser"
+    },
+    {
+        "infinitive": "sling",
+        "simple_past": "slung",
+        "past_participle": "slung",
+        "translation": "lancer fort"
+    },
+    {
+        "infinitive": "slink",
+        "simple_past": "slinked/slunk",
+        "past_participle": "slinked/slunk",
+        "translation": "s'en aller furtivement"
+    },
+    {
+        "infinitive": "slit",
+        "simple_past": "slit",
+        "past_participle": "slit",
+        "translation": "fendre"
+    },
+    {
+        "infinitive": "smell",
+        "simple_past": "smelt",
+        "past_participle": "smelt",
+        "translation": "sentir"
+    },
+    {
+        "infinitive": "sow",
+        "simple_past": "sowed",
+        "past_participle": "sowed/",
+        "translation": "sown semer"
+    },
+    {
+        "infinitive": "speak",
+        "simple_past": "spoke",
+        "past_participle": "spoken",
+        "translation": "parler"
+    },
+    {
+        "infinitive": "speed",
+        "simple_past": "sped",
+        "past_participle": "sped",
+        "translation": "aller vite"
+    },
+    {
+        "infinitive": "spell",
+        "simple_past": "spelt",
+        "past_participle": "spelt",
+        "translation": "\u00e9peler"
+    },
+    {
+        "infinitive": "spend",
+        "simple_past": "spent",
+        "past_participle": "spent",
+        "translation": "d\u00e9penser / passer du temps"
+    },
+    {
+        "infinitive": "spill",
+        "simple_past": "spilled/spilt",
+        "past_participle": "spilled/spilt",
+        "translation": "renverser"
+    },
+    {
+        "infinitive": "spit",
+        "simple_past": "spat/spit",
+        "past_participle": "spat/spit",
+        "translation": "cr\u00e2cher"
+    },
+    {
+        "infinitive": "split",
+        "simple_past": "split",
+        "past_participle": "split",
+        "translation": "fendre"
+    },
+    {
+        "infinitive": "spoil",
+        "simple_past": "spoiled/spoilt",
+        "past_participle": "spoiled/spoilt",
+        "translation": "g\u00e2cher / g\u00e2ter"
+    },
+    {
+        "infinitive": "spread",
+        "simple_past": "spread",
+        "past_participle": "spread",
+        "translation": "r\u00e9pandre"
+    },
+    {
+        "infinitive": "spring",
+        "simple_past": "sprang",
+        "past_participle": "sprung",
+        "translation": "surgir / jaillir / bondir"
+    },
+    {
+        "infinitive": "stand",
+        "simple_past": "stood",
+        "past_participle": "stood",
+        "translation": "\u00eatre debout"
+    },
+    {
+        "infinitive": "steal",
+        "simple_past": "stole",
+        "past_participle": "stolen",
+        "translation": "voler / d\u00e9rober"
+    },
+    {
+        "infinitive": "stick",
+        "simple_past": "stuck",
+        "past_participle": "stuck",
+        "translation": "coller"
+    },
+    {
+        "infinitive": "sting",
+        "simple_past": "stung",
+        "past_participle": "stung",
+        "translation": "p\u00eequer"
+    },
+    {
+        "infinitive": "stink",
+        "simple_past": "stank",
+        "past_participle": "stunk",
+        "translation": "puer"
+    },
+    {
+        "infinitive": "stride",
+        "simple_past": "strode",
+        "past_participle": "stridden",
+        "translation": "marcher \u00e0 grands pas"
+    },
+    {
+        "infinitive": "strike",
+        "simple_past": "struck",
+        "past_participle": "stricken/struck",
+        "translation": "frapper"
+    },
+    {
+        "infinitive": "string",
+        "simple_past": "strung",
+        "past_participle": "strung",
+        "translation": "ficeler / enfiler des perles"
+    },
+    {
+        "infinitive": "strive",
+        "simple_past": "strove",
+        "past_participle": "striven",
+        "translation": "s'efforcer"
+    },
+    {
+        "infinitive": "swear",
+        "simple_past": "swore",
+        "past_participle": "sworn",
+        "translation": "jurer"
+    },
+    {
+        "infinitive": "sweep",
+        "simple_past": "swept",
+        "past_participle": "swept",
+        "translation": "balayer"
+    },
+    {
+        "infinitive": "swell",
+        "simple_past": "swelled",
+        "past_participle": "swelled/swollen",
+        "translation": "gonfler / enfler"
+    },
+    {
+        "infinitive": "swing",
+        "simple_past": "swung",
+        "past_participle": "swung",
+        "translation": "se balancer"
+    },
+    {
+        "infinitive": "teach",
+        "simple_past": "taught",
+        "past_participle": "taught",
+        "translation": "enseigner"
+    },
+    {
+        "infinitive": "tear",
+        "simple_past": "tore",
+        "past_participle": "torn",
+        "translation": "d\u00e9chirer"
+    },
+    {
+        "infinitive": "tell",
+        "simple_past": "told",
+        "past_participle": "told",
+        "translation": "dire / raconter"
+    },
+    {
+        "infinitive": "throw",
+        "simple_past": "threw",
+        "past_participle": "thrown",
+        "translation": "jeter"
+    },
+    {
+        "infinitive": "thrust",
+        "simple_past": "thrust",
+        "past_participle": "thrust",
+        "translation": "enfoncer"
+    },
+    {
+        "infinitive": "tread",
+        "simple_past": "trod",
+        "past_participle": "trodden",
+        "translation": "pi\u00e9tiner quelque chose"
+    },
+    {
+        "infinitive": "understand",
+        "simple_past": "understood",
+        "past_participle": "understood",
+        "translation": "comprendre"
+    },
+    {
+        "infinitive": "wake",
+        "simple_past": "waked/woke",
+        "past_participle": "waked/woken",
+        "translation": "veiller ; \u00eatre \u00e9veill\u00e9"
+    },
+    {
+        "infinitive": "wear",
+        "simple_past": "wore",
+        "past_participle": "worn",
+        "translation": "porter (avoir sur soi)"
+    },
+    {
+        "infinitive": "weave",
+        "simple_past": "wove",
+        "past_participle": "woven",
+        "translation": "tisser"
+    },
+    {
+        "infinitive": "weep",
+        "simple_past": "wept",
+        "past_participle": "wept",
+        "translation": "pleurer"
+    },
+    {
+        "infinitive": "win",
+        "simple_past": "won",
+        "past_participle": "won",
+        "translation": "gagner"
+    },
+    {
+        "infinitive": "wind",
+        "simple_past": "wound",
+        "past_participle": "wound",
+        "translation": "enrouler / remonter"
+    },
+    {
+        "infinitive": "wring",
+        "simple_past": "wrung",
+        "past_participle": "wrung",
+        "translation": "tordre"
+    }
+]

@@ -1,0 +1,302 @@
+[
+    {
+        "infinitive": "bear",
+        "simple_past": "bore",
+        "past_participle": "borne/born",
+        "translation": "porter / supporter / na\u00eetre"
+    },
+    {
+        "infinitive": "become",
+        "simple_past": "became",
+        "past_participle": "become",
+        "translation": "devenir"
+    },
+    {
+        "infinitive": "begin",
+        "simple_past": "began",
+        "past_participle": "begun",
+        "translation": "commencer"
+    },
+    {
+        "infinitive": "bet",
+        "simple_past": "bet",
+        "past_participle": "bet",
+        "translation": "parier"
+    },
+    {
+        "infinitive": "bite",
+        "simple_past": "bit",
+        "past_participle": "bitten",
+        "translation": "mordre"
+    },
+    {
+        "infinitive": "blow",
+        "simple_past": "blew",
+        "past_participle": "blown",
+        "translation": "souffler / gonfler"
+    },
+    {
+        "infinitive": "break",
+        "simple_past": "broke",
+        "past_participle": "broken",
+        "translation": "casser"
+    },
+    {
+        "infinitive": "bring",
+        "simple_past": "brought",
+        "past_participle": "brought",
+        "translation": "apporter"
+    },
+    {
+        "infinitive": "build",
+        "simple_past": "built",
+        "past_participle": "built",
+        "translation": "construire"
+    },
+    {
+        "infinitive": "burn",
+        "simple_past": "burnt/burned",
+        "past_participle": "burnt/burned",
+        "translation": "br\u00fbler"
+    },
+    {
+        "infinitive": "buy",
+        "simple_past": "bought",
+        "past_participle": "bought",
+        "translation": "acheter"
+    },
+    {
+        "infinitive": "catch",
+        "simple_past": "caught",
+        "past_participle": "caught",
+        "translation": "attraper"
+    },
+    {
+        "infinitive": "choose",
+        "simple_past": "chose",
+        "past_participle": "chosen",
+        "translation": "choisir"
+    },
+    {
+        "infinitive": "come",
+        "simple_past": "came",
+        "past_participle": "come",
+        "translation": "venir"
+    },
+    {
+        "infinitive": "cost",
+        "simple_past": "cost",
+        "past_participle": "cost",
+        "translation": "co\u00fbter"
+    },
+    {
+        "infinitive": "cut",
+        "simple_past": "cut",
+        "past_participle": "cut",
+        "translation": "couper"
+    },
+    {
+        "infinitive": "do",
+        "simple_past": "did",
+        "past_participle": "done",
+        "translation": "faire"
+    },
+    {
+        "infinitive": "draw",
+        "simple_past": "drew",
+        "past_participle": "drawn",
+        "translation": "dessiner / tirer"
+    },
+    {
+        "infinitive": "dream",
+        "simple_past": "dreamed/dreamt",
+        "past_participle": "dreamed/dreamt",
+        "translation": "r\u00eaver"
+    },
+    {
+        "infinitive": "drink",
+        "simple_past": "drank",
+        "past_participle": "drunk",
+        "translation": "boire"
+    },
+    {
+        "infinitive": "drive",
+        "simple_past": "drove",
+        "past_participle": "driven",
+        "translation": "conduire"
+    },
+    {
+        "infinitive": "eat",
+        "simple_past": "ate",
+        "past_participle": "eaten",
+        "translation": "manger"
+    },
+    {
+        "infinitive": "fall",
+        "simple_past": "fell",
+        "past_participle": "fallen",
+        "translation": "tomber"
+    },
+    {
+        "infinitive": "feel",
+        "simple_past": "felt",
+        "past_participle": "felt",
+        "translation": "se sentir / ressentir"
+    },
+    {
+        "infinitive": "fight",
+        "simple_past": "fought",
+        "past_participle": "fought",
+        "translation": "se battre"
+    },
+    {
+        "infinitive": "find",
+        "simple_past": "found",
+        "past_participle": "found",
+        "translation": "trouver"
+    },
+    {
+        "infinitive": "fly",
+        "simple_past": "flew",
+        "past_participle": "flown",
+        "translation": "voler (avion ..)"
+    },
+    {
+        "infinitive": "forget",
+        "simple_past": "forgot",
+        "past_participle": "forgot/forgotten",
+        "translation": "oublier"
+    },
+    {
+        "infinitive": "forgive",
+        "simple_past": "forgave",
+        "past_participle": "forgiven",
+        "translation": "pardonner"
+    },
+    {
+        "infinitive": "get",
+        "simple_past": "got",
+        "past_participle": "got/gotten",
+        "translation": "obtenir"
+    },
+    {
+        "infinitive": "give",
+        "simple_past": "gave",
+        "past_participle": "given",
+        "translation": "donner"
+    },
+    {
+        "infinitive": "go",
+        "simple_past": "went",
+        "past_participle": "gone",
+        "translation": "aller"
+    },
+    {
+        "infinitive": "have",
+        "simple_past": "had",
+        "past_participle": "had",
+        "translation": "avoir"
+    },
+    {
+        "infinitive": "hear",
+        "simple_past": "heard",
+        "past_participle": "heard",
+        "translation": "entendre"
+    },
+    {
+        "infinitive": "keep",
+        "simple_past": "kept",
+        "past_participle": "kept",
+        "translation": "garder"
+    },
+    {
+        "infinitive": "leave",
+        "simple_past": "left",
+        "past_participle": "left",
+        "translation": "Laisser / partir / quitter"
+    },
+    {
+        "infinitive": "know",
+        "simple_past": "knew",
+        "past_participle": "known",
+        "translation": "conna\u00eetre / savoir"
+    },
+    {
+        "infinitive": "lose",
+        "simple_past": "lost",
+        "past_participle": "lost",
+        "translation": "perdre"
+    },
+    {
+        "infinitive": "make",
+        "simple_past": "made",
+        "past_participle": "made",
+        "translation": "fabriquer"
+    },
+    {
+        "infinitive": "meet",
+        "simple_past": "met",
+        "past_participle": "met",
+        "translation": "rencontrer"
+    },
+    {
+        "infinitive": "read",
+        "simple_past": "read",
+        "past_participle": "read",
+        "translation": "lire"
+    },
+    {
+        "infinitive": "ring",
+        "simple_past": "rang",
+        "past_participle": "rung",
+        "translation": "sonner / t\u00e9l\u00e9phoner"
+    },
+    {
+        "infinitive": "say",
+        "simple_past": "said",
+        "past_participle": "said",
+        "translation": "dire"
+    },
+    {
+        "infinitive": "see",
+        "simple_past": "saw",
+        "past_participle": "seen",
+        "translation": "voir"
+    },
+    {
+        "infinitive": "sit",
+        "simple_past": "sat",
+        "past_participle": "sat",
+        "translation": "s'asseoir"
+    },
+    {
+        "infinitive": "sleep",
+        "simple_past": "slept",
+        "past_participle": "slept",
+        "translation": "dormir"
+    },
+    {
+        "infinitive": "swim",
+        "simple_past": "swam",
+        "past_participle": "swum",
+        "translation": "nager"
+    },
+    {
+        "infinitive": "take",
+        "simple_past": "took",
+        "past_participle": "taken",
+        "translation": "prendre"
+    },
+    {
+        "infinitive": "think",
+        "simple_past": "thought",
+        "past_participle": "thought",
+        "translation": "penser"
+    },
+    {
+        "infinitive": "write",
+        "simple_past": "wrote",
+        "past_participle": "written",
+        "translation": "\u00e9crire"
+    }
+]
