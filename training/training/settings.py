@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'authentication.apps.AuthenticationConfig',
     'profiles.apps.ProfilesConfig',
+    'verbs.apps.VerbsConfig',
+    'tables.apps.TablesConfig',
 ]
 
 MIDDLEWARE = [
