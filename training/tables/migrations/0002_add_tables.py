@@ -5,13 +5,13 @@ from django.db import migrations
 
 
 def load_initial_tables_data(apps, schema_editror):
-    Table = apps.get_model('tables', 'Table')
+    DefaultTable = apps.get_model('tables', 'DefaultTable')
     Verb = apps.get_model('verbs', 'Verb')
     tables_name = ['50_verbs', '105_verbs']
     for name in tables_name:
         with open(f'data/{name}.json', 'rb') as file:
             table_data = json.load(file)
-        table = Table(name=name, default=True)
+        table = DefaultTable(name=name)
         table.save()
         translations = [value['translation'] for value in table_data]
         verbs = Verb.objects.filter(translation__in=translations)
