@@ -21,6 +21,6 @@ class Verb(models.Model):
 
     def __str__(self):
         return (
-            f'{self.infinitive} {self.simple_past}'
+            f'{self.infinitive} {self.simple_past} '
             f'{self.past_participle} {self.translation}'
         )
