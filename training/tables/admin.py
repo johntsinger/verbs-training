@@ -1,14 +1,28 @@
 from django.contrib import admin
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django import forms
-from tables.models import Table, TableVerb
+from tables.models import (
+    DefaultTable,
+    UserTable,
+    TableVerb
+)
 from verbs.models import Verb
 
 
-class TableAdminForm(forms.ModelForm):
+class TableAdminFormMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['verbs'].initial = self.instance.verbs.all()
+
+
+class DefaultTableAdminForm(TableAdminFormMixin, forms.ModelForm):
     class Meta:
-        model = Table
-        fields = ['name', 'verbs', 'default']
+        model = DefaultTable
+        fields = [
+            'name',
+            'verbs',
+        ]
 
     verbs = forms.ModelMultipleChoiceField(
         queryset=Verb.objects.all(),
@@ -19,39 +33,63 @@ class TableAdminForm(forms.ModelForm):
         )
     )
 
-    def __init__(self, *args, **kwargs):
-        super(TableAdminForm, self).__init__(*args, **kwargs)
-        if self.instance.pk:
-            self.fields['verbs'].initial = self.instance.verbs.all()
 
-    def save(self, commit=True):
-        table = super(TableAdminForm, self).save(commit=False)
-        if commit:
-            table.save()
+class UserTableAdminForm(TableAdminFormMixin, forms.ModelForm):
+    class Meta:
+        model = UserTable
+        fields = [
+            'name',
+            'profile',
+            'verbs',
+        ]
 
-        if table.pk:
-            table.verbs = self.cleaned_data['verbs']
-            self.save_m2m()
+    verbs = forms.ModelMultipleChoiceField(
+        queryset=Verb.objects.all(),
+        required=False,
+        widget=FilteredSelectMultiple(
+            verbose_name='Verbs',
+            is_stacked=False
+        )
+    )
 
-        return table
 
-
-class TableAdmin(admin.ModelAdmin):
-    form = TableAdminForm
+class DefaultTableAdmin(admin.ModelAdmin):
+    form = DefaultTableAdminForm
     list_display = [
         'name',
-        'default'
+    ]
+    ordering = ('name',)
+
+
+class UserTableAdmin(admin.ModelAdmin):
+    form = UserTableAdminForm
+    list_display = [
+        'name',
+        'profile',
     ]
     ordering = ('name',)
 
 
 class TableVerbAdmin(admin.ModelAdmin):
     list_display = [
+        'get_user',
         'table',
         'verb',
     ]
-    ordering = ('table__name', 'verb')
+    ordering = (
+        'table__profile__user__username',
+        'table__name',
+        'verb'
+    )
+
+    @admin.display(
+        ordering='table__profile',
+        description='User'
+    )
+    def get_user(self, obj):
+        return obj.table.profile
 
 
-admin.site.register(Table, TableAdmin)
+admin.site.register(DefaultTable, DefaultTableAdmin)
+admin.site.register(UserTable, UserTableAdmin)
 admin.site.register(TableVerb, TableVerbAdmin)
