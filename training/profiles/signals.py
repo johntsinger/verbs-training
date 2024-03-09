@@ -34,7 +34,7 @@ def save_user_profile(sender, instance, **kwargs):
 )
 def create_and_save_user_default_table(sender, instance, created, **kwargs):
     if created:
-        default_tables = DefaultTable.objects.all()
+        default_tables = DefaultTable.objects.prefetch_related('verbs')
         for default_table in default_tables:
             table = UserTable.objects.create(
                 name=default_table.name,
