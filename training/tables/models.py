@@ -24,6 +24,14 @@ class DefaultTable(AbstractTable):
     profile = None
     __original_name = None
 
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=['name'],
+                name='unique default table name'
+            )
+        ]
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__original_name = self.name
@@ -67,7 +75,7 @@ class UserTable(AbstractTable):
         constraints = [
             UniqueConstraint(
                 fields=['name', 'profile'],
-                name='unique table name'
+                name='unique user table name'
             )
         ]
 
