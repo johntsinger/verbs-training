@@ -9,11 +9,6 @@ from tables.models import DefaultTable, UserTable
     sender=DefaultTable.verbs.through,
     dispatch_uid="default_table_verbs_changed"
 )
-@receiver(
-    post_save,
-    sender=DefaultTable,
-    dispatch_uid='defaut_tables_created'
-)
 def update_user_table(sender, instance, **kwargs):
     """
     Set UserTable.verbs m2m if a new DefaultTable is created or
