@@ -11,9 +11,8 @@ class Profile(models.Model):
         to=User,
         on_delete=models.CASCADE
     )
-    verbs = models.ManyToManyField(
-        to=Verb,
-        through='UserVerb',
+    default_tables = models.ManyToManyField(
+        to='tables.DefaultTable',
         related_name='profiles'
     )
 
@@ -21,14 +20,30 @@ class Profile(models.Model):
         return self.user.username
 
 
-class UserVerb(models.Model):
+class Result(models.Model):
     profile = models.ForeignKey(
         to=Profile,
         on_delete=models.CASCADE,
+        related_name='results'
     )
     verb = models.ForeignKey(
         to=Verb,
         on_delete=models.CASCADE,
+        related_name='results'
+    )
+    table = models.ForeignKey(
+        to='tables.UserTable',
+        on_delete=models.CASCADE,
+        related_name='results',
+        null=True,
+        blank=True,
+    )
+    default_table = models.ForeignKey(
+        to='tables.DefaultTable',
+        on_delete=models.CASCADE,
+        related_name='results',
+        null=True,
+        blank=True,
     )
     done = models.BooleanField(
         default=False
