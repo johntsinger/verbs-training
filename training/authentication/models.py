@@ -71,11 +71,9 @@ class MyUserManager(BaseUserManager):
             raise ValueError(
                 'Users must have a username.'
             )
-
-        admin_username = '[admin]' + username
         user = self._create_user(
             email,
-            username=admin_username,
+            username=username,
             password=password,
         )
         user.is_admin = True
@@ -97,7 +95,7 @@ class User(AbstractUser):
         max_length=62,
         unique=True
     )
-    last_update = models.DateField(
+    updated_at = models.DateField(
         auto_now=True
     )
 
