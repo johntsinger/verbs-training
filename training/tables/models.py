@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
 from verbs.models import Verb
@@ -5,8 +6,24 @@ from profiles.models import Profile
 
 
 class AbstractTable(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        unique=True,
+        editable=False,
+        default=uuid.uuid4
+    )
     name = models.fields.CharField(
         max_length=30
+    )
+    verbs = models.ManyToManyField(
+        to=Verb,
+        related_name='%(class)s'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True
     )
 
     class Meta:
@@ -17,81 +34,49 @@ class AbstractTable(models.Model):
 
 
 class DefaultTable(AbstractTable):
-    verbs = models.ManyToManyField(
-        Verb,
-        related_name='defaut_tables'
+    is_available = models.BooleanField(
+        default=True
     )
-    profile = None
-    __original_name = None
 
     class Meta:
         constraints = [
             UniqueConstraint(
                 fields=['name'],
-                name='unique default table name'
+                name=(
+                    '%(app_label)s_%(class)s_'
+                    'unique_name'
+                )
             )
         ]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__original_name = self.name
-
-    def save(self, *args, **kwargs):
-        if self.pk:
-            if self.__original_name != self.name:
-                UserTable.objects.filter(
-                    name=self.__original_name
-                ).update(
-                    name=self.name
-                )
-                self.__original_name = self.name
-        else:
-            user_tables = [
-                UserTable(
-                    name=self.name,
-                    profile=profile
-                )
-                for profile in Profile.objects.all()
-            ]
-            UserTable.objects.bulk_create(user_tables)
-        super().save(*args, **kwargs)
-
 
 class UserTable(AbstractTable):
-    verbs = models.ManyToManyField(
-        Verb,
-        through='TableVerb',
-        related_name='user_tables'
-    )
     profile = models.ForeignKey(
         to=Profile,
         on_delete=models.CASCADE,
-        related_name='user_tables',
-        blank=True,
-        null=True
+        related_name='usertables'
     )
 
     class Meta:
         constraints = [
             UniqueConstraint(
                 fields=['name', 'profile'],
-                name='unique user table name'
+                name=(
+                    '%(app_label)s_%(class)s_'
+                    'unique_name_per_profile'
+                )
             )
         ]
 
 
-class TableVerb(models.Model):
-    table = models.ForeignKey(
-        to=UserTable,
-        on_delete=models.CASCADE,
-    )
-    verb = models.ForeignKey(
-        to=Verb,
-        on_delete=models.CASCADE,
-    )
-    done = models.BooleanField(
-        default=False
-    )
-    success = models.BooleanField(
-        default=False
-    )
+"""
+def save(self, *args, **kwargs):
+        # self._state.adding --> True (creation) or False (update)
+        # Better than self.pk is None.
+        created = self._state.adding
+        super().save(*args, **kwargs)
+        if created:
+            self.profiles.set(
+                Profile.objects.all()
+            )
+"""
