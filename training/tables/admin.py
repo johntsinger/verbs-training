@@ -4,7 +4,6 @@ from django import forms
 from tables.models import (
     DefaultTable,
     UserTable,
-    TableVerb
 )
 from verbs.models import Verb
 
@@ -22,6 +21,7 @@ class DefaultTableAdminForm(TableAdminFormMixin, forms.ModelForm):
         fields = [
             'name',
             'verbs',
+            'is_available'
         ]
 
     verbs = forms.ModelMultipleChoiceField(
@@ -58,7 +58,16 @@ class DefaultTableAdmin(admin.ModelAdmin):
     list_display = [
         'name',
     ]
+    readonly_fields = (
+        'created_at',
+        'updated_at'
+    )
     ordering = ('name',)
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # Editing
+            return self.readonly_fields
+        return ()
 
 
 class UserTableAdmin(admin.ModelAdmin):
@@ -67,29 +76,17 @@ class UserTableAdmin(admin.ModelAdmin):
         'name',
         'profile',
     ]
+    readonly_fields = (
+        'created_at',
+        'updated_at'
+    )
     ordering = ('name',)
 
-
-class TableVerbAdmin(admin.ModelAdmin):
-    list_display = [
-        'get_user',
-        'table',
-        'verb',
-    ]
-    ordering = (
-        'table__profile__user__username',
-        'table__name',
-        'verb'
-    )
-
-    @admin.display(
-        ordering='table__profile',
-        description='User'
-    )
-    def get_user(self, obj):
-        return obj.table.profile
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # Editing
+            return self.readonly_fields
+        return ()
 
 
 admin.site.register(DefaultTable, DefaultTableAdmin)
 admin.site.register(UserTable, UserTableAdmin)
-admin.site.register(TableVerb, TableVerbAdmin)
