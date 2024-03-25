@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     'verbs.apps.VerbsConfig',
     'tables.apps.TablesConfig',
+    'results.apps.ResultsConfig',
     'debug_toolbar',
 ]
 
