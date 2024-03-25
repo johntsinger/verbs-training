@@ -24,7 +24,7 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     list_display = ['username', 'email', 'is_superuser']
-    readonly_fields = ('last_update',)
+    readonly_fields = ('updated_at',)
     fieldsets = (
         (None, {'fields': ('email', 'password', 'username')}),
         ('Personal info', {'fields': ('first_name', 'last_name',)}),
@@ -33,7 +33,7 @@ class CustomUserAdmin(UserAdmin):
             'groups', 'user_permissions'
         )}),
         ('Important dates', {'fields': (
-            'last_login', 'date_joined', 'last_update'
+            'last_login', 'date_joined', 'updated_at'
         )})
     )
     add_fieldsets = (
