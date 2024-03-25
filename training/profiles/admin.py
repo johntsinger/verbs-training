@@ -1,49 +1,31 @@
 from django.contrib import admin
-from django.contrib.admin.widgets import FilteredSelectMultiple
-from django import forms
-from profiles.models import Profile, UserVerb
-from tables.models import UserTable
-
-
-class ProfileAdminForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = [
-            'user',
-            'tables'
-        ]
-
-    tables = forms.ModelMultipleChoiceField(
-        queryset=UserTable.objects.all(),
-        required=False,
-        widget=FilteredSelectMultiple(
-            verbose_name='Tables',
-            is_stacked=False
-        )
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.instance.pk:
-            self.fields['tables'].initial = self.instance.user_tables.all()
-
-    def save(self, commit=True):
-        profile = super().save(commit=False)
-        if commit:
-            profile.save()
-
-        if profile.pk:
-            profile.tables.set(
-                self.cleaned_data['tables']
-            )
-            self.save_m2m()
-
-        return profile
+from common.admin.utils import reverse_foreignkey_change_links
+from profiles.models import Profile
+from tables.models import DefaultTable, UserTable
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    form = ProfileAdminForm
+    readonly_fields = (
+        'created_at',
+        'updated_at',
+        'default_tables',
+        'user_tables'
+    )
+    default_tables = reverse_foreignkey_change_links(
+        DefaultTable,
+        lambda obj: DefaultTable.objects.filter(is_available=True),
+        description='Default tables'
+    )
+    user_tables = reverse_foreignkey_change_links(
+        UserTable,
+        lambda obj: UserTable.objects.filter(profile=obj),
+        description='User tables'
+    )
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # Editing
+            return self.readonly_fields
+        return ()
 
 
 admin.site.register(Profile, ProfileAdmin)
-admin.site.register(UserVerb)
