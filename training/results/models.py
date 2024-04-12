@@ -1,4 +1,5 @@
 import uuid
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from django.db.models.constraints import CheckConstraint
@@ -65,17 +66,44 @@ class Result(models.Model):
     @property
     def table(self):
         return self.default_table or self.user_table
-        """
+
+    def clean(self):
         if self.default_table and self.user_table:
-            raise AssertionError(
-                "Both 'default_table' and 'usertables' are set."
+            error_message = "Both 'default_table' and 'usertables' are set."
+            raise ValidationError(
+                {
+                    "default_table": error_message,
+                    "user_table": error_message
+                }
             )
-        elif self.default_table:
-            return self.default_table
-        elif self.user_table:
-            return self.user_table
-        else:
-            raise AssertionError(
-                "Neither 'default_table' nor 'user_table' is set."
+        if not self.default_table and not self.user_table:
+            error_message = "Neither 'default_table' nor 'user_table' is set."
+            raise ValidationError(
+                {
+                    "default_table": error_message,
+                    "user_table": error_message
+                }
             )
-        """
+        if not self.table.verbs.filter(id=self.verb_id).exists():
+            raise ValidationError(
+                {
+                    "verb": "Verb must belong to table."
+                }
+            )
+
+        if self.user_table and self.user_table.profile != self.profile:
+            raise ValidationError(
+                {
+                    "user_table": "User table must belong to profile"
+                }
+            )
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return (
+            f"Reslt of the verb '{self.verb.infinitive}...' "
+            f"in the '{self.table}' table for user '{self.profile}'"
+        )
