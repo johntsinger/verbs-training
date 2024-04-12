@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'authentication.apps.AuthenticationConfig',
+    'accounts.apps.AccountsConfig',
     'profiles.apps.ProfilesConfig',
     'verbs.apps.VerbsConfig',
     'tables.apps.TablesConfig',
@@ -136,6 +137,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Add static files directory for static files in project's root
+
+STATICFILES_DIRS = (
+    BASE_DIR.joinpath('static'),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
