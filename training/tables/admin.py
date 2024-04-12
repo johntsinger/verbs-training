@@ -9,6 +9,10 @@ from verbs.models import Verb
 
 
 class TableAdminFormMixin:
+    """
+    Mixin to set initial verbs in tables change form.
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
