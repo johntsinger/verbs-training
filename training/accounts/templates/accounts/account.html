@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block h1 %}
+    Account settings
+{% endblock h1 %}
+
+{% block content %}
+
+<div class="bg-white rounded-3 border px-4 my-4 col-8 mx-auto">
+    <div class="mx-2 d-flex flex-column">
+        <div class="d-flex flex-column align-items-left">
+            <a class="py-3 text-reset text-decoration-none" href="{% url 'change_username' %}" aria-lable="Change my username">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column flex-md-row ps-2 col-6">
+                        <div class="col-6">
+                            <span>Username</span>
+                        </div>
+                        <div class="col-6">
+                            <span>{{ user.username }}</span>
+                        </div>
+                    </div>
+                    <div class="ms-auto align-self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#052c65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            <a class="py-3 border-top text-reset text-decoration-none" href="{% url 'change_email' %}" aria-lable="Change my email">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column flex-md-row ps-2 col-6">
+                        <div class="col-6">
+                            <span>Email</span>
+                        </div>
+                        <div class="col-6">
+                            <span>{{ user.email }}</span>
+                        </div>
+                    </div>
+                    <div class="ms-auto align-self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#052c65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            <a class="py-3 border-top text-reset text-decoration-none" href="{% url 'change_password' %}" aria-lable="Change my password">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column flex-md-row ps-2 col-6">
+                        <div class="col-6">
+                            <span>Password</span>
+                        </div>
+                        <div class="col-6">
+                            <span>●●●●●●●●</span>
+                        </div>
+                    </div>
+                    <div class="ms-auto align-self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#052c65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            <a class="py-3 border-top text-reset text-decoration-none" href="{% url 'delete_account' %}" aria-lable="Change my password">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column flex-md-row ps-2 col-6">
+                        <span class="text-danger">Delete my account</span>
+                    </div>
+                    <div class="ms-auto align-self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#052c65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}
