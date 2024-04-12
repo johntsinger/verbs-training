@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+:root {
+    --bs-grey-95: #f2f2f2;
+}
+
+html {
+    height: calc(100% - 65px);
+    margin-top: 65px;
+}
+
+body {
+    background-color: #fafafa;
+    height: 100%;
+}
+
+header {
+    margin-bottom: 65px;
+}
+
+nav form button {
+     all:unset;
+}
