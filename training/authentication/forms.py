@@ -1,9 +1,5 @@
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Div, HTML, Submit
-from crispy_forms.bootstrap import InlineRadios, FieldWithButtons
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.core.exceptions import ValidationError
 from django import forms
 
 
@@ -12,7 +8,14 @@ User = get_user_model()
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(
-        label='Email'
+        label='Email',
+        widget=forms.EmailInput(
+            attrs={
+                'autofocus': True,
+                'onfocus': 'moveCursorOnFocus(this)',
+                'autocomplete': 'username'
+            }
+        )
     )
 
 
@@ -24,4 +27,10 @@ class SignUpForm(UserCreationForm):
             'username',
             'password1',
             'password2'
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].help_text = (
+            "150 characters or fewer. Letters, digits and @/./+/-/_ only."
         )
