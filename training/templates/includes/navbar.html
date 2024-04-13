@@ -2,7 +2,6 @@
 <nav class="bg-white navbar navbar-expand-lg border-bottom fixed-top z-3">
     <div class="container-fluid px-4">
         <a class="navbar-brand" href=# aria-label="Access feed page">
-            <img class="rounded-circle" src="{% static 'img/litrevu_logo.svg' %}" alt="LITRevu logo" width="30px" height="30px">
             Verbs Training
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +19,6 @@
                 <div class="nav-item dropdown">
                     {% if user.is_authenticated %}
                     <span id="user" data-bs-toggle="dropdown" data-bs-auto-close="outside" class="nav-link dropdown-toggle {% if user.is_authenticated %} border rounded-pill d-inline-block pe-2{% endif %}" role="button" data-bs-display="static" tabindex="0">
-                        <img class="object-fit-cover rounded-circle mx-2 mx-lg-0" width="30" height="30" src="{{ user.userprofile.image.url }}" alt="{{ user.username }} profile picture">
                         <span class="ms-1">
                         {{ user }}
                         </span>
@@ -57,7 +55,7 @@
                         </div>
                     {% else %}
                         {% if request.resolver_match.url_name == "login" %}
-                            <a class="nav-item nav-link " href=# aria-label="Access sign up page">Sign Up</a>
+                            <a class="nav-item nav-link " href="{% url 'signup' %}" aria-label="Access sign up page">Sign Up</a>
                         {% else %}
                             <a class="nav-item nav-link " href="{% url 'login' %}" aria-label="Access login page">Login</a>
                         {% endif %}

@@ -7,17 +7,19 @@
 {% endblock h1 %}
 
 {% block content %}
-    <div class="col-8 mx-auto">
+    <div class="col-md-8 col-lg-6 mx-auto">
         <a class="icon-link link-body-emphasis text-decoration-none" href="{% url 'account' %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left me-3"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
             Return
         </a>
     </div>
-    <div class="bg-white rounded-3 border px-4 my-4 col-8 mx-auto">
-        <form method="post" class="px-3 py-3">
+    <div class="bg-white rounded-3 border px-3 my-4 col-md-8 col-lg-6 mx-auto">
+        <form method="post" class="p-3">
             {% csrf_token %}
             {{ form|crispy }}
-            <button class="btn btn-outline-primary" type="submit">Send</button>
+            <div class="mt-4 d-flex flex-column flex-md-row">
+                <button class="btn btn-outline-primary" type="submit">Send</button>
+            </div>
         </form>
     </div>
 {% endblock %}
