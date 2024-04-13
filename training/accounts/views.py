@@ -1,14 +1,13 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     UpdateView,
-    DeleteView,
-    ModelFormMixin
+    DeleteView
 )
 from accounts.forms import (
     UsernameChangeForm,
@@ -99,7 +98,9 @@ class DeleteAccountView(
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update(
-            {"current_user": self.request.user}
+            {
+                "current_user": self.request.user
+            }
         )
         return kwargs
 
