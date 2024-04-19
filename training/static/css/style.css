@@ -6,7 +6,7 @@
 
 html {
     height: calc(100% - 65px);
-    margin-top: 65px;
+    margin-top: 58.4px;
 }
 
 body {
@@ -14,10 +14,12 @@ body {
     height: 100%;
 }
 
-header {
-    margin-bottom: 65px;
+#nav-user {
+    max-width: 1.5rem;
+    min-width: 1.5rem;
+    overflow: clip;
 }
 
-nav form button {
-     all:unset;
+.offcanvas.offcanvas-start {
+    width: 240px;
 }
