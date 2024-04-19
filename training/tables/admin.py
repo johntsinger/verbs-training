@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django import forms
+from common.admin.mixins import GetReadOnlyFieldsMixin
 from tables.models import (
     DefaultTable,
     UserTable,
@@ -19,7 +20,10 @@ class TableAdminFormMixin:
             self.fields['verbs'].initial = self.instance.verbs.all()
 
 
-class DefaultTableAdminForm(TableAdminFormMixin, forms.ModelForm):
+class DefaultTableAdminForm(
+    TableAdminFormMixin,
+    forms.ModelForm
+):
     class Meta:
         model = DefaultTable
         fields = [
@@ -38,7 +42,10 @@ class DefaultTableAdminForm(TableAdminFormMixin, forms.ModelForm):
     )
 
 
-class UserTableAdminForm(TableAdminFormMixin, forms.ModelForm):
+class UserTableAdminForm(
+    TableAdminFormMixin,
+    forms.ModelForm
+):
     class Meta:
         model = UserTable
         fields = [
@@ -57,7 +64,10 @@ class UserTableAdminForm(TableAdminFormMixin, forms.ModelForm):
     )
 
 
-class DefaultTableAdmin(admin.ModelAdmin):
+class DefaultTableAdmin(
+    GetReadOnlyFieldsMixin,
+    admin.ModelAdmin
+):
     form = DefaultTableAdminForm
     list_display = [
         'name',
@@ -68,13 +78,11 @@ class DefaultTableAdmin(admin.ModelAdmin):
     )
     ordering = ('name',)
 
-    def get_readonly_fields(self, request, obj=None):
-        if obj:  # Editing
-            return self.readonly_fields
-        return ()
 
-
-class UserTableAdmin(admin.ModelAdmin):
+class UserTableAdmin(
+    GetReadOnlyFieldsMixin,
+    admin.ModelAdmin
+):
     form = UserTableAdminForm
     list_display = [
         'name',
@@ -85,11 +93,6 @@ class UserTableAdmin(admin.ModelAdmin):
         'updated_at'
     )
     ordering = ('name',)
-
-    def get_readonly_fields(self, request, obj=None):
-        if obj:  # Editing
-            return self.readonly_fields
-        return ()
 
 
 admin.site.register(DefaultTable, DefaultTableAdmin)
