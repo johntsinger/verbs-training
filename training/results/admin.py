@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django import forms
+from common.admin.mixins import GetReadOnlyFieldsMixin
 from results.models import Result
 
 """
@@ -15,7 +16,10 @@ class ResultAdminForm(forms.ModelForm):
 """
 
 
-class ResultAdmin(admin.ModelAdmin):
+class ResultAdmin(
+    GetReadOnlyFieldsMixin,
+    admin.ModelAdmin
+):
     # form = ResultAdminForm
     list_display = [
         'verb',
@@ -27,11 +31,6 @@ class ResultAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at'
     )
-
-    def get_readonly_fields(self, request, obj=None):
-        if obj:  # Editing
-            return self.readonly_fields
-        return ()
 
 
 admin.site.register(Result, ResultAdmin)

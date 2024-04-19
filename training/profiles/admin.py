@@ -1,10 +1,14 @@
 from django.contrib import admin
+from common.admin.mixins import GetReadOnlyFieldsMixin
 from common.admin.utils import reverse_foreignkey_change_links
 from profiles.models import Profile
 from tables.models import DefaultTable, UserTable
 
 
-class ProfileAdmin(admin.ModelAdmin):
+class ProfileAdmin(
+    GetReadOnlyFieldsMixin,
+    admin.ModelAdmin
+):
     readonly_fields = (
         'created_at',
         'updated_at',
@@ -21,11 +25,6 @@ class ProfileAdmin(admin.ModelAdmin):
         lambda obj: UserTable.objects.filter(profile=obj),
         description='User tables'
     )
-
-    def get_readonly_fields(self, request, obj=None):
-        if obj:  # Editing
-            return self.readonly_fields
-        return ()
 
 
 admin.site.register(Profile, ProfileAdmin)
