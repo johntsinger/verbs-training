@@ -9,6 +9,7 @@ from django.views.generic.edit import (
     UpdateView,
     DeleteView
 )
+from common.views.mixins import PreviousPageURLMixin
 from accounts.forms import (
     UsernameChangeForm,
     EmailChangeForm,
@@ -20,25 +21,28 @@ User = get_user_model()
 
 
 class AccountView(
+    PreviousPageURLMixin,
     LoginRequiredMixin,
     DetailView
 ):
     template_name = 'accounts/account.html'
-    http_method_names = ['get']
+    previous_page_url = "#"
 
     def get_object(self):
         return self.request.user
 
 
 class UsernameChangeView(
+    PreviousPageURLMixin,
     LoginRequiredMixin,
     SuccessMessageMixin,
     UpdateView
 ):
     template_name = 'accounts/change.html'
-    success_message = 'Your username has been successfully updated !'
     form_class = UsernameChangeForm
+    success_message = 'Your username has been successfully updated !'
     success_url = reverse_lazy('account')
+    previous_page_url = reverse_lazy('account')
 
     def get_object(self):
         return self.request.user
@@ -50,14 +54,16 @@ class UsernameChangeView(
 
 
 class EmailChangeView(
+    PreviousPageURLMixin,
     LoginRequiredMixin,
     SuccessMessageMixin,
     UpdateView
 ):
     template_name = 'accounts/change.html'
-    success_message = 'Your email has been successfully updated !'
     form_class = EmailChangeForm
+    success_message = 'Your email has been successfully updated !'
     success_url = reverse_lazy('account')
+    previous_page_url = reverse_lazy('account')
 
     def get_object(self):
         return self.request.user
@@ -69,6 +75,7 @@ class EmailChangeView(
 
 
 class PasswordChangeView(
+    PreviousPageURLMixin,
     LoginRequiredMixin,
     SuccessMessageMixin,
     PasswordChangeView
@@ -76,6 +83,7 @@ class PasswordChangeView(
     template_name = 'accounts/change.html'
     success_message = 'Your password has been successfully updated !'
     success_url = reverse_lazy('account')
+    previous_page_url = reverse_lazy('account')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,13 +92,15 @@ class PasswordChangeView(
 
 
 class DeleteAccountView(
+    PreviousPageURLMixin,
     LoginRequiredMixin,
     SuccessMessageMixin,
     DeleteView
 ):
     template_name = 'accounts/delete.html'
-    success_url = reverse_lazy('login')
     form_class = DeleteAccountForm
+    success_url = reverse_lazy('login')
+    previous_page_url = reverse_lazy('account')
 
     def get_object(self):
         return self.request.user
@@ -105,7 +115,7 @@ class DeleteAccountView(
         return kwargs
 
     def form_valid(self, form):
-        messages.warning(
+        messages.error(
             self.request,
             'Your account has been sucessfully deleted !'
         )
