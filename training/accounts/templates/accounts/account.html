@@ -6,23 +6,18 @@
 
 {% block content %}
 
-<div class="col-md-8 col-lg-6 mx-auto">
-    <a class="icon-link link-body-emphasis text-decoration-none" href="#">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left me-3"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-        Return
-    </a>
-</div>
-<div class="bg-white rounded-3 border px-3 my-4 col-md-8 col-lg-6 mx-auto">
-    <div class="mx-2 d-flex flex-column">
+{% include 'includes/buttons/return.html' %}
+<div class="bg-white rounded-3 border my-4 col-md-10 col-lg-8 mx-auto">
+    <div class="px-3 d-flex flex-column">
         <div class="d-flex flex-column align-items-left">
-            <a class="py-3 text-reset text-decoration-none" href="{% url 'change_username' %}" aria-lable="Change my username">
+            <a class="btn btn-link border-0 text-start p-3 text-reset text-decoration-none" href="{% url 'change_username' %}" aria-label="Change my username">
                 <div class="d-flex flex-row">
-                    <div class="d-flex flex-column flex-md-row ps-2 col-6">
-                        <div class="col-6">
+                    <div class="d-flex flex-column flex-md-row col-11">
+                        <div class="col-md-3">
                             <span>Username</span>
                         </div>
-                        <div class="col-6">
-                            <span>{{ user.username }}</span>
+                        <div class="col-md-9">
+                            <span class="d-block text-truncate">{{ user.username }}</span>
                         </div>
                     </div>
                     <div class="ms-auto align-self-center">
@@ -32,14 +27,14 @@
                     </div>
                 </div>
             </a>
-            <a class="py-3 border-top text-reset text-decoration-none" href="{% url 'change_email' %}" aria-lable="Change my email">
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'change_email' %}" aria-label="Change my email">
                 <div class="d-flex flex-row">
-                    <div class="d-flex flex-column flex-md-row ps-2 col-6">
-                        <div class="col-6">
+                    <div class="d-flex flex-column flex-md-row col-11">
+                        <div class="col-md-3">
                             <span>Email</span>
                         </div>
-                        <div class="col-6">
-                            <span>{{ user.email }}</span>
+                        <div class="col-md-9">
+                            <span class="d-block text-truncate">{{ user.email }}</span>
                         </div>
                     </div>
                     <div class="ms-auto align-self-center">
@@ -49,14 +44,14 @@
                     </div>
                 </div>
             </a>
-            <a class="py-3 border-top text-reset text-decoration-none" href="{% url 'change_password' %}" aria-lable="Change my password">
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'change_password' %}" aria-label="Change my password">
                 <div class="d-flex flex-row">
-                    <div class="d-flex flex-column flex-md-row ps-2 col-6">
-                        <div class="col-6">
+                    <div class="d-flex flex-column flex-md-row col-11">
+                        <div class="col-md-3">
                             <span>Password</span>
                         </div>
-                        <div class="col-6">
-                            <span>●●●●●●●●</span>
+                        <div class="col-md-9">
+                            <span class="d-block text-truncate">●●●●●●●●</span>
                         </div>
                     </div>
                     <div class="ms-auto align-self-center">
@@ -66,9 +61,9 @@
                     </div>
                 </div>
             </a>
-            <a class="py-3 border-top text-reset text-decoration-none" href="{% url 'delete_account' %}" aria-lable="Change my password">
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'delete_account' %}" aria-label="Change my password">
                 <div class="d-flex flex-row">
-                    <div class="d-flex flex-column flex-md-row ps-2 col-6">
+                    <div class="d-flex flex-column flex-md-row col-11">
                         <span class="text-danger">Delete my account</span>
                     </div>
                     <div class="ms-auto align-self-center">
