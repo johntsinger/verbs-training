@@ -23,6 +23,7 @@ class CustomUserAdmin(UserAdmin):
     model = User
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
+    list_display = ['username', 'email', 'is_superuser']
     readonly_fields = ('last_update',)
     fieldsets = (
         (None, {'fields': ('email', 'password', 'username')}),
