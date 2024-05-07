@@ -1,6 +1,5 @@
-{% load static %}
 <nav class="bg-white navbar navbar-expand-lg border-bottom fixed-top z-3">
-    <div class="container-fluid px-md-4 col-md-9 mx-auto gap-4 flex-nowrap">
+    <div class="container mx-auto gap-4 flex-nowrap">
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -16,7 +15,7 @@
             <div class="offcanvas-body">
                 <div class="navbar-nav me-auto">
                     {% if user.is_authenticated %}
-                    <a class="nav-link {% if request.get_full_path == '/' %}active{% endif %}" href=# aria-label="Access feed page">Feed</a>
+                    <a class="nav-link {% if request.get_full_path == '/' %}active{% endif %}" href="{% url 'verbs' %}" aria-label="Access all verbs page">All verbs</a>
                     <a class="nav-link {% if 'user-posts' in request.get_full_path %}active{% endif %}" href=# aria-label="Access my posts page">Posts</a>
                     <a class="nav-link {% if 'subscriptions' in request.get_full_path %}active{% endif %}" href=# aria-label="Access subscription page">Subscriptions</a>
                     {% endif %}
