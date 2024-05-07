@@ -104,6 +104,6 @@ class Result(models.Model):
 
     def __str__(self):
         return (
-            f"Reslt of the verb '{self.verb.infinitive}...' "
+            f"Result of the verb '{self.verb.infinitive}...' "
             f"in the '{self.table}' table for user '{self.profile}'"
         )
