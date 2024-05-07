@@ -4,9 +4,10 @@
     --bs-grey-95: #f2f2f2;
 }
 
+/* add margin for fixed navbar */
 html {
-    height: calc(100% - 65px);
-    margin-top: 58.4px;
+    height: calc(100% - 58px);
+    margin-top: 58px;
 }
 
 body {
@@ -22,4 +23,58 @@ body {
 
 .offcanvas.offcanvas-start {
     width: 240px;
+}
+
+/*
+#######################
+
+DataTables adjustements
+
+####################### 
+*/
+
+#custom-dt {
+    margin: 0;
+}
+
+/* rows height */
+.dt-scroll-head thead tr, .dt-scroll-body tbody tr {
+    height: 40px;
+}
+
+/* table border */
+.dt-scroll {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+/* head color and border */
+.dt-scroll-head {
+    background-color: lightgrey;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid black !important;
+}
+
+/* remove thead and tbody boder bottom */
+div.dt-container.dt-empty-footer .dt-scroll-body,
+table.dataTable>thead>tr>th,
+table.dataTable>thead>tr>td {
+    border-bottom: none;
+}
+
+/* body color and adjustement to prevent the scroll bar from overlapping the table border */
+.dt-scroll-body {
+    background-color: #fff;
+    width: 99.9% !important;
+    border-radius: 0 0 5px 5px;
+}
+
+/* test color for success row */
+.success {
+    color: green;
+}
+
+/* test color for unsuccess row */
+.unsuccess {
+    color: red;
 }
