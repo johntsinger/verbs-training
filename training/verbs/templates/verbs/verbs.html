@@ -1,0 +1,9 @@
+{% extends 'base_table.html' %}
+
+{% block h1 %}
+    All verbs <small id="verb-count" class="h5"></small>
+{% endblock h1 %}
+
+{% block content %}
+    {% include 'includes/table.html' with verbs=verb_list %}
+{% endblock content %}
