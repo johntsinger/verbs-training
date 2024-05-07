@@ -1,0 +1,20 @@
+<table id="custom-dt" class="row-border">
+    <thead>
+        <tr>
+            <th>Infinitive</th>
+            <th>Simple past</th>
+            <th>Past participle</th>
+            <th>Translation</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for verb in verbs %}
+        <tr class="{% if verb.is_success is True %} success {% elif verb.is_success is False %} unsuccess {% else %} not-done {% endif %}">
+            <td>{{ verb.infinitive }}</td>
+            <td>{{ verb.simple_past }}</td>
+            <td>{{ verb.past_participle }}</td>
+            <td>{{ verb.translation }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
