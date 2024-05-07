@@ -3,7 +3,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import (
+    PasswordChangeView as BasePasswordChangeView,
+)
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     UpdateView,
@@ -78,7 +80,7 @@ class PasswordChangeView(
     PreviousPageURLMixin,
     LoginRequiredMixin,
     SuccessMessageMixin,
-    PasswordChangeView
+    BasePasswordChangeView
 ):
     template_name = 'accounts/change.html'
     success_message = 'Your password has been successfully updated !'
