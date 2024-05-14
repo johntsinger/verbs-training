@@ -1,60 +1,96 @@
-function buttonAction (e, dt, button, config) {
-    // saves the state of the button's active class
-    var isActive = button.hasClass('active')
-    // removes active class for each buttons in dt and reset filter
-    dt.buttons().nodes().removeClass('active')
-    $(dt).dataTableExt.search.pop()
-
-    /*
-    dt.buttons().each(function (value, index) {
-        $(value.node).removeClass('active')
-        // $.fn.dataTable.ext.search.pop() // same as next
-        $(dt).dataTableExt.search.pop()
-    })
-    */
-    
-    // adds class active to clicked button if it was not active and display matching rows
-    if (!(isActive)) {
-        button.addClass('active');
-        // $.fn.dataTable.ext.search.push( // same as next
-        $(dt).dataTableExt.search.push(
-            function(settings, data, dataIndex) {
-                if (button.attr('id') === 'not-done') {
-                    return !$(dt.row(dataIndex).node()).hasClass('unsuccess') && !$(dt.row(dataIndex).node()).hasClass('success');
-                }
-                return $(dt.row(dataIndex).node()).hasClass(button.attr('id'));
-            }
-        );
-    };
-    dt.draw()
+// Formatting function for row details - modify as you need
+function format(d) {
+    // `d` is the original data object for the row
+    let htmlClass = '';
+    if (d['is success'] === 'True') {
+        htmlClass = 'success';
+    } else if (d['is success'] === 'False') {
+        htmlClass = 'unsuccess';
+    } else {
+        htmlClass = 'not-done';
+    }
+    return $(
+        '<tr class=' + htmlClass + '>' +
+            '<td>' +
+            '' +
+            '</td>'+
+            '<td>' +
+            d['infinitive'] +
+            '</td>' +
+            '<td>' +
+            d['simple past'].split('/').join('</br>') +
+            '</td>' +
+            '<td>' +
+            d['past participle'].split('/').join('</br>') +
+            '</td>' +
+            '<td>' +
+            d['translation'].split('/').join('</br>') +
+            '</td>' +
+        '</tr>'
+    ).toArray();
 }
 
 // dataTables configuration
 var table = $('#custom-dt').DataTable({
-    scrollY: '40em',
+    initComplete: function () {
+        // display table, hidden by css #custom-dt display: none to avoid FOUC
+        var api = this.api();
+        $('#custom-dt').show();
+        api.columns.adjust();
+    },
+    autoWidth: false,
     // scroll bar
+    scrollY: '40em',
     scrollX: true,
     scrollCollapse: true,
-    scroller: {
-        rowHeight: 40
-    },
     // pagination
     paging: false,
-    // search bar
-    bFilter: true,
-    // info
-    bInfo: false,
-    // column 
-    columnDefs: [
-        { width: '30%', targets: -1 },
-        { width: '22%', targets: '_all' }
-    ],
-    /*
     language: {
-        zeroRecords: 'Aucune donnée à afficher',
-        search: 'Rechercher : ',
+        entries: {
+            _: 'verbs',
+            1: 'verb'
+        },
+        info: 'Showing _TOTAL_ of _MAX_ _ENTRIES-MAX_',
+        infoFiltered: '',
+        infoEmpty: 'No verbs to show'
     },
-    */
+    // column
+    columnDefs: [
+        {width: '5%', targets: 0}
+    ],
+    columns: [
+        {
+            className: 'dt-control',
+            orderable: false,
+            data: null,
+            defaultContent: ''
+        },
+        {data: 'infinitive'},
+        {
+            data: 'simple past',
+            render: function (data, type, row, meta) {
+                return data.split('/').join('</br>');
+            }
+        },
+        {
+            data: 'past participle',
+            render: function (data, type, row, meta) {
+                return data.split('/').join('</br>');
+            }
+        },
+        {
+            data: 'translation',
+            render: function (data, type, row, meta) {
+                return data.split('/').join('</br>');
+            }
+        },
+        {
+            data: 'is success',
+            visible: false,
+            orderable: false,
+        }
+    ],
+    order: [],
     // display position
     layout: {
         topStart: 'buttons',
@@ -64,138 +100,83 @@ var table = $('#custom-dt').DataTable({
     // creates buttons
     buttons: {
         dom: {
-            /*
-            container: {
-                className: 'btn-group flex-wrap mt-3 mt-md-0',
-            },
-            */
             // common classes for each button
             button: {
-                className: 'btn switcher mb-3 mb-md-0',
-            }
+                className: 'btn mb-3 mb-md-0',
+            },
         },
         buttons: [
             {
-                text: 'success',
+                text: function (dt, button, config) {
+                    return 'success (' + dt.rows('.success').count() + ')';
+                },
                 attr: {
                     id: 'success'
                 },
                 className: 'btn-outline-success',
-                action: function (e, dt, button, config) {
-                    buttonAction(e, dt, button, config)
-                }
             },
             {
-                text: 'unsuccess',
+                text: function (dt, button, config) {
+                    return 'unsuccess (' + dt.rows('.unsuccess').count() + ')';
+                },
                 attr: {
                     id: 'unsuccess'
                 },
                 className: 'btn-outline-danger',
-                action: function (e, dt, button, config) {
-                    buttonAction(e, dt, button, config)
-                }
             },
             {
-                text: 'not done',
+                text: function (dt, button, config) {
+                    return 'not-tested (' + dt.rows('.not-tested').count() + ')';
+                },
                 attr: {
-                    id: 'not-done'
+                    id: 'not-tested'
                 },
                 className: 'btn-outline-primary',
-                action: function (e, dt, button, config) {
-                    buttonAction(e, dt, button, config)
-                }
             },
         ],
     }
 });
 
-DataTable.feature.register('info', function (settings, opts) {
-    function createElementWithClass(elementName, className) {
-        let element = document.createElement(elementName)
-        element.setAttribute('class', className)
-        return element
-    }
-    let container = createElementWithClass('div', 'mt-3');
-    let p1 = createElementWithClass('p', 'd-inline-block me-3');
-    p1.innerHTML = 'Tested: ' + $('.success, .unsuccess').length
-    let p2 = createElementWithClass('p', 'd-inline-block me-3');
-    p2.innerHTML = 'Successfull: ' + $('.success').length
-    let p3 = createElementWithClass('p', 'd-inline-block me-3');
-    p3.innerHTML = 'Not tested: ' + $('.not-done').length
+table.buttons().action(function (e, dt, button, config) {
+    // saves the state of the button's active class
+    let isActive = button.hasClass('active');
+    // removes active class for each buttons in dt and reset filter
+    dt.buttons().nodes().removeClass('active'); // $.fn.dataTable.ext.search.pop()
+    $(dt).dataTableExt.search.pop();
     
-    container.append(p1, p2, p3)
-    return container;
-});
-
-
-$('#verb-count').text('(' + table.column(0).data().length + ' verbs)');
-
-/*
-// Functions that set action for each button of button-group
-$('#success').on('click', function () {
-    // Remove active class for the other buttons
-    $('#unsuccess').removeClass('active')
-    $('#not-done').removeClass('active')
-    $.fn.dataTable.ext.search.pop()
-
-    // Make the button switchable and add a filter function
-    if ($(this).hasClass('active')) {
-        $(this).removeClass('active');
-        $.fn.dataTable.ext.search.pop()
-    } else {
-        $(this).addClass('active');
-        $.fn.dataTable.ext.search.push(
+    // adds class active to clicked button if it was not active and display matching rows
+    if (!(isActive)) {
+        button.addClass('active');
+        // $.fn.dataTable.ext.search.push( // same as next
+        $(dt).dataTableExt.search.push(
             function(settings, data, dataIndex) {
-                var table = $('#custom-dt').DataTable();
-                return $(table.row(dataIndex).node()).hasClass('success');
+                return $(dt.row(dataIndex).node()).hasClass(button.attr('id'));
             }
         );
-    };
-    // Display results
-    var table = $('#custom-dt').DataTable();
-    table.draw();
+    }
+    dt.draw();
+})
+ 
+// Add event listener for opening and closing details
+table.on('click', 'tbody td.dt-control', function () {
+    var tr = $(this).closest('tr');
+    var row = table.row(tr);
+ 
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+    }
+    else {
+        // Open this row
+        row.child(format(row.data())).show();
+        tr.addClass('shown');
+    }
 });
 
-$('#unsuccess').on('click', function () {
-    $('#success').removeClass('active')
-    $('#not-done').removeClass('active')
-    $.fn.dataTable.ext.search.pop()
-
-    if ($(this).hasClass('active')) {
-        $(this).removeClass('active');
-        $.fn.dataTable.ext.search.pop()
-    } else {
-        $(this).addClass('active');
-        $.fn.dataTable.ext.search.push(
-            function(settings, data, dataIndex) {
-                var table = $('#custom-dt').DataTable();
-                return $(table.row(dataIndex).node()).hasClass('unsuccess');
-            }
-        );
-    };
-    var table = $('#custom-dt').DataTable();
-    table.draw();
+// Add event listener to expand row when enter key is pressed
+$('.dt-control').keypress(function(event){
+    if(event.keyCode == 13){
+        $(this).click();
+    }
 });
-
-
-$('#not-done').on('click', function () {
-    $('#success').removeClass('active')
-    $('#unsuccess').removeClass('active')
-    $.fn.dataTable.ext.search.pop()
-
-    if ($(this).hasClass('active')) {
-        $(this).removeClass('active');
-        $.fn.dataTable.ext.search.pop()
-    } else {
-        $(this).addClass('active');
-        $.fn.dataTable.ext.search.push(
-            function(settings, data, dataIndex) {
-                var table = $('#custom-dt').DataTable();
-                return !$(table.row(dataIndex).node()).hasClass('unsuccess') && !$(table.row(dataIndex).node()).hasClass('success');
-            }
-        );
-    };
-    var table = $('#custom-dt').DataTable();
-    table.draw();
-});
-*/
