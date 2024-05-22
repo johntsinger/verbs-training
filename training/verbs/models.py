@@ -1,13 +1,14 @@
+import uuid
 from django.db import models
 
 
-class VerbGroup(models.Model):
-    name = models.CharField(
-        max_length=50
-    )
-
-
 class Verb(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        unique=True,
+        editable=False,
+        default=uuid.uuid4
+    )
     infinitive = models.CharField(
         max_length=50,
         blank=True
@@ -23,12 +24,6 @@ class Verb(models.Model):
     translation = models.CharField(
         max_length=50,
         blank=True
-    )
-    group = models.ForeignKey(
-        to=VerbGroup,
-        on_delete=models.SET_NULL,
-        related_name='verbs',
-        null=True
     )
 
     def __str__(self):
@@ -50,3 +45,30 @@ class Example(models.Model):
         on_delete=models.CASCADE,
         related_name="examples"
     )
+
+    def __str__(self):
+        return f"Example for verb {self.verb}"
+
+
+class Group(models.Model):
+    BASE = "BASE"
+    FORM = "FORM"
+    GROUP_TYPE_CHOICES = [
+        (BASE, "Verb base"),
+        (FORM, "Verb form")
+    ]
+    name = models.CharField(
+        max_length=50,
+        unique=True
+    )
+    group_type = models.CharField(
+        max_length=4,
+        choices=GROUP_TYPE_CHOICES
+    )
+    verbs = models.ManyToManyField(
+        to=Verb,
+        related_name="groups"
+    )
+
+    def __str__(self):
+        return f"{self.name} - {self.group_type}"
