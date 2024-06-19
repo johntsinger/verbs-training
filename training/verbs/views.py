@@ -1,4 +1,3 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Subquery, OuterRef
 from django.views.generic.list import ListView
 from verbs.models import Verb
@@ -25,6 +24,6 @@ class VerbListView(
                         '-updated_at'
                     ).values('is_success')[:1]
                 )
-            )
+            ).prefetch_related('info', 'examples')
 
-        return Verb.objects.all()
+        return Verb.objects.prefetch_related('info', 'examples')
