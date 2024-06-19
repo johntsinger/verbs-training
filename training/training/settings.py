@@ -150,9 +150,11 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Auth model
+
 AUTH_USER_MODEL = 'authentication.User'
 
 # Crispy forms
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
@@ -173,3 +175,8 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# Tests
+
+TEST_RUNNER = 'training.tests.runner.MyTestRunner'
+IS_TEST = False
