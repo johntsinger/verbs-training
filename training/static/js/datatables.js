@@ -1,33 +1,30 @@
-// Formatting function for row details - modify as you need
+// Formatting function for childrows
 function format(d) {
     // `d` is the original data object for the row
-    let htmlClass = '';
-    if (d['is success'] === 'True') {
-        htmlClass = 'success';
-    } else if (d['is success'] === 'False') {
-        htmlClass = 'unsuccess';
-    } else {
-        htmlClass = 'not-done';
+    let subrow = '';
+    if (d.info) {
+        subrow += (
+            '<tr>' +
+                '<td class="childrow-first-col border-top-0"></td>' +
+                '<td colspan="4">' +
+                    '<h6 class="fw-bold">Info</h6>' +
+                    d.info +
+                '</td>' +
+            '</tr>'
+        );
     }
-    return $(
-        '<tr class=' + htmlClass + '>' +
-            '<td>' +
-            '' +
-            '</td>'+
-            '<td>' +
-            d['infinitive'] +
-            '</td>' +
-            '<td>' +
-            d['simple past'].split('/').join('</br>') +
-            '</td>' +
-            '<td>' +
-            d['past participle'].split('/').join('</br>') +
-            '</td>' +
-            '<td>' +
-            d['translation'].split('/').join('</br>') +
-            '</td>' +
-        '</tr>'
-    ).toArray();
+    if (d.examples) {
+        subrow += (
+            '<tr>' +
+                '<td class="childrow-first-col border-top-0"></td>' +
+                '<td colspan="4">' +
+                    '<h6 class="fw-bold">Examples</h6>' +
+                    d.examples +
+                '</td>' +
+            '</tr>'
+        );
+    }
+    return $(subrow).toArray()
 }
 
 // dataTables configuration
@@ -38,7 +35,6 @@ var table = $('#custom-dt').DataTable({
         $('#custom-dt').show();
         api.columns.adjust();
     },
-    autoWidth: false,
     // scroll bar
     scrollY: '40em',
     scrollX: true,
@@ -56,11 +52,12 @@ var table = $('#custom-dt').DataTable({
     },
     // column
     columnDefs: [
-        {width: '5%', targets: 0}
+        {width: '4%', targets: 0},
+        {width: '16%', targets: '_all'}
     ],
     columns: [
         {
-            className: 'dt-control',
+            className: 'dt-control dt-first-col',
             orderable: false,
             data: null,
             defaultContent: ''
@@ -69,26 +66,36 @@ var table = $('#custom-dt').DataTable({
         {
             data: 'simple past',
             render: function (data, type, row, meta) {
-                return data.split('/').join('</br>');
+                return data.split(',').join('</br>');
             }
         },
         {
             data: 'past participle',
             render: function (data, type, row, meta) {
-                return data.split('/').join('</br>');
+                return data.split(',').join('</br>');
             }
         },
         {
             data: 'translation',
             render: function (data, type, row, meta) {
-                return data.split('/').join('</br>');
+                return data.split(',').join('</br>');
             }
         },
         {
             data: 'is success',
             visible: false,
             orderable: false,
-        }
+        },
+        {
+            data: 'info',
+            visible: false,
+            orderable: false,
+        },
+        {
+            data: 'examples',
+            visible: false,
+            orderable: false,
+        },
     ],
     order: [],
     // display position
@@ -111,7 +118,8 @@ var table = $('#custom-dt').DataTable({
                     return 'success (' + dt.rows('.success').count() + ')';
                 },
                 attr: {
-                    id: 'success'
+                    id: 'success',
+                    'arial-label': 'Switch success filter'
                 },
                 className: 'btn-outline-success',
             },
@@ -120,7 +128,8 @@ var table = $('#custom-dt').DataTable({
                     return 'unsuccess (' + dt.rows('.unsuccess').count() + ')';
                 },
                 attr: {
-                    id: 'unsuccess'
+                    id: 'unsuccess',
+                    'arial-label': 'Switch unsuccess filter'
                 },
                 className: 'btn-outline-danger',
             },
@@ -129,7 +138,8 @@ var table = $('#custom-dt').DataTable({
                     return 'not-tested (' + dt.rows('.not-tested').count() + ')';
                 },
                 attr: {
-                    id: 'not-tested'
+                    id: 'not-tested',
+                    'arial-label': 'Switch not tested filter'
                 },
                 className: 'btn-outline-primary',
             },
@@ -137,6 +147,7 @@ var table = $('#custom-dt').DataTable({
     }
 });
 
+// Define buttons actions
 table.buttons().action(function (e, dt, button, config) {
     // saves the state of the button's active class
     let isActive = button.hasClass('active');
@@ -156,7 +167,22 @@ table.buttons().action(function (e, dt, button, config) {
     }
     dt.draw();
 })
- 
+
+/*
+// Open all child rows
+table.rows().every(function () {
+    this.child(format(this.data())).show();
+    $(this.node()).addClass('shown');
+});
+*/
+
+/*
+// Add all child rows
+table.rows().every(function () {
+    this.child(format(this.data()))
+});
+*/
+
 // Add event listener for opening and closing details
 table.on('click', 'tbody td.dt-control', function () {
     var tr = $(this).closest('tr');
@@ -176,7 +202,7 @@ table.on('click', 'tbody td.dt-control', function () {
 
 // Add event listener to expand row when enter key is pressed
 $('.dt-control').keypress(function(event){
-    if(event.keyCode == 13){
+    if(event.keyCode == 13) {
         $(this).click();
     }
 });
