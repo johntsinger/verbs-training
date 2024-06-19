@@ -2,6 +2,7 @@
 
 import json
 from django.db import migrations
+from django.conf import settings
 
 
 def load_initial_tables_data(apps, schema_editror):
@@ -18,6 +19,23 @@ def load_initial_tables_data(apps, schema_editror):
         table.verbs.add(*verbs)
 
 
+def create_default_tables(apps, schema_editror):
+    DefaultTable = apps.get_model('tables', 'DefaultTable')
+    Verb = apps.get_model('verbs', 'Verb')
+    with open('data/tables.json', 'rb') as file:
+        tables = json.load(file)
+    for table in tables:
+        new_default_table = DefaultTable(
+            name=table['name']
+        )
+        new_default_table.save()
+        new_default_table.verbs.add(
+            *Verb.objects.filter(
+                infinitive__in=table['verbs']
+            )
+        )
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -26,5 +44,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(load_initial_tables_data),
-    ]
+        migrations.RunPython(create_default_tables),
+    ] if not settings.IS_TEST else []

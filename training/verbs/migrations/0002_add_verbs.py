@@ -2,11 +2,12 @@
 
 import json
 from django.db import migrations
+from django.conf import settings
 
 
 def load_initial_verbs_data(apps, schema_editror):
     Verb = apps.get_model('verbs', 'Verb')
-    with open('data/all_verbs.json', 'rb') as file:
+    with open('data/all_verbs.json', 'rb', encoding='utf-8') as file:
         verbs_data = json.load(file)
     for verb_data in verbs_data:
         verb = Verb(
@@ -18,6 +19,59 @@ def load_initial_verbs_data(apps, schema_editror):
         verb.save()
 
 
+def create_verbs(apps, schema_editror):
+    Verb = apps.get_model('verbs', 'Verb')
+    Info = apps.get_model('verbs', 'Info')
+    Example = apps.get_model('verbs', 'Example')
+    with open('data/verbs.json', 'rb') as file:
+        verbs = json.load(file)
+    for verb in verbs:
+        new_verb = Verb(
+            infinitive=verb['infinitive'],
+            simple_past=verb['simple_past'],
+            past_participle=verb['past_participle'],
+            translation=verb['translation']
+        )
+        new_verb.save()
+        info = [
+            Info(
+                content=content,
+                verb=new_verb
+            )
+            for content in verb.get('info', [])
+            if content
+        ]
+        Info.objects.bulk_create(info)
+        examples = [
+            Example(
+                english=example['english'],
+                translation=example['french'],
+                verb=new_verb
+            )
+            for example in verb.get('examples', [])
+            if example
+        ]
+        if examples:
+            Example.objects.bulk_create(examples)
+
+
+def create_similarities(apps, schema_editror):
+    Verb = apps.get_model('verbs', 'Verb')
+    Similarity = apps.get_model('verbs', 'Similarity')
+    with open('data/similarity.json', 'rb') as file:
+        similarities = json.load(file)
+    for similarity in similarities:
+        new_similarity = Similarity(
+            name=similarity['name']
+        )
+        new_similarity.save()
+        new_similarity.verbs.add(
+            *Verb.objects.filter(
+                infinitive__in=similarity['verbs']
+            )
+        )
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -25,5 +79,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(load_initial_verbs_data),
-    ]
+        migrations.RunPython(create_verbs),
+        migrations.RunPython(create_similarities),
+    ] if not settings.IS_TEST else []
