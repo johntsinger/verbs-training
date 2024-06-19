@@ -17,7 +17,7 @@ def reverse_foreignkey_change_links(
 
     def model_change_link_function(_, obj):
         instances = get_instances(obj)
-        if not instances.exists():
+        if not instances:
             return empty_text
         links = []
         for instance in instances:
