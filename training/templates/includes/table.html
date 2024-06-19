@@ -1,4 +1,4 @@
-<table id="custom-dt" class="row-border">
+<table id="custom-dt" class="row-border" width="100%">
     <thead>
         <tr>
             <th></th>
@@ -12,12 +12,33 @@
     <tbody>
         {% for verb in verbs %}
         <tr class="{% if verb.is_success is True %} success {% elif verb.is_success is False %} unsuccess {% else %} not-tested {% endif %}">
-            <td tabindex="0"></td>
+            <td tabindex="0" aria-label="Open/close child row"></td>
             <td>{{ verb.infinitive }}</td>
             <td>{{ verb.simple_past }}</td>
             <td>{{ verb.past_participle }}</td>
             <td>{{ verb.translation }}</td>
             <td>{{ verb.is_success }}</td>
+            <td>
+                {% for info in verb.info.all %}
+                <div class="fst-italic .text-body">
+                    <div>
+                        {{ info.content }}
+                    </div>
+                </div>
+                {% endfor %}
+            </td>
+            <td>
+                {% for example in verb.examples.all %}
+                <div class="mb-2 .text-body">
+                    <div>
+                        {{ example.english }}
+                    </div>
+                    <div class="fst-italic">
+                        {{ example.translation }}
+                    </div>
+                </div>
+                {% endfor %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
