@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.db import models
+from django.http import HttpRequest
 from common.admin.mixins import GetReadOnlyFieldsMixin
 from common.admin.utils import reverse_foreignkey_change_links
 from profiles.models import Profile
@@ -25,6 +27,14 @@ class ProfileAdmin(
         lambda obj: UserTable.objects.filter(profile=obj),
         description='User tables'
     )
+
+    def get_queryset(self, request: HttpRequest) -> models.QuerySet[Profile]:
+        qs = super().get_queryset(request)
+        return qs.select_related(
+            'user'
+        ).prefetch_related(
+            'usertables',
+        )
 
 
 admin.site.register(Profile, ProfileAdmin)
