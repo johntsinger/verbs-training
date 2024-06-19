@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block link %}
+<link href="https://cdn.datatables.net/v/dt/dt-2.0.5/b-3.0.2/datatables.min.css" rel="stylesheet">
+{% endblock link %}
+
 {% block js %}
 <script src="https://cdn.datatables.net/v/dt/dt-2.0.5/b-3.0.2/datatables.min.js"></script>
 <script src="{% static 'js/datatables.js' %}"></script>
