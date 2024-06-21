@@ -55,8 +55,9 @@ class UserTableAdminForm(
         model = UserTable
         fields = [
             'name',
-            'profile',
+            'owner',
             'verbs',
+            'is_available'
         ]
 
     verbs = forms.ModelMultipleChoiceField(
@@ -91,7 +92,7 @@ class UserTableAdmin(
     form = UserTableAdminForm
     list_display = [
         'name',
-        'profile',
+        'owner',
     ]
     readonly_fields = (
         'created_at',
@@ -100,7 +101,7 @@ class UserTableAdmin(
     ordering = ('name',)
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[UserTable]:
-        return UserTable.objects.select_related('profile__user')
+        return UserTable.objects.select_related('owner__user')
 
     def formfield_for_foreignkey(
         self,
@@ -111,7 +112,7 @@ class UserTableAdmin(
         # Select user to display foreignkey profile choices
         # to avoid duplicated query because profile's str method
         # access to user.username
-        if db_field.name == "profile":
+        if db_field.name == "owner":
             kwargs["queryset"] = Profile.objects.select_related("user")
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
