@@ -21,12 +21,19 @@ def reverse_foreignkey_change_links(
             return empty_text
         links = []
         for instance in instances:
-            change_url = reverse(
-                f'admin:{model._meta.db_table}_change',
-                args=(instance.id, )
-            )
+            if model._meta.proxy:
+                change_url = reverse(
+                    f'admin:{model._meta.app_label}_'
+                    f'{model._meta.model_name}_change',
+                    args=(instance.id, )
+                )
+            else:
+                change_url = reverse(
+                    f'admin:{model._meta.db_table}_change',
+                    args=(instance.id, )
+                )
             links.append(
-                f'<a href="{change_url}" style="color: blue" title="Change">'
+                f'<a href="{change_url}" title="Change">'
                 f'{str(instance)}</a>'
             )
         return format_html('</br>'.join(links))
