@@ -10,10 +10,10 @@ class TestModels(TestCase):
             name="similarity name"
         )
         cls.verb = Verb.objects.create(
-            infinitive="verb infinitive",
-            simple_past="verb simple past",
-            past_participle="verb past participle",
-            translation="verb translation",
+            infinitive="begin",
+            simple_past="began",
+            past_participle="begun",
+            translation="commencer",
             similarity=cls.similarity
         )
         cls.info = Info.objects.create(
@@ -27,4 +27,17 @@ class TestModels(TestCase):
         )
 
     def test_verb_str(self):
-        expected = ""
+        expected = "begin began begun commencer"
+        self.assertEqual(str(self.verb), expected)
+
+    def test_similarity_str(self):
+        expected = "similarity name"
+        self.assertEqual(str(self.similarity), expected)
+
+    def test_info_str(self):
+        expected = "Info for verb begin"
+        self.assertEqual(str(self.info), expected)
+
+    def test_example_str(self):
+        expected = "Example for verb begin"
+        self.assertEqual(str(self.example), expected)
