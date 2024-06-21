@@ -1,11 +1,10 @@
 import uuid
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
-from django.db.models.constraints import CheckConstraint
+from django.db.models.constraints import UniqueConstraint
 from verbs.models import Verb
 from profiles.models import Profile
-from tables.models import DefaultTable, UserTable
+from tables.models import Table
 
 
 class Result(models.Model):
@@ -25,19 +24,10 @@ class Result(models.Model):
         on_delete=models.CASCADE,
         related_name='results'
     )
-    default_table = models.ForeignKey(
-        to=DefaultTable,
+    table = models.ForeignKey(
+        to=Table,
         on_delete=models.CASCADE,
         related_name='results',
-        null=True,
-        blank=True
-    )
-    user_table = models.ForeignKey(
-        to=UserTable,
-        on_delete=models.CASCADE,
-        related_name='results',
-        null=True,
-        blank=True
     )
     is_success = models.BooleanField(
         default=False
@@ -51,50 +41,32 @@ class Result(models.Model):
 
     class Meta:
         constraints = [
-            CheckConstraint(
-                check=(
-                    Q(default_table__isnull=True)
-                    ^ Q(user_table__isnull=True)
-                ),
-                name=(
-                    '%(app_label)s_%(class)s_'
-                    'only_default_table_or_user_table_must_be_set'
-                )
+            UniqueConstraint(
+                fields=["verb", "profile", "table"],
+                name="unique_result_for_verb_in_table_per_profile"
             )
         ]
 
-    @property
-    def table(self):
-        return self.default_table or self.user_table
-
     def clean(self):
-        if self.default_table and self.user_table:
-            error_message = "Both 'default_table' and 'usertables' are set."
-            raise ValidationError(
-                {
-                    "default_table": error_message,
-                    "user_table": error_message
-                }
-            )
-        if not self.default_table and not self.user_table:
-            error_message = "Neither 'default_table' nor 'user_table' is set."
-            raise ValidationError(
-                {
-                    "default_table": error_message,
-                    "user_table": error_message
-                }
-            )
-        if not self.table.verbs.filter(id=self.verb_id).exists():
+        if (
+            hasattr(self, 'table')
+            and not self.table.verbs.filter(id=self.verb_id)
+        ):
             raise ValidationError(
                 {
                     "verb": "Verb must belong to table."
                 }
             )
 
-        if self.user_table and self.user_table.profile != self.profile:
+        if (
+            hasattr(self, 'table')
+            and hasattr(self, 'profile')
+            and self.table.owner
+            and self.table.owner != self.profile
+        ):
             raise ValidationError(
                 {
-                    "user_table": "User table must belong to profile"
+                    "table": "Table must belong to profile"
                 }
             )
 
