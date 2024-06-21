@@ -26,7 +26,8 @@ def create_default_tables(apps, schema_editror):
         tables = json.load(file)
     for table in tables:
         new_default_table = DefaultTable(
-            name=table['name']
+            name=table['name'],
+            is_default=True
         )
         new_default_table.save()
         new_default_table.verbs.add(
