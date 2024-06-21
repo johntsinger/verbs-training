@@ -12,28 +12,34 @@ class ProfileAdmin(
     admin.ModelAdmin
 ):
     readonly_fields = (
+        'user',
+        'default_tables',
+        'user_tables',
         'created_at',
         'updated_at',
-        'default_tables',
-        'user_tables'
     )
     default_tables = reverse_foreignkey_change_links(
         DefaultTable,
-        lambda obj: DefaultTable.objects.filter(is_available=True),
+        lambda obj: DefaultTable.objects.filter(is_default=True),
         description='Default tables'
     )
     user_tables = reverse_foreignkey_change_links(
         UserTable,
-        lambda obj: UserTable.objects.filter(profile=obj),
+        lambda obj: UserTable.objects.filter(
+            is_default=False, owner=obj
+        ).select_related("owner__user"),
         description='User tables'
     )
+
+    class Media:
+        css = {
+            "all": ("css/custom-admin.css",)
+        }
 
     def get_queryset(self, request: HttpRequest) -> models.QuerySet[Profile]:
         qs = super().get_queryset(request)
         return qs.select_related(
-            'user'
-        ).prefetch_related(
-            'usertables',
+            'user',
         )
 
 
