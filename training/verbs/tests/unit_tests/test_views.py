@@ -22,10 +22,10 @@ class BaseTestCase(TestCase):
             name="similarity name"
         )
         cls.verb = Verb.objects.create(
-            infinitive="verb infinitive",
-            simple_past="verb simple past",
-            past_participle="verb past participle",
-            translation="verb translation",
+            infinitive="begin",
+            simple_past="began",
+            past_participle="begun",
+            translation="commencer",
             similarity=cls.similarity
         )
         cls.info = Info.objects.create(
@@ -89,7 +89,7 @@ class TestVerbsViews(BaseTestCase):
             response.context.get(
                 "verb_list", None
             ).get(
-                infinitive="verb infinitive"
+                infinitive="begin"
             ),
             "is_success"
         )
@@ -102,6 +102,6 @@ class TestVerbsViews(BaseTestCase):
             response.context.get(
                 "verb_list", None
             ).get(
-                infinitive="verb infinitive"
+                infinitive="begin"
             ).is_success,
         )
