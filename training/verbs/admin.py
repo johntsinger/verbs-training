@@ -1,9 +1,8 @@
 from django import forms
 from django.db import models
 from django.contrib import admin
-from django.core.exceptions import ValidationError
 from django.http import HttpRequest
-from verbs.models import Verb, Info, Example
+from verbs.models import Verb, Similarity, Info, Example
 
 
 class InfoInline(admin.StackedInline):
@@ -11,13 +10,13 @@ class InfoInline(admin.StackedInline):
     extra = 0
     formfield_overrides = {
         models.CharField: {
-            'widget': forms.TextInput(attrs={"size": "100"})
+            "widget": forms.TextInput(attrs={"size": "100"})
         },
     }
 
     def get_queryset(self, request: HttpRequest) -> models.QuerySet[Info]:
         qs = super().get_queryset(request)
-        return qs.select_related('verb')
+        return qs.select_related("verb")
 
 
 class ExampleInline(admin.StackedInline):
@@ -25,55 +24,28 @@ class ExampleInline(admin.StackedInline):
     extra = 0
     formfield_overrides = {
         models.CharField: {
-            'widget': forms.TextInput(attrs={"size": "100"})
+            "widget": forms.TextInput(attrs={"size": "100"})
         },
     }
 
     def get_queryset(self, request: HttpRequest) -> models.QuerySet[Example]:
         qs = super().get_queryset(request)
-        return qs.select_related('verb')
-
-
-class VerbAdminForm(forms.ModelForm):
-    class Meta:
-        model = Verb
-        fields = [
-            'infinitive',
-            'simple_past',
-            'past_participle',
-            'translation',
-            'similarity',
-        ]
-
-    def clean(self):
-        """
-        A Verb must have all fields filled to be saved.
-        Can not be done in the model because Verb model
-        requiers blank=True for exercise form.
-        """
-        errors = [
-            key for key, value in self.cleaned_data.items() if not value
-        ]
-        if errors:
-            raise ValidationError(
-                {field: 'This field is required.' for field in errors}
-            )
+        return qs.select_related("verb")
 
 
 class VerbAdmin(admin.ModelAdmin):
-    form = VerbAdminForm
     list_display = [
-        'infinitive',
-        'simple_past',
-        'past_participle',
-        'translation',
-        'similarity',
+        "infinitive",
+        "simple_past",
+        "past_participle",
+        "translation",
+        "similarity",
     ]
     inlines = [
         InfoInline,
         ExampleInline
     ]
-    ordering = ('infinitive',)
+    ordering = ("infinitive",)
 
     def get_queryset(self, request: HttpRequest) -> models.QuerySet[Verb]:
         qs = super().get_queryset(request)
@@ -89,7 +61,7 @@ class InfoAdmin(admin.ModelAdmin):
 
     @admin.display(
         ordering="verb__infinitive",
-        description='Verb'
+        description="Verb"
     )
     def get_verb(self, obj: Info) -> str:
         return obj.verb.infinitive
@@ -109,7 +81,7 @@ class ExampleAdmin(admin.ModelAdmin):
 
     @admin.display(
         ordering="verb__infinitive",
-        description='Verb'
+        description="Verb"
     )
     def get_verb(self, obj: Example) -> str:
         return obj.verb.infinitive
@@ -119,6 +91,13 @@ class ExampleAdmin(admin.ModelAdmin):
         return qs.select_related("verb")
 
 
+class SimilarityAdmin(admin.ModelAdmin):
+    list_display = [
+        "name",
+    ]
+
+
 admin.site.register(Verb, VerbAdmin)
+admin.site.register(Similarity, SimilarityAdmin)
 admin.site.register(Info, InfoAdmin)
 admin.site.register(Example, ExampleAdmin)
