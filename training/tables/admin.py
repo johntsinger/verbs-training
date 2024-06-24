@@ -1,6 +1,9 @@
 from typing import Any
 from django.contrib import admin
-from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib.admin.widgets import (
+    FilteredSelectMultiple,
+    RelatedFieldWidgetWrapper
+)
 from django import forms
 from django.db.models.fields.related import ForeignKey
 from django.db.models.query import QuerySet
@@ -8,7 +11,7 @@ from django.http import HttpRequest
 from common.admin.mixins import GetReadOnlyFieldsMixin
 from tables.models import (
     DefaultTable,
-    UserTable,
+    UserTable
 )
 from verbs.models import Verb
 from profiles.models import Profile
@@ -22,52 +25,64 @@ class TableAdminFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
-            self.fields['verbs'].initial = self.instance.verbs.all()
+            self.fields["verbs"].initial = self.instance.verbs.all()
 
 
 class DefaultTableAdminForm(
     TableAdminFormMixin,
     forms.ModelForm
 ):
-    class Meta:
-        model = DefaultTable
-        fields = [
-            'name',
-            'verbs',
-            'is_available'
-        ]
-
     verbs = forms.ModelMultipleChoiceField(
         queryset=Verb.objects.all(),
         required=False,
-        widget=FilteredSelectMultiple(
-            verbose_name='Verbs',
-            is_stacked=False
+        # Using RelatedFieldWidgetWrapper prevent label after fields
+        widget=RelatedFieldWidgetWrapper(
+            FilteredSelectMultiple(
+                verbose_name="Verbs",
+                is_stacked=False
+            ),
+            rel=DefaultTable._meta.get_field("verbs").remote_field,
+            admin_site=admin.site,
+            can_add_related=True
         )
     )
+
+    class Meta:
+        model = DefaultTable
+        fields = [
+            "name",
+            "verbs",
+            "is_available"
+        ]
 
 
 class UserTableAdminForm(
     TableAdminFormMixin,
     forms.ModelForm
 ):
-    class Meta:
-        model = UserTable
-        fields = [
-            'name',
-            'owner',
-            'verbs',
-            'is_available'
-        ]
-
     verbs = forms.ModelMultipleChoiceField(
         queryset=Verb.objects.all(),
         required=False,
-        widget=FilteredSelectMultiple(
-            verbose_name='Verbs',
-            is_stacked=False
+        # Using RelatedFieldWidgetWrapper prevent label after fields
+        widget=RelatedFieldWidgetWrapper(
+            FilteredSelectMultiple(
+                verbose_name="Verbs",
+                is_stacked=False
+            ),
+            rel=UserTable._meta.get_field("verbs").remote_field,
+            admin_site=admin.site,
+            can_add_related=True
         )
     )
+
+    class Meta:
+        model = UserTable
+        fields = [
+            "name",
+            "owner",
+            "verbs",
+            "is_available"
+        ]
 
 
 class DefaultTableAdmin(
@@ -76,13 +91,13 @@ class DefaultTableAdmin(
 ):
     form = DefaultTableAdminForm
     list_display = [
-        'name',
+        "name",
     ]
     readonly_fields = (
-        'created_at',
-        'updated_at'
+        "created_at",
+        "updated_at"
     )
-    ordering = ('name',)
+    ordering = ("name",)
 
 
 class UserTableAdmin(
@@ -91,17 +106,18 @@ class UserTableAdmin(
 ):
     form = UserTableAdminForm
     list_display = [
-        'name',
-        'owner',
+        "name",
+        "owner",
     ]
     readonly_fields = (
-        'created_at',
-        'updated_at'
+        "created_at",
+        "updated_at"
     )
-    ordering = ('name',)
+    ordering = ("name",)
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[UserTable]:
-        return UserTable.objects.select_related('owner__user')
+        qs = super().get_queryset(request)
+        return qs.select_related("owner__user")
 
     def formfield_for_foreignkey(
         self,
