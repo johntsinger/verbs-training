@@ -1,56 +1,59 @@
 from typing import Any
-from django.contrib import admin
+
 from django import forms
+from django.contrib import admin
 from django.db.models.fields.related import ForeignKey
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
+from django.utils.html import format_html
+from django.urls import reverse
+
 from results.models import Result
 from profiles.models import Profile
 from tables.models import Table
+
 from common.admin.mixins import GetReadOnlyFieldsMixin
+from common.forms.fields import GroupedModelChoiceField
 
 
-# class ResultAdminForm(forms.ModelForm):
+class ResultAdminChangeForm(forms.ModelForm):
+    class Meta:
+        model = Result
+        fields = [
+            "verb",
+            "profile",
+            "is_success"
+        ]
 
-#     table = forms.ChoiceField()
 
-#     class Meta:
-#         model = Result
-#         fields = [
-#             "verb",
-#             "profile",
-#             "default_table",
-#             "user_table",
-#             "table",
-#             "is_success"
-#         ]
+class ResultAdminAddForm(forms.ModelForm):
+    table = GroupedModelChoiceField(
+        queryset=Table.objects.all().select_related(
+            'owner__user'
+        ).order_by(
+            'type',
+            '-owner'
+        ),
+        group_by_field="owner",
+        group_label=lambda x: f"User: {x}" if x else 'Default'
+    )
 
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         qs = list(chain(DefaultTable.objects.all(), UserTable.objects.all()))
-#         choices = [
-#             (None, "---------")
-#         ]
-#         choices.extend(
-#             (
-#                 obj.id,
-#                 f"{obj.name} ({obj.profile})"
-#                 if obj.__class__.__name__ == "UserTable"
-#                 else f"{obj.name}"
-#             ) for obj in qs
-#         )
-#         self.fields["table"].choices = choices
-#         if not self.instance._state.adding:
-#             self.fields["table"].initial = self.instance.table.id
-#         self.fields["default_table"].widget = forms.HiddenInput()
-#         self.fields["user_table"].widget = forms.HiddenInput()
+    class Meta:
+        model = Result
+        fields = [
+            "verb",
+            "profile",
+            "table",
+            "is_success"
+        ]
 
 
 class ResultAdmin(
     GetReadOnlyFieldsMixin,
     admin.ModelAdmin
 ):
-    # form = ResultAdminForm
+    change_form = ResultAdminChangeForm
+    add_form = ResultAdminAddForm
     list_display = [
         "verb",
         "profile",
@@ -60,7 +63,7 @@ class ResultAdmin(
     readonly_fields = (
         "verb",
         "profile",
-        "table",
+        "get_table",
         "created_at",
         "updated_at"
     )
@@ -69,6 +72,29 @@ class ResultAdmin(
         css = {
             "all": ("css/custom-admin.css",)
         }
+
+    # Display table link to change form manually because it
+    # doesn't display by it self when using readonly unlike
+    # verb and profile
+    @admin.display(description="Table")
+    def get_table(self, obj):
+
+        change_url = reverse(
+            f'admin:{Table._meta.app_label}_'
+            f'{obj.table.type}_change',
+            args=(obj.table.id, )
+        )
+        return format_html(
+            f'<a href="{change_url}" title="Change">{str(obj.table)}</a>'
+        )
+
+    def get_form(self, request, obj=None, **kwargs):
+        if not obj:
+            self.form = self.add_form
+        else:
+            self.form = self.change_form
+
+        return super().get_form(request, obj, **kwargs)
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Result]:
         qs = super().get_queryset(request)
