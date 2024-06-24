@@ -11,25 +11,20 @@ class Verb(models.Model):
     )
     infinitive = models.CharField(
         max_length=70,
-        blank=True
     )
     simple_past = models.CharField(
         max_length=70,
-        blank=True
     )
     past_participle = models.CharField(
         max_length=70,
-        blank=True
     )
     translation = models.CharField(
         max_length=70,
-        blank=True
     )
     similarity = models.ForeignKey(
         to='Similarity',
         on_delete=models.PROTECT,
         related_name='verbs',
-        blank=True,
         null=True
     )
 
@@ -76,6 +71,9 @@ class Similarity(models.Model):
         max_length=50,
         unique=True
     )
+
+    class Meta:
+        verbose_name_plural = "Similarities"
 
     def __str__(self) -> str:
         return f"{self.name}"
