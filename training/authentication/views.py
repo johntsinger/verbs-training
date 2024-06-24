@@ -35,9 +35,13 @@ class SignUpView(
         return super().get(request, *args, **kwargs)
 
 
-class LoginView(BaseLoginView):
+class LoginView(
+    PreviousPageURLMixin,
+    BaseLoginView
+):
     template_name = 'authentication/login.html'
     authentication_form = LoginForm
+    previous_page_url = reverse_lazy('verbs')
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
