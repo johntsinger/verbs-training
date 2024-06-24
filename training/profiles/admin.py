@@ -20,13 +20,14 @@ class ProfileAdmin(
     )
     default_tables = reverse_foreignkey_change_links(
         DefaultTable,
-        lambda obj: DefaultTable.objects.filter(is_default=True),
+        lambda obj: DefaultTable.objects.filter(type="defaulttable"),
         description='Default tables'
     )
     user_tables = reverse_foreignkey_change_links(
         UserTable,
         lambda obj: UserTable.objects.filter(
-            is_default=False, owner=obj
+            type="usertable",
+            owner=obj
         ).select_related("owner__user"),
         description='User tables'
     )
