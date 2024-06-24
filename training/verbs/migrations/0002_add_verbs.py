@@ -5,20 +5,6 @@ from django.db import migrations
 from django.conf import settings
 
 
-def load_initial_verbs_data(apps, schema_editror):
-    Verb = apps.get_model('verbs', 'Verb')
-    with open('data/all_verbs.json', 'rb', encoding='utf-8') as file:
-        verbs_data = json.load(file)
-    for verb_data in verbs_data:
-        verb = Verb(
-            infinitive=verb_data['infinitive'],
-            simple_past=verb_data['simple_past'],
-            past_participle=verb_data['past_participle'],
-            translation=verb_data['translation']
-        )
-        verb.save()
-
-
 def create_verbs(apps, schema_editror):
     Verb = apps.get_model('verbs', 'Verb')
     Info = apps.get_model('verbs', 'Info')

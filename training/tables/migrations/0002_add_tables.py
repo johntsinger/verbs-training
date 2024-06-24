@@ -5,20 +5,6 @@ from django.db import migrations
 from django.conf import settings
 
 
-def load_initial_tables_data(apps, schema_editror):
-    DefaultTable = apps.get_model('tables', 'DefaultTable')
-    Verb = apps.get_model('verbs', 'Verb')
-    tables_name = ['50_verbs', '105_verbs']
-    for name in tables_name:
-        with open(f'data/{name}.json', 'rb') as file:
-            table_data = json.load(file)
-        table = DefaultTable(name=name)
-        table.save()
-        translations = [value['translation'] for value in table_data]
-        verbs = Verb.objects.filter(translation__in=translations)
-        table.verbs.add(*verbs)
-
-
 def create_default_tables(apps, schema_editror):
     DefaultTable = apps.get_model('tables', 'DefaultTable')
     Verb = apps.get_model('verbs', 'Verb')
@@ -27,7 +13,7 @@ def create_default_tables(apps, schema_editror):
     for table in tables:
         new_default_table = DefaultTable(
             name=table['name'],
-            is_default=True
+            type="defaulttable"
         )
         new_default_table.save()
         new_default_table.verbs.add(
