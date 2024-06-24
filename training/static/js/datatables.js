@@ -27,6 +27,43 @@ function format(d) {
     return $(subrow).toArray()
 }
 
+
+// var buttons = []
+// if (isAuthenticated) {
+//     buttons.push(
+//         {
+//             text: function (dt, button, config) {
+//                 return 'success (' + dt.rows('.success').count() + ')';
+//             },
+//             attr: {
+//                 id: 'success',
+//                 'arial-label': 'Switch success filter'
+//             },
+//             className: 'btn-outline-success',
+//         },
+//         {
+//             text: function (dt, button, config) {
+//                 return 'unsuccess (' + dt.rows('.unsuccess').count() + ')';
+//             },
+//             attr: {
+//                 id: 'unsuccess',
+//                 'arial-label': 'Switch unsuccess filter'
+//             },
+//             className: 'btn-outline-danger',
+//         },
+//         {
+//             text: function (dt, button, config) {
+//                 return 'not-tested (' + dt.rows('.not-tested').count() + ')';
+//             },
+//             attr: {
+//                 id: 'not-tested',
+//                 'arial-label': 'Switch not tested filter'
+//             },
+//             className: 'btn-outline-primary',
+//         },
+//     )
+// }
+
 // dataTables configuration
 var table = $('#custom-dt').DataTable({
     initComplete: function () {
@@ -147,8 +184,24 @@ var table = $('#custom-dt').DataTable({
     }
 });
 
+// // disable buttons if not logged
+// if (!isAuthenticated) {
+//     table.buttons().disable();
+//     let buttonsDisabled = $(".disabled");
+//     $(".dt-buttons")
+//         .attr({"data-bs-toggle": "tooltip", "data-bs-title": "Log in to use this feature.", "data-bs-placement": "top"})
+//         .css("cursor", "not-allowed")
+//     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+//     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+// }
+
 // Define buttons actions
 table.buttons().action(function (e, dt, button, config) {
+    // if user not authenticated redirect to login page
+    if (!isAuthenticated) {
+        location.href = $(".nav-item.nav-link").attr("href");
+    }
+
     // saves the state of the button's active class
     let isActive = button.hasClass('active');
     // removes active class for each buttons in dt and reset filter
@@ -168,6 +221,7 @@ table.buttons().action(function (e, dt, button, config) {
     dt.draw();
 })
 
+
 /*
 // Open all child rows
 table.rows().every(function () {
@@ -177,7 +231,7 @@ table.rows().every(function () {
 */
 
 /*
-// Add all child rows
+// Add all child rows on load
 table.rows().every(function () {
     this.child(format(this.data()))
 });
@@ -195,7 +249,7 @@ table.on('click', 'tbody td.dt-control', function () {
     }
     else {
         // Open this row
-        row.child(format(row.data())).show();
+        row.child(format(row.data())).show();  // add child row on click
         tr.addClass('shown');
     }
 });
