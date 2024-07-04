@@ -1,53 +1,42 @@
 from typing import Any
 
 from django import forms
+from django.http import HttpRequest
+from django.urls import reverse
 from django.contrib import admin
 from django.db.models.fields.related import ForeignKey
 from django.db.models.query import QuerySet
-from django.http import HttpRequest
 from django.utils.html import format_html
-from django.urls import reverse
 
 from results.models import Result
 from profiles.models import Profile
 from tables.models import Table
 
 from common.admin.mixins import GetReadOnlyFieldsMixin
-from common.forms.fields import GroupedModelChoiceField
 
 
 class ResultAdminChangeForm(forms.ModelForm):
     class Meta:
         model = Result
         fields = [
-            "verb",
             "profile",
+            "verb",
             "is_success"
         ]
 
 
 class ResultAdminAddForm(forms.ModelForm):
-    table = GroupedModelChoiceField(
-        queryset=Table.objects.all().select_related(
-            'owner__user'
-        ).order_by(
-            'type',
-            '-owner'
-        ),
-        group_by_field="owner",
-        group_label=lambda x: f"User: {x}" if x else 'Default'
-    )
-
     class Meta:
         model = Result
         fields = [
-            "verb",
             "profile",
             "table",
+            "verb",
             "is_success"
         ]
 
 
+@admin.register(Result)
 class ResultAdmin(
     GetReadOnlyFieldsMixin,
     admin.ModelAdmin
@@ -55,33 +44,56 @@ class ResultAdmin(
     change_form = ResultAdminChangeForm
     add_form = ResultAdminAddForm
     list_display = [
-        "verb",
         "profile",
         "table",
+        "verb",
         "is_success"
     ]
-    readonly_fields = (
+    list_display_links = [
+        "profile",
+        "table",
         "verb",
+    ]
+    readonly_fields = [
         "profile",
         "get_table",
+        "verb",
         "created_at",
         "updated_at"
+    ]
+    autocomplete_fields = [
+        "profile",
+        "table",
+        "verb"
+    ]
+    search_fields = [
+        "profile__user__username",
+        "table__name",
+        "verb__infinitive"
+    ]
+    search_help_text = (
+        "Search results by profile, table name and verb infinitive."
     )
+    list_filter = [
+        ("is_success", admin.BooleanFieldListFilter),
+    ]
+    list_per_page = 50
 
     class Media:
         css = {
             "all": ("css/custom-admin.css",)
         }
+        js = ("js/admin.js",)
 
-    # Display table link to change form manually because it
+    # Displays table link to change form manually because it
     # doesn't display by it self when using readonly unlike
     # verb and profile
     @admin.display(description="Table")
     def get_table(self, obj):
 
         change_url = reverse(
-            f'admin:{Table._meta.app_label}_'
-            f'{obj.table.type}_change',
+            f"admin:{Table._meta.app_label}_"
+            f"{obj.table.type}_change",
             args=(obj.table.id, )
         )
         return format_html(
@@ -93,7 +105,6 @@ class ResultAdmin(
             self.form = self.add_form
         else:
             self.form = self.change_form
-
         return super().get_form(request, obj, **kwargs)
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[Result]:
@@ -118,6 +129,3 @@ class ResultAdmin(
         if db_field.name == "table":
             kwargs["queryset"] = Table.objects.select_related("owner__user")
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
-admin.site.register(Result, ResultAdmin)

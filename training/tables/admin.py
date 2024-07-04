@@ -1,20 +1,25 @@
 from typing import Any
+
+from django import forms
+from django.http import HttpRequest
 from django.contrib import admin
 from django.contrib.admin.widgets import (
     FilteredSelectMultiple,
     RelatedFieldWidgetWrapper
 )
-from django import forms
+from django.db.models import Q
 from django.db.models.fields.related import ForeignKey
 from django.db.models.query import QuerySet
-from django.http import HttpRequest
-from common.admin.mixins import GetReadOnlyFieldsMixin
+
 from tables.models import (
     DefaultTable,
-    UserTable
+    UserTable,
+    Table
 )
 from verbs.models import Verb
 from profiles.models import Profile
+
+from common.admin.mixins import GetReadOnlyFieldsMixin
 
 
 class TableAdminFormMixin:
@@ -85,6 +90,7 @@ class UserTableAdminForm(
         ]
 
 
+@admin.register(DefaultTable)
 class DefaultTableAdmin(
     GetReadOnlyFieldsMixin,
     admin.ModelAdmin
@@ -93,13 +99,19 @@ class DefaultTableAdmin(
     list_display = [
         "name",
     ]
-    readonly_fields = (
+    readonly_fields = [
         "created_at",
         "updated_at"
+    ]
+    search_fields = ["name"]
+    search_help_text = (
+        "Search default tables by name."
     )
     ordering = ("name",)
+    list_per_page = 50
 
 
+@admin.register(UserTable)
 class UserTableAdmin(
     GetReadOnlyFieldsMixin,
     admin.ModelAdmin
@@ -109,15 +121,24 @@ class UserTableAdmin(
         "name",
         "owner",
     ]
-    readonly_fields = (
+    readonly_fields = [
         "created_at",
         "updated_at"
+    ]
+    search_fields = [
+        "name",
+        "owner__user__username"
+    ]
+    search_help_text = (
+        "Search user tables by name and owner."
     )
+    autocomplete_fields = ['owner']
     ordering = ("name",)
+    list_per_page = 50
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[UserTable]:
-        qs = super().get_queryset(request)
-        return qs.select_related("owner__user")
+        queryset = super().get_queryset(request)
+        return queryset.select_related("owner__user")
 
     def formfield_for_foreignkey(
         self,
@@ -133,5 +154,39 @@ class UserTableAdmin(
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-admin.site.register(DefaultTable, DefaultTableAdmin)
-admin.site.register(UserTable, UserTableAdmin)
+@admin.register(Table)
+class TableAdmin(admin.ModelAdmin):
+    search_fields = ["name"]
+
+    def get_search_results(
+        self,
+        request: HttpRequest,
+        queryset: QuerySet[Any],
+        search_term: str
+    ) -> tuple[QuerySet[Any], bool]:
+        queryset, may_have_duplicates = super().get_search_results(
+            request,
+            queryset,
+            search_term,
+        )
+        profile_id = request.GET.get("id_profile", None)
+
+        # Returns an empty list to avoid obtaining a result
+        # if the profile has not been selected
+        if not profile_id:
+            return [], may_have_duplicates
+
+        queryset = queryset.filter(
+            Q(owner=profile_id)
+            | Q(type="defaulttable")
+        ).filter(
+            name__icontains=search_term
+        ).order_by(
+            "type"
+        )
+        return queryset, may_have_duplicates
+
+    def has_module_permission(self, request):
+        # Avoids displaying Table in the admin panel,
+        # displays the DefaltTable and UserTable proxy models instead
+        return False
