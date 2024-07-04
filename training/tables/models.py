@@ -30,7 +30,7 @@ class Table(models.Model):
     )
     verbs = models.ManyToManyField(
         to=Verb,
-        related_name="verbs"
+        related_name="tables"
     )
     owner = models.ForeignKey(
         to=Profile,
