@@ -200,6 +200,7 @@ table.buttons().action(function (e, dt, button, config) {
     // if user not authenticated redirect to login page
     if (!isAuthenticated) {
         location.href = $(".nav-item.nav-link").attr("href");
+        return;
     }
 
     // saves the state of the button's active class
