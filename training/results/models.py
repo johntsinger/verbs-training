@@ -17,17 +17,17 @@ class Result(models.Model):
     verb = models.ForeignKey(
         to=Verb,
         on_delete=models.CASCADE,
-        related_name='results'
+        related_name="results"
     )
     profile = models.ForeignKey(
         to=Profile,
         on_delete=models.CASCADE,
-        related_name='results'
+        related_name="results"
     )
     table = models.ForeignKey(
         to=Table,
         on_delete=models.CASCADE,
-        related_name='results',
+        related_name="results",
     )
     is_success = models.BooleanField(
         default=False
@@ -42,14 +42,15 @@ class Result(models.Model):
     class Meta:
         constraints = [
             UniqueConstraint(
-                fields=["verb", "profile", "table"],
+                fields=["profile", "table", "verb"],
                 name="unique_result_for_verb_in_table_per_profile"
             )
         ]
 
     def clean(self):
         if (
-            hasattr(self, 'table')
+            getattr(self, "table", None)
+            and getattr(self, "verb", None)
             and not self.table.verbs.filter(id=self.verb_id)
         ):
             raise ValidationError(
@@ -59,8 +60,8 @@ class Result(models.Model):
             )
 
         if (
-            hasattr(self, 'table')
-            and hasattr(self, 'profile')
+            getattr(self, "table", None)
+            and getattr(self, "profile", None)
             and self.table.owner
             and self.table.owner != self.profile
         ):
