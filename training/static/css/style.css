@@ -8,12 +8,15 @@
     --success-color: #008000;
     --unsuccess-color: #ff0000;
     --focus-color: #0d6efd40;
+    --nav-bg-color: #14227a;
+    --nav-user-bg-color: #9ea9ef;
+    --nav-user-focus-color: #ffffff8c;
 }
 
 /* add margin for fixed navbar */
 html {
-    height: calc(100% - 74px);
-    margin-top: 58px;
+    height: calc(100% - 61px);
+    margin-top: 61px;
 }
 
 body {
@@ -21,14 +24,33 @@ body {
     height: 100%;
 }
 
-#nav-user {
-    max-width: 1.5rem;
-    min-width: 1.5rem;
-    overflow: clip;
+nav {
+    background-color: var(--nav-bg-color);
 }
 
-.offcanvas.offcanvas-start {
-    width: 240px;
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.text-bg-blue {
+    color: #fff!important;
+    background-color: var(--nav-bg-color)!important;
+}
+
+.text-bg-blue-light {
+    color: #fff!important;
+    background-color: var(--nav-user-bg-color)!important;
+}
+
+#nav-user {
+    color: #000000!important;
+    border-color: #ffffff!important;
+    background-color: #ffffff;
+}
+
+/* add margin right to dropdown arrow */
+.dropdown-toggle::after {
+    margin-right: .255em;
 }
 
 /*
@@ -42,6 +64,11 @@ DataTables adjustements
 #custom-dt {
     margin: 0;
     display: none; /* hide table to avoid FOUC, show it with js in datatable initComplete */
+}
+
+/* margin between label and input (original margin: 3px) */
+#dt-search-0 {
+    margin-left: 5px;
 }
 
 /* rows height */
@@ -113,10 +140,82 @@ div.dt-container .dt-search input {
 .dt-scroll :focus-visible {
     outline: 0;
     box-shadow: inset 0 0 0 .25rem var(--focus-color);
+    border-radius: 5px;
+}
+
+a:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 .25rem var(--focus-color);
+    border-radius: 5px;
+}
+
+.nav-link:focus-visible {
+    box-shadow: 0 0 0 .25rem #ffffff8c;
 }
 
 /* first column min width  */
 
 .dt-first-col, .childrow-first-col {
     min-width: 40px;
+}
+
+/*
+##################
+
+Cards adjustements
+
+##################
+*/
+
+/* card body text truncate 3 lines max */
+
+.text-truncate-container p {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #f3fafd;
+}
+
+.card-body {
+    min-height: 104px;
+}
+
+/* button previous and next */
+.slick-prev, .slick-next {
+    z-index: 999;
+    width: 30px;
+    height: 30px;
+}
+
+@media only screen and (width >= 576px) {
+    .slick-prev {
+        left: -30px;
+    }
+    .slick-next {
+        right: -30px
+    }
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: 30px;
+    color: var(--nav-bg-color);
+}
+
+/* dots */
+
+.slick-dotted.slick-slider {
+    margin-bottom: 40px;
+}
+
+.slick-dots li {
+    margin: 0;
+}
+
+.slick-dots li button:before {
+    font-size: 8px;
 }
