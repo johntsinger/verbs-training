@@ -1,0 +1,69 @@
+{% extends 'base_table.html' %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+{% endblock link %}
+
+{% block h1 %}
+    All tables
+{% endblock h1 %}
+
+{% block content %}
+<div class="my-4 col-11 col-md-10  mx-auto">
+    <div id="default-tables">
+        <h4 class="text-center text-md-start mb-3">Default tables</h4>
+        <div class="default-tables__slick mx-md-5">
+            {% for table in default_tables %}
+            <div class="my-2 mx-1">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">{{ table.name }}</h5>
+                    </div>
+                    <div class="card-body text-truncate-container">
+                        <p class="card-text">
+                            {% for verb in table.verbs.all %}
+                                {{ verb.infinitive }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="stretched-link text-decoration-none" href="#" aria-label="access table {{ table.name }}">Try it</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="user-tables">
+        <h4 class="text-center text-md-start mb-5">My tables</h4>
+        <div class="user-tables__slick mx-md-5">
+            {% for table in user_tables %}
+            <div class="my-2 mx-1">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">{{ table.name }}</h5>
+                    </div>
+                    <div class="card-body text-truncate-container">
+                        <p class="card-text">
+                            {% for verb in table.verbs.all %}
+                                {{ verb.infinitive }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="stretched-link text-decoration-none" href="#" aria-label="access table {{ table.name }}" tabindex="-1">Try it</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script type="text/javascript" src="{% static 'js/slick-config.js' %}"></script>
+{% endblock js %}
