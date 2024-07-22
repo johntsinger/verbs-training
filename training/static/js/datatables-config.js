@@ -1,3 +1,9 @@
+/*
+#######################
+#  DataTables config  #
+#######################
+*/
+
 // Formatting function for childrows
 function format(d) {
     // `d` is the original data object for the row
@@ -198,7 +204,8 @@ var table = $('#custom-dt').DataTable({
 // Define buttons actions
 table.buttons().action(function (e, dt, button, config) {
     // if user not authenticated redirect to login page
-    if (!isAuthenticated) {
+    if (!(isAuthenticated === 'true')) {
+        console.log('authenticated')
         location.href = $(".nav-item.nav-link").attr("href");
         return;
     }
