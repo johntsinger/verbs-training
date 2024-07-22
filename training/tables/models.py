@@ -8,12 +8,12 @@ from profiles.models import Profile
 
 
 class Table(models.Model):
-    DEFAULT_TABLE = "defaulttable"
-    USER_TABLE = "usertable"
+    DEFAULT_TABLE = 'defaulttable'
+    USER_TABLE = 'usertable'
 
     CHOICES = [
-        (DEFAULT_TABLE, "Default Table"),
-        (USER_TABLE, "User Table")
+        (DEFAULT_TABLE, 'Default Table'),
+        (USER_TABLE, 'User Table')
     ]
     id = models.UUIDField(
         primary_key=True,
@@ -30,12 +30,12 @@ class Table(models.Model):
     )
     verbs = models.ManyToManyField(
         to=Verb,
-        related_name="tables"
+        related_name='tables'
     )
     owner = models.ForeignKey(
         to=Profile,
         on_delete=models.CASCADE,
-        related_name="tables",
+        related_name='tables',
         null=True
     )
     is_available = models.BooleanField(
@@ -52,14 +52,14 @@ class Table(models.Model):
         constraints = [
             UniqueConstraint(
                 fields=['name'],
-                condition=Q(type="defaulttable"),
+                condition=Q(type='defaulttable'),
                 name=(
                     'unique_default_table_name'
                 )
             ),
             UniqueConstraint(
                 fields=['name', 'owner'],
-                condition=Q(type="usertable"),
+                condition=Q(type='usertable'),
                 name=(
                     'unique_table_name_per_profile'
                 )
@@ -67,17 +67,17 @@ class Table(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.name}"
+        return f'{self.name}'
 
 
 class DefaultTableManager(models.Manager):
     def get_queryset(self) -> models.QuerySet:
-        return super().get_queryset().filter(type="defaulttable")
+        return super().get_queryset().filter(type='defaulttable')
 
 
 class UserTableManager(models.Manager):
     def get_queryset(self) -> models.QuerySet:
-        return super().get_queryset().filter(type="usertable")
+        return super().get_queryset().filter(type='usertable')
 
 
 class DefaultTable(Table):
@@ -98,7 +98,7 @@ class DefaultTable(Table):
             id=self.id
         ):
             raise ValidationError(
-                "Default table with this Name already exists.",
+                'Default table with this Name already exists.',
             )
         return super().clean()
 
@@ -121,6 +121,6 @@ class UserTable(Table):
             id=self.id
         ):
             raise ValidationError(
-                "User table with this Name and Owner already exists.",
+                'User table with this Name and Owner already exists.',
             )
         return super().clean()

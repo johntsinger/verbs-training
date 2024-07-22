@@ -10,23 +10,23 @@ User = get_user_model()
 
 class UsernameChangeForm(forms.ModelForm):
     username = forms.CharField(
-        label=_("Username"),
+        label=_('Username'),
         widget=forms.TextInput(
             attrs={
-                "autofocus": True,
-                "onfocus": "moveCursorOnFocus(this)"
+                'autofocus': True,
+                'onfocus': 'moveCursorOnFocus(this)'
             }
         )
     )
 
     error_messages = {
-        "invalid_username": _(
-            "A user with that username already exists."
+        'invalid_username': _(
+            'A user with that username already exists.'
         ),
     }
 
     def clean(self):
-        username = self.cleaned_data.get("username")
+        username = self.cleaned_data.get('username')
 
         if (
             User.objects.filter(username=username).exists()
@@ -39,37 +39,37 @@ class UsernameChangeForm(forms.ModelForm):
     def get_invalid_username_error(self):
         return ValidationError(
             {
-                "username": self.error_messages["invalid_username"]
+                'username': self.error_messages['invalid_username']
             },
-            code="invalid_username",
+            code='invalid_username',
         )
 
     class Meta:
         model = User
         fields = (
-            "username",
+            'username',
         )
 
 
 class EmailChangeForm(forms.ModelForm):
     email = forms.EmailField(
-        label=_("Email"),
+        label=_('Email'),
         widget=forms.EmailInput(
             attrs={
-                "autofocus": True,
-                "onfocus": "moveCursorOnFocus(this)"
+                'autofocus': True,
+                'onfocus': 'moveCursorOnFocus(this)'
             }
         )
     )
 
     error_messages = {
-        "invalid_email": _(
-            "A user with that email already exists."
+        'invalid_email': _(
+            'A user with that email already exists.'
         ),
     }
 
     def clean(self):
-        email = self.cleaned_data.get("email")
+        email = self.cleaned_data.get('email')
 
         if (
             User.objects.filter(email=email).exists()
@@ -80,15 +80,15 @@ class EmailChangeForm(forms.ModelForm):
     def get_invalid_email_error(self):
         return ValidationError(
             {
-                "email": self.error_messages["invalid_email"]
+                'email': self.error_messages['invalid_email']
             },
-            code="invalid_email",
+            code='invalid_email',
         )
 
     class Meta:
         model = User
         fields = (
-            "email",
+            'email',
         )
 
 
@@ -98,45 +98,45 @@ class DeleteAccountForm(forms.ModelForm):
     Requires email address and password to confirm deletion.
     """
     email = forms.EmailField(
-        label=_("Email"),
+        label=_('Email'),
         widget=forms.EmailInput(
             attrs={
-                "autofocus": True,
-                "onfocus": "moveCursorOnFocus(this)"
+                'autofocus': True,
+                'onfocus': 'moveCursorOnFocus(this)'
             }
         )
     )
     password = forms.CharField(
-        label=_("Password"),
+        label=_('Password'),
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                "autocomplete": "current-password"
+                'autocomplete': 'current-password'
             }
         ),
     )
 
     error_messages = {
-        "invalid_credentials": _(
-            "Please enter a correct email and password. Note that both "
-            "fields may be case-sensitive."
+        'invalid_credentials': _(
+            'Please enter a correct email and password. Note that both '
+            'fields may be case-sensitive.'
         ),
     }
 
     class Meta:
         model = User
         fields = (
-            "email",
-            "password"
+            'email',
+            'password'
         )
 
     def __init__(self, *args, **kwargs):
-        self.current_user = kwargs.pop("current_user", None)
+        self.current_user = kwargs.pop('current_user', None)
         super().__init__(*args, **kwargs)
 
     def clean(self):
-        email = self.cleaned_data.get("email")
-        password = self.cleaned_data.get("password")
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
 
         if email is not None and password:
             if (
@@ -159,6 +159,6 @@ class DeleteAccountForm(forms.ModelForm):
 
     def get_invalid_credentials_error(self):
         return ValidationError(
-            self.error_messages["invalid_credentials"],
-            code="invalid_credentials",
+            self.error_messages['invalid_credentials'],
+            code='invalid_credentials',
         )

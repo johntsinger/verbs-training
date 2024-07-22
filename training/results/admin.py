@@ -19,9 +19,9 @@ class ResultAdminChangeForm(forms.ModelForm):
     class Meta:
         model = Result
         fields = [
-            "profile",
-            "verb",
-            "is_success"
+            'profile',
+            'verb',
+            'is_success'
         ]
 
 
@@ -29,10 +29,10 @@ class ResultAdminAddForm(forms.ModelForm):
     class Meta:
         model = Result
         fields = [
-            "profile",
-            "table",
-            "verb",
-            "is_success"
+            'profile',
+            'table',
+            'verb',
+            'is_success'
         ]
 
 
@@ -44,56 +44,56 @@ class ResultAdmin(
     change_form = ResultAdminChangeForm
     add_form = ResultAdminAddForm
     list_display = [
-        "profile",
-        "table",
-        "verb",
-        "is_success"
+        'profile',
+        'table',
+        'verb',
+        'is_success'
     ]
     list_display_links = [
-        "profile",
-        "table",
-        "verb",
+        'profile',
+        'table',
+        'verb',
     ]
     readonly_fields = [
-        "profile",
-        "get_table",
-        "verb",
-        "created_at",
-        "updated_at"
+        'profile',
+        'get_table',
+        'verb',
+        'created_at',
+        'updated_at'
     ]
     autocomplete_fields = [
-        "profile",
-        "table",
-        "verb"
+        'profile',
+        'table',
+        'verb'
     ]
     search_fields = [
-        "profile__user__username",
-        "table__name",
-        "verb__infinitive"
+        'profile__user__username',
+        'table__name',
+        'verb__infinitive'
     ]
     search_help_text = (
-        "Search results by profile, table name and verb infinitive."
+        'Search results by profile, table name and verb infinitive.'
     )
     list_filter = [
-        ("is_success", admin.BooleanFieldListFilter),
+        ('is_success', admin.BooleanFieldListFilter),
     ]
     list_per_page = 50
 
     class Media:
         css = {
-            "all": ("css/custom-admin.css",)
+            'all': ('css/custom-admin.css',)
         }
-        js = ("js/admin.js",)
+        js = ('js/admin.js',)
 
     # Displays table link to change form manually because it
     # doesn't display by it self when using readonly unlike
     # verb and profile
-    @admin.display(description="Table")
+    @admin.display(description='Table')
     def get_table(self, obj):
 
         change_url = reverse(
-            f"admin:{Table._meta.app_label}_"
-            f"{obj.table.type}_change",
+            f'admin:{Table._meta.app_label}_'
+            f'{obj.table.type}_change',
             args=(obj.table.id, )
         )
         return format_html(
@@ -110,9 +110,9 @@ class ResultAdmin(
     def get_queryset(self, request: HttpRequest) -> QuerySet[Result]:
         qs = super().get_queryset(request)
         return qs.select_related(
-            "verb",
-            "profile__user",
-            "table__owner__user",
+            'verb',
+            'profile__user',
+            'table__owner__user',
         )
 
     def formfield_for_foreignkey(
@@ -124,8 +124,8 @@ class ResultAdmin(
         # Select user to display foreignkey profile and table choices
         # to avoid duplicated query because profile and table str method
         # access to user.username
-        if db_field.name == "profile":
-            kwargs["queryset"] = Profile.objects.select_related("user")
-        if db_field.name == "table":
-            kwargs["queryset"] = Table.objects.select_related("owner__user")
+        if db_field.name == 'profile':
+            kwargs['queryset'] = Profile.objects.select_related('user')
+        if db_field.name == 'table':
+            kwargs['queryset'] = Table.objects.select_related('owner__user')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)

@@ -14,31 +14,31 @@ class BaseTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create_user(
-            email="a@a.com",
-            password="a",
-            username="a"
+            email='a@a.com',
+            password='a',
+            username='a'
         )
         cls.similarity = Similarity.objects.create(
-            name="similarity name"
+            name='similarity name'
         )
         cls.verb = Verb.objects.create(
-            infinitive="begin",
-            simple_past="began",
-            past_participle="begun",
-            translation="commencer",
+            infinitive='begin',
+            simple_past='began',
+            past_participle='begun',
+            translation='commencer',
             similarity=cls.similarity
         )
         cls.info = Info.objects.create(
-            content="info content",
+            content='info content',
             verb=cls.verb
         )
         cls.example = Example.objects.create(
-            english="example english",
-            translation="example translation",
+            english='example english',
+            translation='example translation',
             verb=cls.verb
         )
         cls.default_table = DefaultTable.objects.create(
-            name="default table name"
+            name='default table name'
         )
         cls.default_table.verbs.add(cls.verb)
         cls.result = Result.objects.create(
@@ -55,12 +55,12 @@ class TestVerbsViews(BaseTestCase):
     def test_list_view(self):
         """Test status code, templates and queryset"""
         templates_expected = {
-            "base.html",
-            "verbs/verbs.html",
-            "base_table.html",
-            "includes/navbar.html",
-            "includes/messages.html",
-            "includes/table.html"
+            'base.html',
+            'verbs/verbs.html',
+            'base_table.html',
+            'includes/navbar.html',
+            'includes/messages.html',
+            'includes/table.html'
         }
         response = self.client.get(self.url)
         templates_used = {template.name for template in response.templates}
@@ -74,7 +74,7 @@ class TestVerbsViews(BaseTestCase):
             templates_expected
         )
         self.assertQuerysetEqual(
-            response.context.get("verb_list", None),
+            response.context.get('verb_list', None),
             Verb.objects.all(),
             transform=lambda x: x,
             ordered=False
@@ -87,21 +87,21 @@ class TestVerbsViews(BaseTestCase):
             AttributeError,
             getattr,
             response.context.get(
-                "verb_list", None
+                'verb_list', None
             ).get(
-                infinitive="begin"
+                infinitive='begin'
             ),
-            "is_success"
+            'is_success'
         )
 
     def test_list_view_logged_in(self):
         """Test verbs queryset have results for logged in user"""
-        self.client.login(email="a@a.com", password="a")
+        self.client.login(email='a@a.com', password='a')
         response = self.client.get(self.url)
         self.assertTrue(
             response.context.get(
-                "verb_list", None
+                'verb_list', None
             ).get(
-                infinitive="begin"
+                infinitive='begin'
             ).is_success,
         )

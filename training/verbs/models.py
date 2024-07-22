@@ -30,8 +30,8 @@ class Verb(models.Model):
 
     def __str__(self) -> str:
         return (
-            f"{self.infinitive} {self.simple_past} "
-            f"{self.past_participle} {self.translation}"
+            f'{self.infinitive} {self.simple_past} '
+            f'{self.past_participle} {self.translation}'
         )
 
 
@@ -42,11 +42,11 @@ class Info(models.Model):
     verb = models.ForeignKey(
         to=Verb,
         on_delete=models.CASCADE,
-        related_name="info"
+        related_name='info'
     )
 
     def __str__(self) -> str:
-        return f"Info for verb {self.verb.infinitive}"
+        return f'Info for verb {self.verb.infinitive}'
 
 
 class Example(models.Model):
@@ -59,11 +59,11 @@ class Example(models.Model):
     verb = models.ForeignKey(
         to=Verb,
         on_delete=models.CASCADE,
-        related_name="examples"
+        related_name='examples'
     )
 
     def __str__(self) -> str:
-        return f"Example for verb {self.verb.infinitive}"
+        return f'Example for verb {self.verb.infinitive}'
 
 
 class Similarity(models.Model):
@@ -73,7 +73,7 @@ class Similarity(models.Model):
     )
 
     class Meta:
-        verbose_name_plural = "Similarities"
+        verbose_name_plural = 'Similarities'
 
     def __str__(self) -> str:
-        return f"{self.name}"
+        return f'{self.name}'

@@ -20,7 +20,7 @@ class SignUpView(
 ):
     template_name = 'authentication/signup.html'
     form_class = SignUpForm
-    success_message = "Your account was created successfully"
+    success_message = 'Your account was created successfully'
     success_url = reverse_lazy('login')
     previous_page_url = reverse_lazy('login')
 
@@ -41,9 +41,9 @@ class LoginView(
 ):
     template_name = 'authentication/login.html'
     authentication_form = LoginForm
-    previous_page_url = reverse_lazy('verbs')
+    previous_page_url = reverse_lazy('verbs-list')
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('account')
+            return redirect('verbs-list')
         return super().get(request, *args, **kwargs)

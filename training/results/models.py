@@ -17,17 +17,17 @@ class Result(models.Model):
     verb = models.ForeignKey(
         to=Verb,
         on_delete=models.CASCADE,
-        related_name="results"
+        related_name='results'
     )
     profile = models.ForeignKey(
         to=Profile,
         on_delete=models.CASCADE,
-        related_name="results"
+        related_name='results'
     )
     table = models.ForeignKey(
         to=Table,
         on_delete=models.CASCADE,
-        related_name="results",
+        related_name='results',
     )
     is_success = models.BooleanField(
         default=False
@@ -42,32 +42,32 @@ class Result(models.Model):
     class Meta:
         constraints = [
             UniqueConstraint(
-                fields=["profile", "table", "verb"],
-                name="unique_result_for_verb_in_table_per_profile"
+                fields=['profile', 'table', 'verb'],
+                name='unique_result_for_verb_in_table_per_profile'
             )
         ]
 
     def clean(self):
         if (
-            getattr(self, "table", None)
-            and getattr(self, "verb", None)
+            getattr(self, 'table', None)
+            and getattr(self, 'verb', None)
             and not self.table.verbs.filter(id=self.verb_id)
         ):
             raise ValidationError(
                 {
-                    "verb": "Verb must belong to table."
+                    'verb': 'Verb must belong to table.'
                 }
             )
 
         if (
-            getattr(self, "table", None)
-            and getattr(self, "profile", None)
+            getattr(self, 'table', None)
+            and getattr(self, 'profile', None)
             and self.table.owner
             and self.table.owner != self.profile
         ):
             raise ValidationError(
                 {
-                    "table": "Table must belong to profile"
+                    'table': 'Table must belong to profile'
                 }
             )
 
@@ -77,8 +77,8 @@ class Result(models.Model):
 
     def __str__(self):
         return (
-            "Result: "
-            f"user <{self.profile}> "
-            f"table <{self.table}> "
-            f"verb <{self.verb.infinitive}>"
+            'Result: '
+            f'user <{self.profile}> '
+            f'table <{self.table}> '
+            f'verb <{self.verb.infinitive}>'
         )

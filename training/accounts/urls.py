@@ -15,12 +15,12 @@ urlpatterns = [
         name='change_email'
     ),
     path(
-        "password/",
+        'password/',
         views.PasswordChangeView.as_view(),
         name='change_password'
     ),
     path(
-        "delete-account/",
+        'delete-account/',
         views.DeleteAccountView.as_view(),
         name='delete_account'
     )

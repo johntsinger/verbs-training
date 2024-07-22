@@ -8,7 +8,7 @@ from results.models import Result
 class VerbListView(
     ListView
 ):
-    template_name = "verbs/verbs.html"
+    template_name = 'verbs/verbs_list.html'
 
     def get_queryset(self):
         """
@@ -19,12 +19,12 @@ class VerbListView(
             return Verb.objects.annotate(
                 is_success=Subquery(
                     Result.objects.filter(
-                        verb=OuterRef("id"),
+                        verb=OuterRef('id'),
                         profile=self.request.user.profile,
                     ).order_by(
-                        "-updated_at"
-                    ).values("is_success")[:1]
+                        '-updated_at'
+                    ).values('is_success')[:1]
                 )
-            ).prefetch_related("info", "examples")
+            ).prefetch_related('info', 'examples')
 
-        return Verb.objects.prefetch_related("info", "examples")
+        return Verb.objects.prefetch_related('info', 'examples')

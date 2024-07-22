@@ -8,12 +8,12 @@ from django.contrib.auth.views import LoginView
 from authentication.forms import LoginForm
 
 path(
-    'login/',
+    "login/",
     LoginView.as_view(
-        template_name='authentication/login.html',
+        template_name="authentication/login.html",
         authentication_form=LoginForm
     ),
-    name='login'
+    name="login"
 ),
 """
 
