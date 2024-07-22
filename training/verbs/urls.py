@@ -3,5 +3,5 @@ from verbs import views
 
 
 urlpatterns = [
-    path('', views.VerbListView.as_view(), name='verbs'),
+    path('', views.VerbListView.as_view(), name='verbs-list'),
 ]
