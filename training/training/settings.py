@@ -162,7 +162,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = 'login'
 
-LOGIN_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = 'verbs-list'
 
 LOGOUT_REDIRECT_URL = 'login'
 
