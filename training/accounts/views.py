@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import (
     PasswordChangeView as BasePasswordChangeView,
 )
@@ -28,10 +28,17 @@ class AccountView(
     DetailView
 ):
     template_name = 'accounts/account.html'
-    previous_page_url = "#"
+    previous_page_url = reverse_lazy('verbs-list')
 
     def get_object(self):
         return self.request.user
+
+    def get_previous_page_url(self):
+        previous_page_url = super().get_previous_page_url()
+        http_referer = self.request.META.get('HTTP_REFERER')
+        if http_referer in [reverse('verbs-list')]:
+            return http_referer
+        return previous_page_url
 
 
 class UsernameChangeView(
@@ -51,7 +58,7 @@ class UsernameChangeView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "username"
+        context['title'] = 'username'
         return context
 
 
@@ -72,7 +79,7 @@ class EmailChangeView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "email"
+        context['title'] = 'email'
         return context
 
 
@@ -89,7 +96,7 @@ class PasswordChangeView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "password"
+        context['title'] = 'password'
         return context
 
 
@@ -111,7 +118,7 @@ class DeleteAccountView(
         kwargs = super().get_form_kwargs()
         kwargs.update(
             {
-                "current_user": self.request.user
+                'current_user': self.request.user
             }
         )
         return kwargs
