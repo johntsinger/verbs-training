@@ -44,19 +44,19 @@ class BaseTestCase(TestCase):
         cls.result = Result.objects.create(
             verb=cls.verb,
             profile=cls.user.profile,
-            default_table=cls.default_table,
+            table=cls.default_table,
             is_success=True
         )
 
 
 class TestVerbsViews(BaseTestCase):
-    url = reverse_lazy('verbs')
+    url = reverse_lazy('verbs-list')
 
     def test_list_view(self):
         """Test status code, templates and queryset"""
         templates_expected = {
             'base.html',
-            'verbs/verbs.html',
+            'verbs/verbs_list.html',
             'base_table.html',
             'includes/navbar.html',
             'includes/messages.html',
