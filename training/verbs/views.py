@@ -1,14 +1,18 @@
 from django.db.models import Subquery, OuterRef
+from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import ListView
 
+from common.views.mixins import TitleMixin
 from verbs.models import Verb
 from results.models import Result
 
 
 class VerbListView(
+    TitleMixin,
     ListView
 ):
     template_name = 'verbs/verbs_list.html'
+    title = _('All verbs')
 
     def get_queryset(self):
         """
