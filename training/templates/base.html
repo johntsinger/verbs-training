@@ -19,7 +19,7 @@
         <div class="container">
             <div class="container col-md-11 col-lg-9 mb-4 py-4 border-bottom">
                 <h1 id="title" class="text-center text-primary-emphasis">
-                    {% block h1 %}{% endblock h1 %}
+                    {% block h1 %}{{ title }}{% endblock h1 %}
                 </h1>
             </div>
             {% block content %}{% endblock content%}
