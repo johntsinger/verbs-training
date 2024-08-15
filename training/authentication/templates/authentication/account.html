@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'includes/buttons/return.html' %}
+<div class="bg-white rounded-3 border my-4 col-md-10 col-lg-8 mx-auto">
+    <div class="px-3 d-flex flex-column">
+        <div class="d-flex flex-column align-items-left">
+            <a class="btn btn-link border-0 text-start p-3 text-reset text-decoration-none" href="{% url 'change-username' %}" aria-label="Change my username">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column flex-md-row col-11">
+                        <div class="col-md-3">
+                            <span>Username</span>
+                        </div>
+                        <div class="col-md-9">
+                            <span class="d-block text-truncate">{{ user.username }}</span>
+                        </div>
+                    </div>
+                    <div class="ms-auto align-self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#052c65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'change-email' %}" aria-label="Change my email">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column flex-md-row col-11">
+                        <div class="col-md-3">
+                            <span>Email</span>
+                        </div>
+                        <div class="col-md-9">
+                            <span class="d-block text-truncate">{{ user.email }}</span>
+                        </div>
+                    </div>
+                    <div class="ms-auto align-self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#052c65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'change-password' %}" aria-label="Change my password">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column flex-md-row col-11">
+                        <div class="col-md-3">
+                            <span>Password</span>
+                        </div>
+                        <div class="col-md-9">
+                            <span class="d-block text-truncate">●●●●●●●●</span>
+                        </div>
+                    </div>
+                    <div class="ms-auto align-self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#052c65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'delete-account' %}" aria-label="Change my password">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column flex-md-row col-11">
+                        <span class="text-danger">Delete my account</span>
+                    </div>
+                    <div class="ms-auto align-self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#052c65" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

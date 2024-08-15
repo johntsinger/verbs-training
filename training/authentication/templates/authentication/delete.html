@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% include 'includes/buttons/return.html' %}
+    <div class="bg-white rounded-3 border px-3 my-4 col-md-10 col-lg-8 mx-auto">
+        <div class="text-center pt-4">
+            <p>Are you sure you want to delete your whole account ?</p>
+            <p><strong class="text-danger">You will lose everything !</strong></p>
+            <p><strong class="text-danger">All content relating to you will be deleted !</strong></p>
+        </div>
+        <form method="post" class="p-3">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="mt-4 d-flex flex-column flex-md-row">
+                <button type="submit" class="btn btn-outline-danger" aria-label="Delete my account">Delete my account</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
