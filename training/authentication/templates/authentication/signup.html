@@ -2,10 +2,6 @@
 
 {% load crispy_forms_tags %}
 
-{% block h1 %}
-    Sign Up
-{% endblock h1 %}
-
 {% block content %}
     {% include 'includes/buttons/return.html' %}
     <div class="bg-white rounded-3 border px-3 my-4 col-md-10 col-lg-8 mx-auto">
@@ -13,7 +9,7 @@
             {% csrf_token %}
             {{ form|crispy }}
             <div class="mt-4 d-flex flex-column flex-md-row">
-                <button class="btn btn-outline-primary" type="submit" aria-label="Sign up">Sign up</button>
+                <button id="submit-form" class="btn btn-outline-primary" type="submit" aria-label="Sign up">Sign up</button>
             </div>
         </form>
     </div>
