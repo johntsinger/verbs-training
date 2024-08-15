@@ -69,16 +69,11 @@ class MyUserManager(BaseUserManager):
         """
         Creates a superuser.
         """
-        if not username:
-            raise ValueError(
-                'Users must have a username.'
-            )
         user = self._create_user(
             email,
             username=username,
             password=password,
         )
-        user.is_admin = True
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
@@ -94,7 +89,6 @@ class User(AbstractUser):
         default=uuid.uuid4
     )
     email = models.EmailField(
-        max_length=62,
         unique=True
     )
     updated_at = models.DateField(
