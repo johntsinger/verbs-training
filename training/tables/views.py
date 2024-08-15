@@ -2,17 +2,29 @@ from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.db.models.query import QuerySet
+from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import ListView
-from tables.models import Table, DefaultTable, UserTable
+
+from common.views.mixins import TitleMixin
+from tables.models import Table
 
 
-class TableListView(LoginRequiredMixin, ListView):
+class TableListView(
+    TitleMixin,
+    LoginRequiredMixin,
+    ListView
+):
     model = Table
     template_name = 'tables/tables_list.html'
+    title = _('All tables')
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
-        return queryset.select_related('owner').prefetch_related('verbs').filter(
+        return queryset.select_related(
+            'owner'
+        ).prefetch_related(
+            'verbs'
+        ).filter(
             Q(owner=self.request.user.profile)
             | Q(type='defaulttable')
         )
