@@ -20,6 +20,7 @@ class CustomUserChangeForm(UserChangeForm):
         fields = '__all__'
 
 
+@admin.register(User)
 class CustomUserAdmin(UserAdmin):
     model = User
     form = CustomUserChangeForm
@@ -62,6 +63,3 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'username', 'password1', 'password2'),
         }),
     )
-
-
-admin.site.register(User, CustomUserAdmin)
