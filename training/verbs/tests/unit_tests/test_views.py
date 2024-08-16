@@ -14,7 +14,7 @@ class TestVerbsViews(
 ):
     url = reverse_lazy('verbs-list')
 
-    def test_get_queryset_annonymous_user(self):
+    def test_get_queryset_anonymous_user(self):
         """
         Test that get_queryset does not return a queryset annotated
         with the result (is_success) for an anonymous user.

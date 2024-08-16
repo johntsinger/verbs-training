@@ -6,7 +6,7 @@ from authentication.tests.fixtures import TestDataFixture
 
 class TestDeleteAccountForm(TestDataFixture, TestCase):
 
-    def test_form_raise_error_if_wrong_credential(self):
+    def test_form_raises_error_if_wrong_credentials(self):
         data = {
             'email': 'wrong@email.com',
             'password': 'wrong password'
