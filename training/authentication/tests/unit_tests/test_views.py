@@ -43,7 +43,7 @@ class TestSignupView(
             view.form_valid(form)
             mock.assert_called_once_with(request, view.object)
 
-    def test_get_annonymous_user(self):
+    def test_get_anonymous_user(self):
         request = self.factory.get(self.url)
         request.user = AnonymousUser()
 
@@ -71,7 +71,7 @@ class TestLoginView(
 ):
     url = reverse_lazy('login')
 
-    def test_get_annonymous_user(self):
+    def test_get_anonymous_user(self):
         request = self.factory.get(self.url)
         request.user = AnonymousUser()
 
@@ -148,18 +148,6 @@ class TestUsernameChangeView(
         obj = view.get_object()
         self.assertEqual(obj, self.user)
 
-    # def test_get_context_data_contains_title(self):
-    #     request = self.factory.get(self.url)
-    #     request.user = self.user
-
-    #     view = UsernameChangeView()
-    #     view.setup(request, object=None)
-    #     view.object = view.get_object()
-
-    #     context = view.get_context_data()
-    #     self.assertIn('title', context)
-    #     self.assertEqual(context['title'], 'Change my username')
-
 
 class TestEmailChangeView(
     TestDataFixture,
@@ -178,14 +166,55 @@ class TestEmailChangeView(
         obj = view.get_object()
         self.assertEqual(obj, self.user)
 
-    # def test_get_context_data_contains_title(self):
-    #     request = self.factory.get(self.url)
-    #     request.user = self.user
 
-    #     view = EmailChangeView()
-    #     view.setup(request, object=None)
-    #     view.object = view.get_object()
+class TestDeleteAccountView(
+    TestDataFixture,
+    RequestFactoryMixin,
+    TestCase
+):
+    url = reverse_lazy('delete-account')
 
-    #     context = view.get_context_data()
-    #     self.assertIn('title', context)
-    #     self.assertEqual(context['title'], 'Change my email')
+    def test_get_object_returns_current_authenticated_user(self):
+        request = self.factory.get(self.url)
+        request.user = self.user
+
+        view = DeleteAccountView()
+        view.setup(request)
+
+        obj = view.get_object()
+        self.assertEqual(obj, self.user)
+
+    def test_get_form_kwargs_contains_current_user(self):
+        data = {
+            'email': 'user@email.com',
+            'password': 'password'
+        }
+        request = self.factory.post(self.url, data=data)
+        request.user = self.user
+
+        view = DeleteAccountView()
+        view.setup(request)
+
+        kwargs = view.get_form_kwargs()
+        self.assertIn('current_user', kwargs)
+        self.assertEqual(kwargs['current_user'], self.user)
+
+    def test_form_valid_sends_messages(self):
+        message_expected = 'Your account has been sucessfully deleted !'
+        data = {
+            'email': 'user@email.com',
+            'password': 'password'
+        }
+        request = self.factory.post(self.url, data=data)
+        request.user = self.user
+        self.setUp_messages(request)
+
+        view = DeleteAccountView()
+        view.setup(request)
+        view.object = view.get_object()
+
+        form = view.get_form()
+        form.cleaned_data = data
+        with patch('authentication.views.messages.error') as mock:
+            view.form_valid(form)
+            mock.assert_called_once_with(request, message_expected)
