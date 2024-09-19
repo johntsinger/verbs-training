@@ -2,7 +2,10 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 class PreviousPageURLMixin:
-    """Provides a previous page URL attribute and pass it to the context"""
+    """
+    Provides a previous page URL attribute and pass it to
+    the context.
+    """
     previous_page_url = None
 
     def get_context_data(self, **kwargs):
@@ -20,6 +23,7 @@ class PreviousPageURLMixin:
 
 
 class TitleMixin:
+    """Provide a title attribute and pass it to the context."""
     title = None
 
     def get_context_data(self, **kwargs):
