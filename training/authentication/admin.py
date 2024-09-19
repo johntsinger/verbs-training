@@ -12,6 +12,12 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = '__all__'
+        help_texts = {
+            'email': _(
+                'Required. 254 characters of fewer. '
+                'Must be a valid email address.'
+            )
+        }
 
 
 class CustomUserChangeForm(UserChangeForm):
