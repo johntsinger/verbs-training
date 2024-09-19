@@ -2,9 +2,11 @@
 
 <nav class="navbar navbar-dark border-bottom fixed-top z-3">
     <div class="container justify-content-between justify-content-lg-start flex-nowrap gap-4">
+        {% if user.is_authenticated %}
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        {% endif %}
         <a class="navbar-brand nav-link m-0" href=# aria-label="Access feed page">
             Verbs Training
         </a>
