@@ -1,19 +1,24 @@
 import uuid
 
-from django.db import models
+from django.apps import apps
+from django.contrib import auth
 from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager
 )
+from django.db import models
+from django.db.models import UniqueConstraint
+from django.db.models.functions import Lower
 from django.utils.translation import gettext_lazy as _
 
 
 class MyUserManager(BaseUserManager):
     def _create_user(
         self,
-        email,
         username,
-        password
+        email,
+        password,
+        **extra_fields
     ):
         """
         Creates and saves a User with the given email, password and username.
@@ -33,9 +38,19 @@ class MyUserManager(BaseUserManager):
                 'Users must have a password.'
             )
 
+        # Lookup the real model class from the global app registry so this
+        # manager method can be used in migrations. This is fine because
+        # managers are by definition working on the real model.
+        GlobalUserModel = apps.get_model(
+            self.model._meta.app_label, self.model._meta.object_name
+        )
+        email = self.normalize_email(email)
+        username = GlobalUserModel.normalize_username(username)
+
         user = self.model(
-            email=self.normalize_email(email),
             username=username,
+            email=email,
+            **extra_fields
         )
 
         user.set_password(password)
@@ -45,40 +60,71 @@ class MyUserManager(BaseUserManager):
 
     def create_user(
         self,
-        email,
         username,
+        email,
         password,
+        **extra_fields
     ):
         """
         Creates a user.
         """
-        user = self._create_user(
-            email=self.normalize_email(email),
-            password=password,
-            username=username
-        )
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
 
-        return user
+        return self._create_user(username, email, password, **extra_fields)
 
     def create_superuser(
         self,
-        email,
         username,
-        password
+        email,
+        password,
+        **extra_fields
     ):
         """
         Creates a superuser.
         """
-        user = self._create_user(
-            email,
-            username=username,
-            password=password,
-        )
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
 
-        return user
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(username, email, password, **extra_fields)
+
+    def with_perm(
+        self,
+        perm,
+        is_active=True,
+        include_superusers=True,
+        backend=None,
+        obj=None
+    ):
+        if backend is None:
+            backends = auth._get_backends(return_tuples=True)
+            if len(backends) == 1:
+                backend, _ = backends[0]
+            else:
+                raise ValueError(
+                    'You have multiple authentication backends configured and '
+                    'therefore must provide the `backend` argument.'
+                )
+        elif not isinstance(backend, str):
+            raise TypeError(
+                'backend must be a dotted import path string (got %r).'
+                % backend
+            )
+        else:
+            backend = auth.load_backend(backend)
+        if hasattr(backend, 'with_perm'):
+            return backend.with_perm(
+                perm,
+                is_active=is_active,
+                include_superusers=include_superusers,
+                obj=obj,
+            )
+        return self.none()
 
 
 class User(AbstractUser):
@@ -89,19 +135,29 @@ class User(AbstractUser):
         default=uuid.uuid4
     )
     email = models.EmailField(
-        unique=True
+        unique=True,
+        error_messages={
+            'unique': _('A user with that email already exists.'),
+        }
     )
     updated_at = models.DateField(
         verbose_name=_('updated at'),
         auto_now=True
     )
 
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
     objects = MyUserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [
-        'username',
-    ]
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                Lower('email'),
+                name='case_insensitive_unique_user_email',
+            ),
+        ]
 
     def __str__(self):
         return self.username
