@@ -11,8 +11,12 @@ from django.contrib.auth.views import (
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
     CreateView,
@@ -30,6 +34,18 @@ from authentication.forms import (
 )
 
 
+class LoginView(
+    TitleMixin,
+    PreviousPageURLMixin,
+    BaseLoginView
+):
+    template_name = 'authentication/login.html'
+    authentication_form = LoginForm
+    redirect_authenticated_user = True
+    previous_page_url = reverse_lazy('verbs-list')
+    title = _('Login')
+
+
 class SignUpView(
     TitleMixin,
     PreviousPageURLMixin,
@@ -39,35 +55,37 @@ class SignUpView(
     template_name = 'authentication/signup.html'
     form_class = SignUpForm
     success_message = _('Your account was created successfully')
-    success_url = reverse_lazy('verbs-list')
+    success_url = reverse_lazy(settings.LOGIN_REDIRECT_URL)
+    redirect_authenticated_user = True
     previous_page_url = reverse_lazy('login')
     title = _('Sign Up')
 
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        if (
+            self.redirect_authenticated_user
+            and self.request.user.is_authenticated
+        ):
+            redirect_to = self.success_url
+            if redirect_to == self.request.path:
+                raise ValueError(
+                    "Redirection loop for authenticated user detected."
+                    "Check that your LOGIN_REDIRECT_URL doesn't point "
+                    "to a signup page."
+                )
+            return redirect(redirect_to)
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         valid = super().form_valid(form)
-        login(self.request, self.object)
+        login(
+            self.request,
+            self.object,
+            backend='authentication.backends.EmailBackend'
+        )
         return valid
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect(settings.LOGIN_REDIRECT_URL)
-        return super().get(request, *args, **kwargs)
-
-
-class LoginView(
-    TitleMixin,
-    PreviousPageURLMixin,
-    BaseLoginView
-):
-    template_name = 'authentication/login.html'
-    authentication_form = LoginForm
-    previous_page_url = reverse_lazy('verbs-list')
-    title = _('Login')
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect(settings.LOGIN_REDIRECT_URL)
-        return super().get(request, *args, **kwargs)
 
 
 class AccountView(
@@ -88,7 +106,7 @@ class AccountView(
         http_referer_url = urlparse(
             self.request.META.get('HTTP_REFERER')
         ).path
-        if http_referer_url in [reverse('verbs-list'), reverse('tables-list')]:
+        if http_referer_url in [reverse('tables-list')]:
             return http_referer_url
         return previous_page_url
 
@@ -169,7 +187,7 @@ class DeleteAccountView(
         return kwargs
 
     def form_valid(self, form):
-        messages.error(
+        messages.success(
             self.request,
             gettext('Your account has been sucessfully deleted !')
         )
