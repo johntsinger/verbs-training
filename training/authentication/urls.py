@@ -4,9 +4,9 @@ from authentication import views
 
 
 urlpatterns = [
-    path('login/', views.LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('auth/login/', views.LoginView.as_view(), name='login'),
+    path('auth/logout/', LogoutView.as_view(), name='logout'),
+    path('auth/signup/', views.SignUpView.as_view(), name='signup'),
     path('account/', views.AccountView.as_view(), name='account'),
     path(
         'account/username/',
