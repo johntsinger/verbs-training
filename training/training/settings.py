@@ -12,8 +12,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 from dotenv import load_dotenv
+
 from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,11 +30,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+# DEBUG = 'RENDER' not in os.environ
+DEBUG = (os.environ.get('DJANGO_DEBUG', 'False').lower() in ('true', 't', '1'))
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0']
 
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -43,7 +50,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
     'crispy_forms',
     'crispy_bootstrap5',
     'authentication.apps.AuthenticationConfig',
@@ -51,8 +57,13 @@ INSTALLED_APPS = [
     'verbs.apps.VerbsConfig',
     'tables.apps.TablesConfig',
     'results.apps.ResultsConfig',
-    'debug_toolbar',
 ]
+
+if DEBUG:
+    INSTALLED_APPS += [
+        'debug_toolbar',
+        'django_extensions'
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,8 +74,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware'
+    ]
 
 ROOT_URLCONF = 'training.urls'
 
@@ -163,7 +178,7 @@ AUTHENTICATION_BACKENDS = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-# login url
+# Login url
 
 LOGIN_URL = 'login'
 
@@ -180,6 +195,34 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'sentry_sdk.integrations.logging.EventHandler',
+        },
+    },
+    'root': {
+        'handlers': ['sentry'],
+        'level': 'DEBUG',
+    },
+}
+
+# Sentry
+
+if DEBUG is False:
+    sentry_sdk.init(
+        dsn=os.environ.get('SENTRY_DSN'),
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+        enable_tracing=True,
+        integrations=[DjangoIntegration()]
+    )
 
 # Tests
 
