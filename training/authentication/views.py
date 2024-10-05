@@ -7,6 +7,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
     LoginView as BaseLoginView,
     PasswordChangeView as BasePasswordChangeView,
+    PasswordResetView as BasePasswordResetView,
+    PasswordResetConfirmView as BasePasswordResetConfirmView,
+    PasswordResetDoneView as BasePasswordResetDoneView
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
@@ -86,6 +89,37 @@ class SignUpView(
             backend='authentication.backends.EmailBackend'
         )
         return valid
+
+
+class PasswordResetView(
+    TitleMixin,
+    PreviousPageURLMixin,
+    SuccessMessageMixin,
+    BasePasswordResetView
+):
+    template_name = 'authentication/password_reset.html'
+    email_template_name = 'authentication/password_reset_email.html'
+    subject_template_name = 'authentication/password_reset_subject.txt'
+    success_url = reverse_lazy('password-reset-done')
+    previous_page_url = reverse_lazy('login')
+    title = _('Reset password')
+
+
+class PasswordResetConfirmView(
+    PreviousPageURLMixin,
+    BasePasswordResetConfirmView
+):
+    template_name = 'authentication/password_reset_confirm.html'
+    success_url = reverse_lazy('login')
+    previous_page_url = reverse_lazy('login')
+
+
+class PasswordResetDoneView(
+    PreviousPageURLMixin,
+    BasePasswordResetDoneView
+):
+    template_name = 'authentication/password_reset_done.html'
+    previous_page_url = reverse_lazy('login')
 
 
 class AccountView(

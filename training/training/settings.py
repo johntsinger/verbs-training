@@ -173,6 +173,19 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'
 ]
 
+# Email configs
+
+EMAIL_BACKEND = (
+    'django.core.mail.backends.console.EmailBackend' if DEBUG
+    else 'django.core.mail.backends.smtp.EmailBackend'
+)
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_PASSWORD')
+DEFAULT_FROM_EMAIL = "contact@verbs-training.com"
+
 # Crispy forms
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
@@ -181,9 +194,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 # Login url
 
 LOGIN_URL = 'login'
-
 LOGIN_REDIRECT_URL = 'verbs-list'
-
 LOGOUT_REDIRECT_URL = 'login'
 
 # Messages tags
