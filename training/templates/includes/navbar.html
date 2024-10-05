@@ -1,65 +1,94 @@
 {% load static %}
 
-<nav class="navbar navbar-dark border-bottom fixed-top z-3">
+<nav class="navbar shadow-sm border-bottom fixed-top z-3">
     <div class="container justify-content-between justify-content-lg-start flex-nowrap gap-4">
         {% if user.is_authenticated %}
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         {% endif %}
-        <a class="navbar-brand nav-link m-0" href=# aria-label="Access feed page">
+        <a class="navbar-brand nav-link m-0 me-lg-3" href="{% url 'verbs-list' %}" aria-label="Access feed page">
             Verbs Training
         </a>
-        <div class="offcanvas-lg offcanvas-start text-bg-blue d-flex me-auto" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-lg offcanvas-start d-flex me-auto" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header border-bottom mb-1">
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasNavbar" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasNavbar" aria-label="Close"></button>
                 <h6 class="offcanvas-title px-3" id="offcanvasNavbarLabel">Verbs Training</h6>
             </div>
             <div class="offcanvas-body">
                 <div class="navbar-nav flex-lg-row gap-lg-4">
                     {% if user.is_authenticated %}
-                    <a class="nav-link {% if request.get_full_path == '/verbs/' %}active{% endif %}" href="{% url 'verbs-list' %}" aria-label="Access verbs list">All verbs</a>
-                    <a class="nav-link {% if 'tables' in request.get_full_path %}active{% endif %}" href="{% url 'tables-list' %}" aria-label="Access tables list">Tables</a>
-                    <a class="nav-link {% if 'subscriptions' in request.get_full_path %}active{% endif %}" href=# aria-label="Access subscription page">Subscriptions</a>
+                    <a class="nav-link {% if request.get_full_path == '/verbs/' %}active fw-semibold{% endif %} px-2" href="{% url 'verbs-list' %}" aria-label="Access verbs list">Verbs</a>
+                    <a class="nav-link {% if 'tables' in request.get_full_path %}active fw-semibold{% endif %} px-2" href="{% url 'tables-list' %}" aria-label="Access tables list">Tables</a>
+                    <a class="nav-link {% if 'subscriptions' in request.get_full_path %}active fw-semibold{% endif %} px-2" href=# aria-label="Access subscription page">Subscriptions</a>
                     {% endif %}
                 </div>
             </div>
         </div>
-        <div class="nav-item">
+        <div class="nav-item dropdown">
             {% if user.is_authenticated %}
-            <button id="nav-user" class="btn nav-link dropdown-toggle rounded-pill border d-inline-block p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUserNav" aria-controls="offcanvasUserNav" aria-label="Toggle navigation" tabindex="0">
+            <!-- <button id="nav-user" class="btn nav-link dropdown-toggle rounded-pill border d-inline-block p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUserNav" aria-controls="offcanvasUserNav" aria-label="Toggle navigation" tabindex="0">
                 <img class="object-fit-cover rounded-circle" src="{% static 'img/svg/user-circle.svg' %}" alt="profile">
             </button>
-            <div class="offcanvas offcanvas-end text-bg-blue" tabindex="-1" id="offcanvasUserNav" aria-labelledby="offcanvasUserNavLabel">
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasUserNav" aria-labelledby="offcanvasUserNavLabel">
                 <div class="offcanvas-header border-bottom mb-1">
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     <h6 class="offcanvas-title px-3 text-center text-break text-wrap fw-bold" id="offcanvasNavbarLabel">{{ user }}</h6>
                 </div>
                 <div class="offcanvas-body">
                     <div class="navbar-nav">
-                        <a class="nav-link py-2" href="{% url 'account' %}" tabindex="0" aria-label="Access account settings page">
-                            <!-- icon parameters -->
-                            <img class="me-2" src="{% static 'img/svg/settings.svg' %}" alt="settings icons"/>
+                        <a class="btn btn-light nav-link text-start w-100 py-2" href="{% url 'account' %}" tabindex="0" aria-label="Access account settings page">
+                            
+                            <img class="m-2" src="{% static 'img/svg/settings.svg' %}" alt="settings icons"/>
                             Account
                         </a>
                         <div><hr class="dropdown-divider"></div>
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
-                            <button class="btn nav-link text-start w-100 py-2" type="submit" tabindex="0" aria-label="Logout">
-                            <!-- icon logout -->
-                            <img class="me-2" src="{% static 'img/svg/log-out.svg' %}"/>
+                            <button class="btn btn-light nav-link text-start w-100 py-2" type="submit" tabindex="0" aria-label="Logout">
+                            
+                            <img class="m-2" src="{% static 'img/svg/log-out.svg' %}"/>
                             Logout
                             </button>
                         </form>
                     </div>
                 </div>
+            </div> -->
+            <button id="nav-user" class="btn nav-link dropdown-toggle rounded-pill border shadow-sm d-inline-block p-1" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" data-bs-display="static" tabindex="0">
+                <img class="object-fit-cover rounded-circle" src="{% static 'img/svg/user-circle.svg' %}" alt="profile">
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow mt-2 p-0 fade-down" style="width: 190px;">
+                <div class="p-2">
+                    <div class="d-flex flex-row p-0">
+                        <img class="object-fit-cover rounded-circle m-2" src="{% static 'img/svg/user-circle.svg' %}" alt="profile">
+                        <h6 class="text-truncate align-self-center m-0">{{ user }}</h6>
+                    </div>
+                    <div><hr class="dropdown-divider"></div>
+                    <a class="dropdown-item btn nav-link text-start w-100" href="{% url 'account' %}" tabindex="0" aria-label="Access account settings page">
+                        <!-- icon parameters -->
+                        <img class="m-2" src="{% static 'img/svg/settings.svg' %}" alt="settings icons"/>
+                        Account
+                    </a>
+                    <div><hr class="dropdown-divider"></div>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button class="dropdown-item nav-link text-start w-100" type="submit" tabindex="0" aria-label="Logout">
+                            <!-- icon logout -->
+                            <img class="m-2" src="{% static 'img/svg/log-out.svg' %}"/>
+                            Logout
+                        </button>
+                    </form>
+                </div>
             </div>
             {% else %}
-            <div class="text-bg-blue">
+            <div class="d-flex flex-row gap-2">
                 {% if request.resolver_match.url_name == "login" %}
-                    <a class="nav-item nav-link" href="{% url 'signup' %}" aria-label="Access sign up page">Sign Up</a>
+                    <a class="nav-item btn btn-primary text-nowrap" role="button" href="{% url 'signup' %}" aria-label="Access sign up page">Sign Up</a>
+                {% elif request.resolver_match.url_name == "signup" %}
+                    <a class="nav-item btn btn-light text-nowrap" role="button" href="{% url 'login' %}" aria-label="Access login page">Login</a>
                 {% else %}
-                    <a class="nav-item nav-link" href="{% url 'login' %}" aria-label="Access login page">Login</a>
+                    <a class="nav-item btn btn-light text-nowrap" role="button" href="{% url 'login' %}" aria-label="Access login page">Login</a>
+                    <a class="nav-item btn btn-primary text-nowrap" role="button" href="{% url 'signup' %}" aria-label="Access sign up page">Sign Up</a>
                 {% endif %}
             </div>
             {% endif %}
