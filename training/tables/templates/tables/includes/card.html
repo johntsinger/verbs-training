@@ -1,0 +1,42 @@
+<div class="my-2 mx-1">
+    <div class="card shadow-sm h-100">
+        <div class="card-header">
+            <h5 class="card-title text-center">{{ table.name }}</h5>
+        </div>
+        <div class="card-body d-flex flex-row">
+            {% if table.get_verbs_success %}
+            <div class="success col text-center overflow-hidden px-2">
+                <div class="fw-bold text-secondary border-bottom pb-1">Success</div>
+                <div class="py-1">
+                    {% for verb in table.get_verbs_success|slice:6 %}
+                        <span>{{ verb.infinitive }}</span><br/>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if table.get_verbs_unsuccess %}
+            <div class="unsuccess col text-center overflow-hidden px-2">
+                <div class="fw-bold text-secondary border-bottom pb-1">Unsuccess</div>
+                <div class="py-1">
+                    {% for verb in table.get_verbs_unsuccess|slice:6 %}
+                        <span>{{ verb.infinitive }}</span><br/>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if table.get_verbs_not_done %}
+            <div class="not-done col text-center overflow-hidden px-2">
+                <div class="fw-bold text-secondary border-bottom pb-1">Not done</div>
+                <div class="py-1">
+                    {% for verb in table.get_verbs_not_done|slice:6 %}
+                        <span>{{ verb.infinitive }}</span><br/>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <a class="stretched-link text-decoration-none" href="#" aria-label="access table {{ table.name }}">Try it</a>
+        </div>
+    </div>
+</div>

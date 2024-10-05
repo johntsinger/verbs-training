@@ -1,4 +1,4 @@
-{% extends 'base_table.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block link %}
@@ -12,47 +12,15 @@
         <h4 class="text-center text-md-start mb-3">Default tables</h4>
         <div class="default-tables__slick mx-md-5">
             {% for table in default_tables %}
-            <div class="my-2 mx-1">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h5 class="card-title text-center">{{ table.name }}</h5>
-                    </div>
-                    <div class="card-body text-truncate-container">
-                        <p class="card-text">
-                            {% for verb in table.verbs.all %}
-                                {{ verb.infinitive }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a class="stretched-link text-decoration-none" href="#" aria-label="access table {{ table.name }}">Try it</a>
-                    </div>
-                </div>
-            </div>
+                {% include 'tables/includes/card.html' with table=table %}
             {% endfor %}
         </div>
     </div>
     <div id="user-tables">
-        <h4 class="text-center text-md-start mb-5">My tables</h4>
+        <h4 class="text-center text-md-start mb-3">My tables</h4>
         <div class="user-tables__slick mx-md-5">
             {% for table in user_tables %}
-            <div class="my-2 mx-1">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h5 class="card-title text-center">{{ table.name }}</h5>
-                    </div>
-                    <div class="card-body text-truncate-container">
-                        <p class="card-text">
-                            {% for verb in table.verbs.all %}
-                                {{ verb.infinitive }}{% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <a class="stretched-link text-decoration-none" href="#" aria-label="access table {{ table.name }}" tabindex="-1">Try it</a>
-                    </div>
-                </div>
-            </div>
+                {% include 'tables/includes/card.html' with table=table %}
             {% endfor %}
         </div>
     </div>
