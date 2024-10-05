@@ -205,8 +205,7 @@ var table = $('#custom-dt').DataTable({
 table.buttons().action(function (e, dt, button, config) {
     // if user not authenticated redirect to login page
     if (!(isAuthenticated === 'true')) {
-        console.log('authenticated')
-        location.href = $(".nav-item.nav-link").attr("href");
+        location.href = loginUrl;
         return;
     }
 
