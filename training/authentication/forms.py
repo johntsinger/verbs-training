@@ -117,6 +117,11 @@ class SignUpForm(UserCreationForm):
             )
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].required = True
+        self.fields['password2'].required = True
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if (
