@@ -1,16 +1,19 @@
 @charset "UTF-8";
 
 :root {
-    --page-bg-color: #fafafa;
-    --dt-head-bg-color: #d3d3d3;
+    --page-bg-color: #ffffff;
+    --dt-head-bg-color: #4f46e5;
     --dt-body-bg-color: #ffffff;
     --dt-search-bg-color: #ffffff;
     --success-color: #008000;
     --unsuccess-color: #ff0000;
     --focus-color: #0d6efd40;
-    --nav-bg-color: #14227a;
-    --nav-user-bg-color: #9ea9ef;
-    --nav-user-focus-color: #ffffff8c;
+    --nav-bg-color: #ffffff;
+    --btn-bg-color: #4f46e5;
+    --slick-arrows-color: #e54f46;
+    --card-head-bg-color: #4f46e5;
+    --bg-color: #14227a;
+    --dropdown-link-hover-bg-color: #e2e2e6;
 }
 
 /* add margin for fixed navbar */
@@ -28,29 +31,68 @@ nav {
     background-color: var(--nav-bg-color);
 }
 
-.navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
 .text-bg-blue {
     color: #fff!important;
     background-color: var(--nav-bg-color)!important;
 }
 
-.text-bg-blue-light {
-    color: #fff!important;
-    background-color: var(--nav-user-bg-color)!important;
-}
-
-#nav-user {
+/* #nav-user {
     color: #000000!important;
     border-color: #ffffff!important;
     background-color: #ffffff;
+} */
+
+.dropdown-item.nav-link {
+    border-radius: 0.4rem;
+}
+
+.dropdown-item.nav-link:hover {
+    background-color: var(--dropdown-link-hover-bg-color);
 }
 
 /* add margin right to dropdown arrow */
 .dropdown-toggle::after {
     margin-right: .255em;
+}
+
+.btn-primary {
+    background-color: var(--btn-bg-color);
+}
+
+
+/*
+#####
+
+Focus
+
+#####
+*/
+
+.dt-search :focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 .25rem var(--focus-color);
+}
+
+.dt-scroll :focus-visible {
+    outline: 0;
+    box-shadow: inset 0 0 0 .25rem var(--focus-color);
+    border-radius: 5px;
+}
+
+.dt-scroll-head :focus-visible {
+    outline: 0;
+    box-shadow: inset 0 0 0 .25rem #ffffffbf;
+    border-radius: 5px;
+}
+
+a:focus-visible, .nav-link:focus-visible {
+    outline: 0 !important;
+    box-shadow: 0 0 0 .25rem var(--focus-color) !important;
+    border-radius: 5px !important;
+}
+
+#nav-user:focus-visible {
+    border-radius: 50rem !important;
 }
 
 /*
@@ -72,8 +114,12 @@ DataTables adjustements
 }
 
 /* rows height */
-.dt-scroll-head thead tr, .dt-scroll-body tbody tr {
+.dt-scroll-head thead tr {
     height: 40px;
+}
+
+.dt-scroll-body tbody tr {
+    height: 88px;
 }
 
 /* table border */
@@ -84,9 +130,19 @@ DataTables adjustements
 
 /* head color and border */
 .dt-scroll-head {
+    /* background-color: #f3fafd; */
     background-color: var(--dt-head-bg-color);
+    color: var(--dt-body-bg-color);
     border-radius: 4px 4px 0 0;
     border-bottom: 1px solid black !important;
+}
+
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:after, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:before, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:after, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:after, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:after, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:before, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
+    opacity: 0.6;
+}
+
+table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
+    opacity: 1;
 }
 
 /* remove thead and tbody boder bottom */
@@ -130,29 +186,6 @@ div.dt-container .dt-search input {
     color: var(--unsuccess-color);
 }
 
-/* focus */
-
-.dt-search :focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 .25rem var(--focus-color);
-}
-
-.dt-scroll :focus-visible {
-    outline: 0;
-    box-shadow: inset 0 0 0 .25rem var(--focus-color);
-    border-radius: 5px;
-}
-
-a:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 .25rem var(--focus-color);
-    border-radius: 5px;
-}
-
-.nav-link:focus-visible {
-    box-shadow: 0 0 0 .25rem #ffffff8c;
-}
-
 /* first column min width  */
 
 .dt-first-col, .childrow-first-col {
@@ -162,23 +195,20 @@ a:focus-visible {
 /*
 ##################
 
-Cards adjustements
+Slick adjustements
 
 ##################
 */
 
 /* card body text truncate 3 lines max */
 
-.text-truncate-container p {
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.slick-track {
+    height: 300px !important
 }
 
 .card-header {
-    background-color: #f3fafd;
+    background-color: var(--card-head-bg-color);
+    color: var(--dt-body-bg-color);
 }
 
 .card-body {
@@ -203,7 +233,7 @@ Cards adjustements
 
 .slick-prev:before, .slick-next:before {
     font-size: 30px;
-    color: var(--nav-bg-color);
+    color: var(--btn-bg-color);
 }
 
 /* dots */
