@@ -4,12 +4,12 @@
 
 {% block content %}
     {% include 'includes/buttons/return.html' %}
-    <div class="bg-white rounded-3 border px-3 my-4 col-md-10 col-lg-8 mx-auto">
+    <div class="bg-white rounded-3 shadow border px-3 my-4 col-md-10 col-lg-8 mx-auto">
         <form method="post" class="p-3">
             {% csrf_token %}
             {{ form|crispy }}
             <div class="mt-4 d-flex flex-column flex-md-row">
-                <button id="submit-form" class="btn btn-outline-primary" type="submit">Send</button>
+                <button id="submit-form" class="btn btn-outline-primary" type="submit" aria-label="Send">Send</button>
             </div>
         </form>
     </div>
