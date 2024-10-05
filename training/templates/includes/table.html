@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         {% for verb in verbs %}
-        <tr class="{% if verb.is_success is True %} success {% elif verb.is_success is False %} unsuccess {% else %} not-tested {% endif %}">
+        <tr class="{% if verb.is_success is True %}success{% elif verb.is_success is False %}unsuccess{% else %}not-tested{% endif %}">
             <td tabindex="0" aria-label="Open/close child row"></td>
             <td>{{ verb.infinitive }}</td>
             <td>{{ verb.simple_past }}</td>
