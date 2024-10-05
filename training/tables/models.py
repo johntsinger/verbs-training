@@ -66,17 +66,35 @@ class Table(models.Model):
             )
         ]
 
+    def get_verbs_success(self):
+        return [
+            verb for verb in self.verbs.all()
+            if verb.is_success is True
+        ]
+
+    def get_verbs_unsuccess(self):
+        return [
+            verb for verb in self.verbs.all()
+            if verb.is_success is False
+        ]
+
+    def get_verbs_not_done(self):
+        return [
+            verb for verb in self.verbs.all()
+            if verb.is_success is None
+        ]
+
     def __str__(self):
         return f'{self.name}'
 
 
 class DefaultTableManager(models.Manager):
-    def get_queryset(self) -> models.QuerySet:
+    def get_queryset(self):
         return super().get_queryset().filter(type='defaulttable')
 
 
 class UserTableManager(models.Manager):
-    def get_queryset(self) -> models.QuerySet:
+    def get_queryset(self):
         return super().get_queryset().filter(type='usertable')
 
 
@@ -86,12 +104,12 @@ class DefaultTable(Table):
     class Meta:
         proxy = True
 
-    def save(self, *args, **kwargs) -> None:
+    def save(self, *args, **kwargs):
         self.type = self.DEFAULT_TABLE
         self.owner = None
         return super().save(*args, **kwargs)
 
-    def clean(self) -> None:
+    def clean(self):
         if DefaultTable.objects.filter(
             name=self.name
         ).exclude(
@@ -109,11 +127,11 @@ class UserTable(Table):
     class Meta:
         proxy = True
 
-    def save(self, *args, **kwargs) -> None:
+    def save(self, *args, **kwargs):
         self.type = self.USER_TABLE
         return super().save(*args, **kwargs)
 
-    def clean(self) -> None:
+    def clean(self):
         if UserTable.objects.filter(
             name=self.name,
             owner=self.owner
