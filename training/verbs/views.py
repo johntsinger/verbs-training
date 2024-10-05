@@ -12,7 +12,7 @@ class VerbListView(
     ListView
 ):
     template_name = 'verbs/verbs_list.html'
-    title = _('All verbs')
+    title = _('Verbs')
 
     def get_queryset(self):
         """
@@ -29,6 +29,9 @@ class VerbListView(
                         '-updated_at'
                     ).values('is_success')[:1]
                 )
-            ).prefetch_related('info', 'examples')
+            ).prefetch_related(
+                'info',
+                'examples',
+            )
 
         return Verb.objects.prefetch_related('info', 'examples')
