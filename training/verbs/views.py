@@ -11,7 +11,7 @@ class VerbListView(
     TitleMixin,
     ListView
 ):
-    template_name = 'verbs/verbs_list.html'
+    template_name = 'verbs/verb_list.html'
     title = _('Verbs')
 
     def get_queryset(self):

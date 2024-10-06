@@ -193,9 +193,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # Login url
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'verbs-list'
-LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = 'authentication:login'
+LOGIN_REDIRECT_URL = 'verbs:list'
+LOGOUT_REDIRECT_URL = 'authentication:login'
 
 # Messages tags
 

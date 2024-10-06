@@ -45,7 +45,7 @@ class LoginView(
     template_name = 'authentication/login.html'
     authentication_form = LoginForm
     redirect_authenticated_user = True
-    previous_page_url = reverse_lazy('verbs-list')
+    previous_page_url = reverse_lazy('verbs:list')
     title = _('Login')
 
 
@@ -60,7 +60,7 @@ class SignUpView(
     success_message = _('Your account was created successfully')
     success_url = reverse_lazy(settings.LOGIN_REDIRECT_URL)
     redirect_authenticated_user = True
-    previous_page_url = reverse_lazy('login')
+    previous_page_url = reverse_lazy('authentication:login')
     title = _('Sign Up')
 
     @method_decorator(sensitive_post_parameters())
@@ -100,8 +100,8 @@ class PasswordResetView(
     template_name = 'authentication/password_reset.html'
     email_template_name = 'authentication/password_reset_email.html'
     subject_template_name = 'authentication/password_reset_subject.txt'
-    success_url = reverse_lazy('password-reset-done')
-    previous_page_url = reverse_lazy('login')
+    success_url = reverse_lazy('authentication:password-reset-done')
+    previous_page_url = reverse_lazy('authentication:login')
     title = _('Reset password')
 
 
@@ -110,8 +110,8 @@ class PasswordResetConfirmView(
     BasePasswordResetConfirmView
 ):
     template_name = 'authentication/password_reset_confirm.html'
-    success_url = reverse_lazy('login')
-    previous_page_url = reverse_lazy('login')
+    success_url = reverse_lazy('authentication:login')
+    previous_page_url = reverse_lazy('authentication:login')
 
 
 class PasswordResetDoneView(
@@ -119,7 +119,7 @@ class PasswordResetDoneView(
     BasePasswordResetDoneView
 ):
     template_name = 'authentication/password_reset_done.html'
-    previous_page_url = reverse_lazy('login')
+    previous_page_url = reverse_lazy('authentication:login')
 
 
 class AccountView(
@@ -129,7 +129,7 @@ class AccountView(
     DetailView
 ):
     template_name = 'authentication/account.html'
-    previous_page_url = reverse_lazy('verbs-list')
+    previous_page_url = reverse_lazy('verbs:list')
     title = _('Account settings')
 
     def get_object(self):
@@ -140,7 +140,7 @@ class AccountView(
         http_referer_url = urlparse(
             self.request.META.get('HTTP_REFERER')
         ).path
-        if http_referer_url in [reverse('tables-list')]:
+        if http_referer_url in [reverse('tables:list')]:
             return http_referer_url
         return previous_page_url
 
@@ -155,8 +155,8 @@ class UsernameChangeView(
     template_name = 'authentication/change.html'
     form_class = UsernameChangeForm
     success_message = _('Your username has been successfully updated !')
-    success_url = reverse_lazy('account')
-    previous_page_url = reverse_lazy('account')
+    success_url = reverse_lazy('authentication:account')
+    previous_page_url = reverse_lazy('authentication:account')
     title = _('Change my username')
 
     def get_object(self):
@@ -173,8 +173,8 @@ class EmailChangeView(
     template_name = 'authentication/change.html'
     form_class = EmailChangeForm
     success_message = _('Your email has been successfully updated !')
-    success_url = reverse_lazy('account')
-    previous_page_url = reverse_lazy('account')
+    success_url = reverse_lazy('authentication:account')
+    previous_page_url = reverse_lazy('authentication:account')
     title = _('Change my email')
 
     def get_object(self):
@@ -190,8 +190,8 @@ class PasswordChangeView(
 ):
     template_name = 'authentication/change.html'
     success_message = _('Your password has been successfully updated !')
-    success_url = reverse_lazy('account')
-    previous_page_url = reverse_lazy('account')
+    success_url = reverse_lazy('authentication:account')
+    previous_page_url = reverse_lazy('authentication:account')
     title = _('Change my password')
 
 
@@ -204,8 +204,8 @@ class DeleteAccountView(
 ):
     template_name = 'authentication/delete.html'
     form_class = DeleteAccountForm
-    success_url = reverse_lazy('login')
-    previous_page_url = reverse_lazy('account')
+    success_url = reverse_lazy('authentication:login')
+    previous_page_url = reverse_lazy('authentication:account')
     title = _('Delete my account')
 
     def get_object(self):

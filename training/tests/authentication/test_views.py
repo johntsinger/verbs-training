@@ -47,7 +47,7 @@ class AuthenticationViewsTestCase(AssertionMixin, TestCase):
 
 
 class TestLoginView(AuthenticationViewsTestCase):
-    url = reverse_lazy('login')
+    url = reverse_lazy('authentication:login')
 
     def test_redirect_authenticated_users(self):
         """If logged in redirect to LOGIN_REDIRECT_URL."""
@@ -100,7 +100,7 @@ class TestLoginView(AuthenticationViewsTestCase):
 
 
 class TestSignupView(MessagesTestMixin, AuthenticationViewsTestCase):
-    url = reverse_lazy('signup')
+    url = reverse_lazy('authentication:signup')
 
     @patch.object(SignUpView, 'success_url', url)
     def test_redirect_loop(self):
@@ -180,7 +180,7 @@ class TestSignupView(MessagesTestMixin, AuthenticationViewsTestCase):
 
 
 class TestAccountView(AuthenticationViewsTestCase):
-    url = reverse_lazy('account')
+    url = reverse_lazy('authentication:account')
 
     def setUp(self):
         self.client.force_login(self.user)
@@ -203,7 +203,7 @@ class TestAccountView(AuthenticationViewsTestCase):
         self.assertTemplateUsed(response, template_expected)
 
     def test_http_referer_as_previous_page_url(self):
-        previous_page_url = reverse('tables-list')
+        previous_page_url = reverse('tables:list')
         response = self.client.get(
             self.url,
             HTTP_REFERER=previous_page_url
@@ -215,7 +215,7 @@ class TestAccountView(AuthenticationViewsTestCase):
 
 
 class TestUsernameChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
-    url = reverse_lazy('change-username')
+    url = reverse_lazy('authentication:change-username')
 
     def setUp(self):
         self.client.force_login(self.user)
@@ -256,7 +256,7 @@ class TestUsernameChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
         self.assertEqual(user.username, data['username'])
         self.assertRedirects(
             response,
-            reverse('account')
+            reverse('authentication:account')
         )
         self.assertMessages(
             response,
@@ -279,7 +279,7 @@ class TestUsernameChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
 
 
 class TestEmailChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
-    url = reverse_lazy('change-email')
+    url = reverse_lazy('authentication:change-email')
 
     def setUp(self):
         self.client.force_login(self.user)
@@ -320,7 +320,7 @@ class TestEmailChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
         self.assertEqual(user.email, data['email'])
         self.assertRedirects(
             response,
-            reverse('account')
+            reverse('authentication:account')
         )
         self.assertMessages(
             response,
@@ -343,7 +343,7 @@ class TestEmailChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
 
 
 class TestDeleteAccountView(MessagesTestMixin, AuthenticationViewsTestCase):
-    url = reverse_lazy('delete-account')
+    url = reverse_lazy('authentication:delete-account')
 
     def setUp(self):
         self.client.force_login(self.user)
@@ -385,7 +385,7 @@ class TestDeleteAccountView(MessagesTestMixin, AuthenticationViewsTestCase):
         self.assertEqual(user_count - 1, User.objects.count())
         self.assertRedirects(
             response,
-            reverse('login')
+            reverse('authentication:login')
         )
         self.assertMessages(
             response,

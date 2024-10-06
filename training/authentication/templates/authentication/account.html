@@ -6,7 +6,7 @@
 <div class="bg-white shadow rounded-3 border my-4 col-md-10 col-lg-8 mx-auto">
     <div class="px-3 d-flex flex-column">
         <div class="d-flex flex-column align-items-left">
-            <a class="btn btn-link border-0 text-start p-3 text-reset text-decoration-none" href="{% url 'change-username' %}" aria-label="Change my username">
+            <a class="btn btn-link border-0 text-start p-3 text-reset text-decoration-none" href="{% url 'authentication:change-username' %}" aria-label="Change my username">
                 <div class="d-flex flex-row">
                     <div class="d-flex flex-column flex-md-row col-11">
                         <div class="col-md-3">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </a>
-            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'change-email' %}" aria-label="Change my email">
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'authentication:change-email' %}" aria-label="Change my email">
                 <div class="d-flex flex-row">
                     <div class="d-flex flex-column flex-md-row col-11">
                         <div class="col-md-3">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </a>
-            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'change-password' %}" aria-label="Change my password">
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'authentication:change-password' %}" aria-label="Change my password">
                 <div class="d-flex flex-row">
                     <div class="d-flex flex-column flex-md-row col-11">
                         <div class="col-md-3">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </a>
-            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'delete-account' %}" aria-label="Change my password">
+            <a class="btn btn-link border-0 text-start p-3 border-top text-reset text-decoration-none" href="{% url 'authentication:delete-account' %}" aria-label="Change my password">
                 <div class="d-flex flex-row">
                     <div class="d-flex flex-column flex-md-row col-11">
                         <span class="text-danger">Delete my account</span>

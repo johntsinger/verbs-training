@@ -51,10 +51,10 @@ class VerbsViewsTestCase(TestCase):
 
 
 class TestVerbsViews(VerbsViewsTestCase):
-    url = reverse_lazy('verbs-list')
+    url = reverse_lazy('verbs:list')
 
     def test_get_anonymous_user(self):
-        template_expected = 'verbs/verbs_list.html'
+        template_expected = 'verbs/verb_list.html'
         response = self.client.get(self.url)
         queryset = response.context.get('verb_list')
 
@@ -67,7 +67,7 @@ class TestVerbsViews(VerbsViewsTestCase):
         self.assertFalse(hasattr(queryset.first(), 'is_success'))
 
     def test_get_authenticated_user(self):
-        template_expected = 'verbs/verbs_list.html'
+        template_expected = 'verbs/verb_list.html'
         self.client.force_login(self.user)
         response = self.client.get(self.url)
         queryset = response.context.get('verb_list')

@@ -3,6 +3,7 @@ from django.contrib.auth.views import LogoutView
 from authentication import views
 
 
+app_name = 'authentication'
 urlpatterns = [
     path('auth/login/', views.LoginView.as_view(), name='login'),
     path('auth/logout/', LogoutView.as_view(), name='logout'),
@@ -29,7 +30,7 @@ urlpatterns = [
         name='delete-account'
     ),
     path(
-        'accout/password-reset/',
+        'password-reset/',
         views.PasswordResetView.as_view(),
         name='password-reset'
     ),

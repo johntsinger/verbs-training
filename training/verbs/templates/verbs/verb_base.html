@@ -10,7 +10,7 @@
 <script src="https://cdn.datatables.net/v/dt/dt-2.0.5/b-3.0.2/datatables.min.js"></script>
 <script type="text/javascript">
     var isAuthenticated = "{{ user.is_authenticated|yesno:'true, false' }}";
-    var loginUrl = "{% url 'login' %}";
+    var loginUrl = "{% url 'authentication:login' %}";
 </script>
 <script src="{% static 'js/datatables-config.js' %}"></script>
 {% endblock js %}
