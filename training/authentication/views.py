@@ -13,7 +13,7 @@ from django.contrib.auth.views import (
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
@@ -137,11 +137,11 @@ class AccountView(
 
     def get_previous_page_url(self):
         previous_page_url = super().get_previous_page_url()
-        http_referer_url = urlparse(
-            self.request.META.get('HTTP_REFERER')
-        ).path
-        if http_referer_url in [reverse('tables:list')]:
+        http_referer = self.request.META.get('HTTP_REFERER')
+        if http_referer:
+            http_referer_url = urlparse(http_referer).path
             return http_referer_url
+
         return previous_page_url
 
 
