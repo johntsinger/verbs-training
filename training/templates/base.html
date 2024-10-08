@@ -16,14 +16,16 @@
             {% include 'includes/navbar.html' %}
         </header>
         {% include 'includes/messages.html' %}
-        <div class="container">
+        <div id="title" class="container-fluid">
             {% block title %}
             <div class="container col-md-11 col-lg-9 mb-4 py-4 border-bottom">
-                <h2 id="title" class="text-center">
+                <h2 id="title" class="text-center fw-semibold">
                     {{ title }}
                 </h2>
             </div>
             {% endblock title %}
+        </div>
+        <div class="container">
             {% block content %}{% endblock content%}
         </div>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
