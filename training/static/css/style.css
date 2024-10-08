@@ -2,13 +2,14 @@
 
 :root {
     --page-bg-color: #ffffff;
+    --focus-color: #0d6efd40;
+    --nav-bg-color: #ffffff;
+    --title-bg-color: #efeefd;
+    --success-color: #008000;
+    --unsuccess-color: #ff0000;
     --dt-head-bg-color: #4f46e5;
     --dt-body-bg-color: #ffffff;
     --dt-search-bg-color: #ffffff;
-    --success-color: #008000;
-    --unsuccess-color: #ff0000;
-    --focus-color: #0d6efd40;
-    --nav-bg-color: #ffffff;
     --btn-bg-color: #4f46e5;
     --slick-arrows-color: #e54f46;
     --card-head-bg-color: #4f46e5;
@@ -18,8 +19,8 @@
 
 /* add margin for fixed navbar */
 html {
-    height: calc(100% - 61px);
-    margin-top: 61px;
+    height: calc(100% - 57px);
+    margin-top: 57px;
 }
 
 body {
@@ -31,10 +32,22 @@ nav {
     background-color: var(--nav-bg-color);
 }
 
+nav .container-fluid {
+    max-width: 1440px !important;
+}
+
 .text-bg-blue {
     color: #fff!important;
     background-color: var(--nav-bg-color)!important;
 }
+
+/*
+#######
+
+nav bar
+
+#######
+*/
 
 /* #nav-user {
     color: #000000!important;
@@ -93,6 +106,18 @@ a:focus-visible, .nav-link:focus-visible {
 
 #nav-user:focus-visible {
     border-radius: 50rem !important;
+}
+
+/*
+#####
+
+Title
+
+#####
+*/
+
+#title {
+    background-color: #efeefd;
 }
 
 /*
