@@ -1,0 +1,8 @@
+{% extends 'verbs/verb_base.html' %}
+
+{% block content %}
+<div class="mb-4">
+    {% include 'includes/buttons/return.html' %}
+</div>
+{% include 'verbs/includes/table.html' with verbs=table.verbs.all %}
+{% endblock content %}
