@@ -85,9 +85,8 @@ class ResultAdmin(
         }
         js = ('js/admin.js',)
 
-    # Displays table link to change form manually because it
-    # doesn't display by it self when using readonly unlike
-    # verb and profile
+    # Create admin url for table change for proxy models UserTable
+    # and DefaultTable.
     @admin.display(description='Table')
     def get_table(self, obj):
 
