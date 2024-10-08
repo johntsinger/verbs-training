@@ -1,4 +1,6 @@
 import uuid
+from slugify import slugify
+
 from django.db import models
 from django.db.models import Q
 from django.db.models.constraints import UniqueConstraint
@@ -65,6 +67,10 @@ class Table(models.Model):
                 )
             )
         ]
+
+    @property
+    def slug_name(self):
+        return slugify(self.name)
 
     def get_verbs_success(self):
         return [
