@@ -1,5 +1,3 @@
-from urllib.parse import urlparse
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
@@ -124,25 +122,14 @@ class PasswordResetDoneView(
 
 class AccountView(
     TitleMixin,
-    PreviousPageURLMixin,
     LoginRequiredMixin,
     DetailView
 ):
     template_name = 'authentication/account.html'
-    previous_page_url = reverse_lazy('verbs:list')
     title = _('Account settings')
 
     def get_object(self):
         return self.request.user
-
-    def get_previous_page_url(self):
-        previous_page_url = super().get_previous_page_url()
-        http_referer = self.request.META.get('HTTP_REFERER')
-        if http_referer:
-            http_referer_url = urlparse(http_referer).path
-            return http_referer_url
-
-        return previous_page_url
 
 
 class UsernameChangeView(
