@@ -42,14 +42,6 @@ class TestDataMixin:
 class TestLoginForm(TestDataMixin, TestCase):
     form_class = LoginForm
 
-    # def test_has_email_field_attribute(self):
-    #     form = self.form_class()
-    #     self.assertTrue(hasattr(form, 'email_field'))
-    #     self.assertEqual(
-    #         form.email_field,
-    #         User._meta.get_field(User.EMAIL_FIELD)
-    #     )
-
     def test_email_field_max_length_matches_user_model(self):
         form = self.form_class()
         self.assertEqual(form.fields['email'].max_length, 254)

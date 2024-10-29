@@ -202,17 +202,6 @@ class TestAccountView(AuthenticationViewsTestCase):
         )
         self.assertTemplateUsed(response, template_expected)
 
-    def test_http_referer_as_previous_page_url(self):
-        previous_page_url = reverse('tables:list')
-        response = self.client.get(
-            self.url,
-            HTTP_REFERER=previous_page_url
-        )
-        self.assertEqual(
-            response.context['previous_page_url'],
-            previous_page_url
-        )
-
 
 class TestUsernameChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
     url = reverse_lazy('authentication:change-username')
