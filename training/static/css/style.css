@@ -235,7 +235,7 @@ Cards adjustements
     min-height: 104px;
 }
 
-.card-content:hover .card-body{
+.card-wrap:hover .card-body{
     background-color: var(--card-body-hover-bg-color) !important;
 }
 
