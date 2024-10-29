@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="col-md-10 col-lg-8 mx-auto">
+    {% include 'includes/buttons/return.html' %}
+</div>
+<div class="bg-white rounded-3 shadow border px-3 my-4 col-md-10 col-lg-8 mx-auto">
+    <form method="post" class=" p-3">
+        {% csrf_token %}
+        {{ form.management_form }}
+        {% for subform in form %}
+        <div class="row row-cols-md-4 g-3 align-items-center py-3">
+            {% crispy subform %}
+            <div class="order-first order-md-last row-cols-md-1 text-center text-md-start fw-semibold">
+                {{ subform.initial.translation|capfirst }}
+            </div>
+        </div>
+        {% endfor %}
+        <div class="mt-4 d-flex flex-column flex-md-row">
+            <button id="submit-form" class="btn btn-outline-primary" type="submit" aria-label="Send">Send</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+{% block js %}
+<script>
+    $(window).on('load', function() {
+        $('form').trigger('reset'); //clear form data on page load
+    });
+</script>
+{% endblock js %}
