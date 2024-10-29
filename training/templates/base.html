@@ -16,13 +16,11 @@
             {% include 'includes/navbar.html' %}
         </header>
         {% include 'includes/messages.html' %}
-        <div id="title" class="container-fluid">
+        <div id="title" class="container-fluid mb-4 py-4 border-bottom">
             {% block title %}
-            <div class="container col-md-11 col-lg-9 mb-4 py-4 border-bottom">
-                <h2 id="title" class="text-center fw-semibold">
-                    {{ title }}
-                </h2>
-            </div>
+            <h2 class="text-center fw-semibold">
+                {{ title|capfirst }}
+            </h2>
             {% endblock title %}
         </div>
         <div class="container">
@@ -33,4 +31,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
         {% block js %}{% endblock js %}
     </body>
+    <footer class="bg-body-tertiary">
+    </footer>
 </html>
