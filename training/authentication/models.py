@@ -146,8 +146,8 @@ class User(AbstractUser):
     )
 
     EMAIL_FIELD = 'email'
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     objects = MyUserManager()
 
@@ -158,6 +158,10 @@ class User(AbstractUser):
                 name='case_insensitive_unique_user_email',
             ),
         ]
+
+    def clean(self):
+        self.username = self.normalize_username(self.username)
+        self.email = self.__class__.objects.normalize_email(self.email)
 
     def __str__(self):
         return self.username
