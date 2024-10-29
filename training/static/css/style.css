@@ -14,6 +14,7 @@
     --slick-arrows-color: #e54f46;
     --card-head-bg-color: #4f46e5;
     --bg-color: #14227a;
+    --card-body-hover-bg-color: #d8ebfb;
     --dropdown-link-hover-bg-color: #e2e2e6;
 }
 
@@ -220,6 +221,27 @@ div.dt-container .dt-search input {
 /*
 ##################
 
+Cards adjustements
+
+##################
+*/
+
+.card-header {
+    background-color: var(--card-head-bg-color);
+    color: var(--dt-body-bg-color);
+}
+
+.card-body {
+    min-height: 104px;
+}
+
+.card-content:hover .card-body{
+    background-color: var(--card-body-hover-bg-color) !important;
+}
+
+/*
+##################
+
 Slick adjustements
 
 ##################
@@ -229,15 +251,6 @@ Slick adjustements
 
 .slick-track {
     height: 300px !important
-}
-
-.card-header {
-    background-color: var(--card-head-bg-color);
-    color: var(--dt-body-bg-color);
-}
-
-.card-body {
-    min-height: 104px;
 }
 
 /* button previous and next */
