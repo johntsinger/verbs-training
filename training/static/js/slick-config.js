@@ -6,18 +6,10 @@
 
 var settings = {
     dots: true,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: 2,
+    slidesToScroll: 2,
     infinite: false,
     responsive: [
-        {
-            breakpoint: 1400,
-            settings: {
-                dots: true,
-                slidesToShow: 2,
-                slidesToScroll: 2,
-            }
-        },
         {
             breakpoint: 992,
             settings: {
