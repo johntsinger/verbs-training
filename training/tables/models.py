@@ -1,10 +1,11 @@
 import uuid
-from slugify import slugify
 
 from django.db import models
 from django.db.models import Q
 from django.db.models.constraints import UniqueConstraint
 from django.core.exceptions import ValidationError
+from django.utils.text import slugify
+
 from verbs.models import Verb
 from profiles.models import Profile
 
@@ -27,9 +28,10 @@ class Table(models.Model):
         max_length=12,
         choices=CHOICES
     )
-    name = models.fields.CharField(
+    name = models.CharField(
         max_length=30,
     )
+    slug_name = models.SlugField()
     verbs = models.ManyToManyField(
         to=Verb,
         related_name='tables'
@@ -68,9 +70,9 @@ class Table(models.Model):
             )
         ]
 
-    @property
-    def slug_name(self):
-        return slugify(self.name)
+    def save(self, *args, **kwargs):
+        self.slug_name = slugify(self.name)
+        return super().save(*args, **kwargs)
 
     def get_verbs_success(self):
         return [

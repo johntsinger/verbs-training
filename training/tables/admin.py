@@ -100,6 +100,7 @@ class DefaultTableAdmin(
         "name",
     ]
     readonly_fields = [
+        "slug_name",
         "created_at",
         "updated_at"
     ]
@@ -122,6 +123,7 @@ class UserTableAdmin(
         "owner",
     ]
     readonly_fields = [
+        "slug_name",
         "created_at",
         "updated_at"
     ]
