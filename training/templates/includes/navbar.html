@@ -27,33 +27,6 @@
         </div>
         <div class="nav-item dropdown">
             {% if user.is_authenticated %}
-            <!-- <button id="nav-user" class="btn nav-link dropdown-toggle rounded-pill border d-inline-block p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUserNav" aria-controls="offcanvasUserNav" aria-label="Toggle navigation" tabindex="0">
-                <img class="object-fit-cover rounded-circle" src="{% static 'img/svg/user-circle.svg' %}" alt="profile">
-            </button>
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasUserNav" aria-labelledby="offcanvasUserNavLabel">
-                <div class="offcanvas-header border-bottom mb-1">
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    <h6 class="offcanvas-title px-3 text-center text-break text-wrap fw-bold" id="offcanvasNavbarLabel">{{ user }}</h6>
-                </div>
-                <div class="offcanvas-body">
-                    <div class="navbar-nav">
-                        <a class="btn btn-light nav-link text-start w-100 py-2" href="{% url 'authentication:account' %}" tabindex="0" aria-label="Access account settings page">
-                            
-                            <img class="m-2" src="{% static 'img/svg/settings.svg' %}" alt="settings icons"/>
-                            Account
-                        </a>
-                        <div><hr class="dropdown-divider"></div>
-                        <form action="{% url 'authentication:logout' %}" method="post">
-                            {% csrf_token %}
-                            <button class="btn btn-light nav-link text-start w-100 py-2" type="submit" tabindex="0" aria-label="Logout">
-                            
-                            <img class="m-2" src="{% static 'img/svg/log-out.svg' %}"/>
-                            Logout
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div> -->
             <button id="nav-user" class="btn nav-link dropdown-toggle rounded-pill border shadow-sm d-inline-block p-1" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" data-bs-display="static" tabindex="0">
                 <img class="object-fit-cover rounded-circle" src="{% static 'img/svg/user-circle.svg' %}" alt="profile">
             </button>
@@ -65,16 +38,14 @@
                     </div>
                     <div><hr class="dropdown-divider"></div>
                     <a class="dropdown-item btn nav-link text-start w-100" href="{% url 'authentication:account' %}" tabindex="0" aria-label="Access account settings page">
-                        <!-- icon parameters -->
-                        <img class="m-2" src="{% static 'img/svg/settings.svg' %}" alt="settings icons"/>
+                        <img class="m-2" src="{% static 'img/svg/settings.svg' %}" alt="settings icon"/>
                         Account
                     </a>
                     <div><hr class="dropdown-divider"></div>
                     <form action="{% url 'authentication:logout' %}" method="post">
                         {% csrf_token %}
                         <button class="dropdown-item nav-link text-start w-100" type="submit" tabindex="0" aria-label="Logout">
-                            <!-- icon logout -->
-                            <img class="m-2" src="{% static 'img/svg/log-out.svg' %}"/>
+                            <img class="m-2" src="{% static 'img/svg/log-out.svg' %}" alt="logout icon"/>
                             Logout
                         </button>
                     </form>

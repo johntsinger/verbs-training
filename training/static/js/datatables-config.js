@@ -33,43 +33,6 @@ function format(d) {
     return $(subrow).toArray()
 }
 
-
-// var buttons = []
-// if (isAuthenticated) {
-//     buttons.push(
-//         {
-//             text: function (dt, button, config) {
-//                 return 'success (' + dt.rows('.success').count() + ')';
-//             },
-//             attr: {
-//                 id: 'success',
-//                 'arial-label': 'Switch success filter'
-//             },
-//             className: 'btn-outline-success',
-//         },
-//         {
-//             text: function (dt, button, config) {
-//                 return 'unsuccess (' + dt.rows('.unsuccess').count() + ')';
-//             },
-//             attr: {
-//                 id: 'unsuccess',
-//                 'arial-label': 'Switch unsuccess filter'
-//             },
-//             className: 'btn-outline-danger',
-//         },
-//         {
-//             text: function (dt, button, config) {
-//                 return 'not-tested (' + dt.rows('.not-tested').count() + ')';
-//             },
-//             attr: {
-//                 id: 'not-tested',
-//                 'arial-label': 'Switch not tested filter'
-//             },
-//             className: 'btn-outline-primary',
-//         },
-//     )
-// }
-
 // dataTables configuration
 var table = $('#custom-dt').DataTable({
     initComplete: function () {
@@ -184,22 +147,11 @@ var table = $('#custom-dt').DataTable({
                     id: 'not-tested',
                     'arial-label': 'Switch not tested filter'
                 },
-                className: 'btn-outline-primary',
+                className: 'btn-outline-secondary',
             },
         ],
     }
 });
-
-// // disable buttons if not logged
-// if (!isAuthenticated) {
-//     table.buttons().disable();
-//     let buttonsDisabled = $(".disabled");
-//     $(".dt-buttons")
-//         .attr({"data-bs-toggle": "tooltip", "data-bs-title": "Log in to use this feature.", "data-bs-placement": "top"})
-//         .css("cursor", "not-allowed")
-//     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-//     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-// }
 
 // Define buttons actions
 table.buttons().action(function (e, dt, button, config) {
