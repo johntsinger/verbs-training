@@ -83,7 +83,7 @@ class ResultAdmin(
         css = {
             'all': ('css/custom-admin.css',)
         }
-        js = ('js/admin.js',)
+        js = ('js/resultsSelect2.js',)
 
     # Create admin url for table change for proxy models UserTable
     # and DefaultTable.

@@ -49,7 +49,7 @@ window.addEventListener("load", function() {
                     return data.text;
                 },
                 // Displays the search box only if the number of results >= 10
-                minimumResultsForSearch: 10
+                minimumResultsForSearch: 10,
             });
         })
     }
