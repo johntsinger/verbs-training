@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="col-md-10 col-lg-8 mx-auto">
+    {% include 'includes/buttons/return.html' %}
+</div>
+<div class="bg-white rounded-3 shadow border px-3 my-4 col-md-10 col-lg-8 mx-auto">
+    <form method="post" class="p-3">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form|crispy }}
+        <div class="mt-4 d-flex flex-column flex-md-row justify-content-between gap-4">
+            <button id="submit-form" class="btn btn-outline-primary" type="submit" aria-label="Send">Send</button>
+            {% if request.resolver_match.url_name == "change" %}
+            <a class="btn btn-outline-danger" type="button" href="{% if object.type == object.USER_TABLE %}{% url 'tables:user:delete' object.id object.slug_name %}{% else %}{% url 'tables:default:delete' object.id object.slug_name %}{% endif %}" aria-label="delete table {{ table.name }}">Delete</a>
+            {% endif %}
+        </div>      
+    </form>
+</div>
+{% endblock content %}
+{% block js %}
+<script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+<script type="text/javascript" src="{% static 'js/SelectFilter2Fix.js' %}"></script>
+{% endblock js %}
