@@ -8,7 +8,7 @@
                 {% if table.get_verbs_success %}
                 <div class="success col text-center overflow-hidden px-2">
                     <div class="fw-bold text-secondary border-bottom pb-1">Success</div>
-                    <div class="py-1">
+                    <div class="py-1 text-nowrap">
                         {% for verb in table.get_verbs_success|slice:6 %}
                             <span>{{ verb.infinitive }}</span><br/>
                         {% endfor %}
@@ -18,7 +18,7 @@
                 {% if table.get_verbs_unsuccess %}
                 <div class="unsuccess col text-center overflow-hidden px-2">
                     <div class="fw-bold text-secondary border-bottom pb-1">Unsuccess</div>
-                    <div class="py-1">
+                    <div class="py-1 text-nowrap">
                         {% for verb in table.get_verbs_unsuccess|slice:6 %}
                             <span>{{ verb.infinitive }}</span><br/>
                         {% endfor %}
@@ -28,7 +28,7 @@
                 {% if table.get_verbs_not_done %}
                 <div class="not-done col text-center overflow-hidden px-2">
                     <div class="fw-bold text-secondary border-bottom pb-1">Not done</div>
-                    <div class="py-1">
+                    <div class="py-1 text-nowrap">
                         {% for verb in table.get_verbs_not_done|slice:6 %}
                             <span>{{ verb.infinitive }}</span><br/>
                         {% endfor %}
@@ -36,11 +36,14 @@
                 </div>
                 {% endif %}
             </div>
-            <a class="stretched-link text-decoration-none" href="{% url 'tables:detail' table.id table.slug_name %}" aria-label="access table {{ table.name }}"></a>
+            <a class="stretched-link text-decoration-none" href="{% if table.type == table.USER_TABLE %}{% url 'tables:user:detail' table.id table.slug_name %}{% else %}{% url 'tables:default:detail' table.id table.slug_name %}{% endif %}" aria-label="access table {{ table.name }}"></a>
         </div>
         <div class="card-footer z-2 d-flex justify-content-between">
-            <a class="text-decoration-none" href="#" aria-label="update table {{ table.name }}">Modify</a>
-            <a class="text-decoration-none" href="#" aria-label="update table {{ table.name }}">Delete</a>
+            {% if table.type == table.USER_TABLE or request.user.is_staff %}
+            <a class="order-1 link-primary link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% if table.type == table.USER_TABLE %}{% url 'tables:user:change' table.id table.slug_name %}{% else %}{% url 'tables:default:change' table.id table.slug_name %}{% endif %}" aria-label="edit table {{ table.name }}">Edit</a>
+            <a class="order-3 link-danger link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% if table.type == table.USER_TABLE %}{% url 'tables:user:delete' table.id table.slug_name %}{% else %}{% url 'tables:default:delete' table.id table.slug_name %}{% endif %}" aria-label="delete table {{ table.name }}">Delete</a>
+            {% endif %}
+            <a class="order-2 link-dark link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% if table.type == table.USER_TABLE %}{% url 'tables:user:reset' table.id table.slug_name %}{% else %}{% url 'tables:default:reset' table.id table.slug_name %}{% endif %}" aria-label="reset table {{ table.name }}">Reset</a>
         </div>
     </div>
 </div>
