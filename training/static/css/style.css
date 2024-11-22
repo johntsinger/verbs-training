@@ -14,14 +14,21 @@
     --slick-arrows-color: #e54f46;
     --card-head-bg-color: #4f46e5;
     --bg-color: #14227a;
-    --card-body-hover-bg-color: #d8ebfb;
+    --card-body-hover-bg-color: #edf6ff;
     --dropdown-link-hover-bg-color: #e2e2e6;
+
+    /* filteredSelectMultiple */
+    --body-quiet-color: #666;
+    --border-color: #ccc;
+    --darkened-bg: #f8f8f8;
+    --header-link-color: #fff;
+    --selected-bg: #e4e4e4;
 }
 
 /* add margin for fixed navbar */
 html {
-    height: calc(100% - 57px);
-    margin-top: 57px;
+    height: calc(100% - 63px);
+    margin-top: 63px;
 }
 
 body {
@@ -49,12 +56,6 @@ nav bar
 
 #######
 */
-
-/* #nav-user {
-    color: #000000!important;
-    border-color: #ffffff!important;
-    background-color: #ffffff;
-} */
 
 .dropdown-item.nav-link {
     border-radius: 0.4rem;
@@ -99,7 +100,7 @@ Focus
     border-radius: 5px;
 }
 
-a:focus-visible, .nav-link:focus-visible {
+a:focus-visible, .nav-link:focus-visible, input:focus-visible, select:focus-visible {
     outline: 0 !important;
     box-shadow: 0 0 0 .25rem var(--focus-color) !important;
     border-radius: 5px !important;
@@ -118,7 +119,7 @@ Title
 */
 
 #title {
-    background-color: #efeefd;
+    background-color: var(--title-bg-color);
 }
 
 /*
@@ -226,6 +227,10 @@ Cards adjustements
 ##################
 */
 
+.card {
+    max-width: 484px;
+}
+
 .card-header {
     background-color: var(--card-head-bg-color);
     color: var(--dt-body-bg-color);
@@ -235,8 +240,13 @@ Cards adjustements
     min-height: 104px;
 }
 
-.card-wrap:hover .card-body{
+.card-wrap:hover .card-body {
     background-color: var(--card-body-hover-bg-color) !important;
+}
+
+.card-footer {
+    min-height: 40.8px;
+    font-size: 0.9rem;
 }
 
 /*
@@ -286,4 +296,57 @@ Slick adjustements
 
 .slick-dots li button:before {
     font-size: 8px;
+}
+
+
+
+
+.selector h2 {
+    font-size: 1rem;
+    margin: 1em 0 .5em 0;
+}
+
+.selector select {
+    border-color: var(--border-color);
+    font-size: 0.8125rem;
+}
+
+.selector-chosen h2 {
+    background: var(--card-head-bg-color) !important;
+}
+
+.selector input {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 5px 6px;
+    margin-top: 0;
+    color: var(--body-fg);
+    background-color: var(--body-bg);
+    font-size: 0.8125rem;
+}
+
+.selector-chosen .list-footer-display {
+    background: #9C95F3 !important;
+}
+
+.stacked, .stacked select, .stacked .selector-available, .stacked .selector-chosen, .stacked .selector-available input {
+    width: 100% !important;
+}
+
+.stacked select {
+    height: 15em !important;
+}
+
+.stacked {
+    max-width: 490px !important;
+    /* Set float to none to fix display */
+    float: none !important;
+}
+
+.stacked select, .stacked .selector-available, .stacked .selector-chosen {
+    max-width: 480px !important;
+}
+
+.stacked .selector-available input {
+    max-width: 422px !important;
 }
