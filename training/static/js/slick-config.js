@@ -27,15 +27,4 @@ var settings = {
 $(document).ready(function(){
     $('.default-tables__slick').slick(settings);
     $('.user-tables__slick').slick(settings);
-
-    // Update slidesToShow based on the number of slides
-    var defaultTableSlick = $('.default-tables__slick')[0].slick
-    var userTableSlick = $('.user-tables__slick')[0].slick
-
-    if (defaultTableSlick.slideCount < defaultTableSlick.options.slidesToShow) {
-        defaultTableSlick.options.slidesToShow = defaultTableSlick.slideCount
-    }
-    if (userTableSlick.slideCount < userTableSlick.options.slidesToShow) {
-        userTableSlick.options.slidesToShow = userTableSlick.slideCount
-    }
 });
