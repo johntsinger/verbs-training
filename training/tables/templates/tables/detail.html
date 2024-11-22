@@ -1,0 +1,32 @@
+{% extends 'verbs/verb_base.html' %}
+
+{% block content %}
+<div class="mb-4">
+    <div class="row row-cols-3">
+        <div class="col d-flex justify-content-start">
+        {% include 'includes/buttons/return.html' %}
+        </div>
+        <div class="col d-flex justify-content-center">
+            <a class="btn btn-outline-primary text-nowrap" href="{% if object.type == object.USER_TABLE %}{% url 'tables:user:training' object.id object.slug_name %}{% else %}{% url 'tables:default:training' object.id object.slug_name %}{% endif %}" aria-label="train yourself" tabindex="-1">
+                Train yourself!
+            </a>
+        </div>
+        <div class="col d-flex justify-content-end">
+            {% if object.type == object.USER_TABLE or request.user.is_staff %}
+            <a class="btn btn-link icon-link link-body-emphasis text-decoration-none px-0" href="{% if object.type == object.USER_TABLE %}{% url 'tables:user:change' object.id object.slug_name %}{% else %}{% url 'tables:default:change' object.id object.slug_name %}{% endif %}" aria-label="update table {{ table.name }}" tabindex="-1">
+                Edit
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ms-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% include 'verbs/includes/table.html' with verbs=object.verbs.all %}
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    var tableResetUrl = "{% if object.type == object.USER_TABLE %}{% url 'tables:user:reset' object.id object.slug_name %}{% else %}{% url 'tables:default:reset' object.id object.slug_name %}{% endif %}"
+</script>
+{{ block.super }}
+{% endblock js %}

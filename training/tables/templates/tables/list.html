@@ -7,9 +7,18 @@
 {% endblock link %}
 
 {% block content %}
-<div class="my-4 col-11 col-md-10  mx-auto">
+<div class="my-4 col-11 col-md-10 mx-auto">
     <div id="default-tables">
-        <h4 class="text-center text-md-start mb-3">Default tables</h4>
+        <div class="d-flex flex-row gap-2 mb-3">
+            <h4 class="text-center text-md-start">
+                Default tables
+            </h4>
+            {% if request.user.is_staff %}
+            <a class="btn btn-link px-2 py-0" href="{% url 'tables:default:add' %}" aria-label="Add new table">
+                <img src="{% static 'img/svg/circle-plus.svg' %}" alt="add icon" title="Add new table"/>
+            </a>
+            {% endif %}
+        </div>
         <div class="default-tables__slick mx-md-5">
             {% for table in default_tables %}
                 {% include 'tables/includes/card.html' with table=table %}
@@ -17,12 +26,22 @@
         </div>
     </div>
     <div id="user-tables">
-        <h4 class="text-center text-md-start mb-3">My tables</h4>
+        <div class="d-flex flex-row gap-2 mb-3">
+            <h4 class="text-center text-md-start">
+                My tables
+            </h4>
+            <span class="fw-normal fs-5 text-nowrap">({{ user_tables_count }} / 10)</span>
+            <a class="btn btn-link px-2 py-0 {% if user_tables_count >= 10 %}disabled{% endif %}" href="{% url 'tables:user:add' %}" aria-label="Add new table">
+                <img src="{% static 'img/svg/circle-plus.svg' %}" alt="add icon" title="Add new table"/>
+            </a>
+        </div>
+        
         <div class="user-tables__slick mx-md-5">
             {% for table in user_tables %}
                 {% include 'tables/includes/card.html' with table=table %}
             {% endfor %}
         </div>
+        
     </div>
 </div>
 {% endblock content %}
