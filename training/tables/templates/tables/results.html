@@ -7,28 +7,28 @@
     {% include 'includes/buttons/return.html' %}
 </div>
 <div class="bg-white rounded-3 shadow border px-3 my-4 col-md-10 col-lg-8 mx-auto">
-    {% for result in results %}
+    {% for data in verbs_data %}
     <div class="row row-cols-md-4 g-3 align-items-center py-3 text-center border-bottom">
-        <div class="d-flex flex-column {% if result.infinitive_is_success %}success{% else %}unsuccess{% endif %}">
-            <div>{{ result.infinitive|default:"---"}}</div>
-            {% if not result.infinitive_is_success %}
-            <div class="fw-semibold">{{ result.correct_infinitive }}</div>
+        <div class="d-flex flex-column {% if data.infinitive_is_success %}success{% else %}unsuccess{% endif %}">
+            <div>{{ data.infinitive|default:"---"}}</div>
+            {% if not data.infinitive_is_success %}
+            <div class="fw-semibold">{{ data.correct_infinitive }}</div>
             {% endif %}
         </div>
-        <div class="d-flex flex-column {% if result.simple_past_is_success %}success{% else %}unsuccess{% endif %}">
-            <div>{{ result.simple_past|default:"---" }}</div>
-            {% if not result.simple_past_is_success %}
-            <div class="fw-semibold">{{ result.correct_simple_past }}</div>
+        <div class="d-flex flex-column {% if data.simple_past_is_success %}success{% else %}unsuccess{% endif %}">
+            <div>{{ data.simple_past|default:"---" }}</div>
+            {% if not data.simple_past_is_success %}
+            <div class="fw-semibold">{{ data.correct_simple_past }}</div>
             {% endif %}
         </div>
-        <div class="d-flex flex-column {% if result.past_participle_is_success %}success{% else %}unsuccess{% endif %}">
-            <div>{{ result.past_participle|default:"---" }}</div>
-            {% if not result.past_participle_is_success %}
-            <div class="fw-semibold">{{ result.correct_past_participle }}</div>
+        <div class="d-flex flex-column {% if data.past_participle_is_success %}success{% else %}unsuccess{% endif %}">
+            <div>{{ data.past_participle|default:"---" }}</div>
+            {% if not data.past_participle_is_success %}
+            <div class="fw-semibold">{{ data.correct_past_participle }}</div>
             {% endif %}
         </div>
         <div class="order-first order-md-last row-cols-md-1 text-center fw-semibold">
-            {{ result.translation }}
+            {{ data.translation }}
         </div>
     </div>
     {% endfor %}
