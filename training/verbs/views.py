@@ -1,4 +1,6 @@
+from django.contrib.auth.decorators import login_not_required
 from django.db.models import Subquery, OuterRef
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.list import ListView
 
@@ -7,6 +9,7 @@ from verbs.models import Verb
 from results.models import Result
 
 
+@method_decorator(login_not_required, name="dispatch")
 class VerbListView(
     TitleMixin,
     ListView

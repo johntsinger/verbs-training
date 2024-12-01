@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_not_required
 from django.contrib.auth.views import (
     LoginView as BaseLoginView,
     PasswordChangeView as BasePasswordChangeView,
@@ -35,6 +35,7 @@ from authentication.forms import (
 )
 
 
+@method_decorator(login_not_required, name="dispatch")
 class LoginView(
     TitleMixin,
     PreviousPageURLMixin,
@@ -47,6 +48,7 @@ class LoginView(
     title = _('Login')
 
 
+@method_decorator(login_not_required, name="dispatch")
 class SignUpView(
     TitleMixin,
     PreviousPageURLMixin,
@@ -89,6 +91,7 @@ class SignUpView(
         return valid
 
 
+@method_decorator(login_not_required, name="dispatch")
 class PasswordResetView(
     TitleMixin,
     PreviousPageURLMixin,
@@ -103,6 +106,7 @@ class PasswordResetView(
     title = _('Reset password')
 
 
+@method_decorator(login_not_required, name="dispatch")
 class PasswordResetConfirmView(
     PreviousPageURLMixin,
     BasePasswordResetConfirmView
@@ -112,6 +116,7 @@ class PasswordResetConfirmView(
     previous_page_url = reverse_lazy('authentication:login')
 
 
+@method_decorator(login_not_required, name="dispatch")
 class PasswordResetDoneView(
     PreviousPageURLMixin,
     BasePasswordResetDoneView
@@ -122,7 +127,6 @@ class PasswordResetDoneView(
 
 class AccountView(
     TitleMixin,
-    LoginRequiredMixin,
     DetailView
 ):
     template_name = 'authentication/account.html'
@@ -135,7 +139,6 @@ class AccountView(
 class UsernameChangeView(
     TitleMixin,
     PreviousPageURLMixin,
-    LoginRequiredMixin,
     SuccessMessageMixin,
     UpdateView
 ):
@@ -153,7 +156,6 @@ class UsernameChangeView(
 class EmailChangeView(
     TitleMixin,
     PreviousPageURLMixin,
-    LoginRequiredMixin,
     SuccessMessageMixin,
     UpdateView
 ):
@@ -171,7 +173,6 @@ class EmailChangeView(
 class PasswordChangeView(
     TitleMixin,
     PreviousPageURLMixin,
-    LoginRequiredMixin,
     SuccessMessageMixin,
     BasePasswordChangeView
 ):
@@ -185,7 +186,6 @@ class PasswordChangeView(
 class DeleteAccountView(
     TitleMixin,
     PreviousPageURLMixin,
-    LoginRequiredMixin,
     SuccessMessageMixin,
     DeleteView
 ):
