@@ -6,7 +6,7 @@
 <div class="col-md-10 col-lg-8 mx-auto">
     {% include 'includes/buttons/return.html' %}
 </div>
-<div class="bg-white rounded-3 shadow border px-3 my-4 col-md-8 col-lg-6 mx-auto">
+<div class="rounded-3 shadow border px-3 my-4 col-md-8 col-lg-6 mx-auto">
     <form method="post" class="p-3">
         {% csrf_token %}
         {{ form|crispy }}

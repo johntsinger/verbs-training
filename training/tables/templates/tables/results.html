@@ -6,7 +6,7 @@
 <div class="col-md-10 col-lg-8 mx-auto">
     {% include 'includes/buttons/return.html' %}
 </div>
-<div class="bg-white rounded-3 shadow border px-3 my-4 col-md-10 col-lg-8 mx-auto">
+<div class="rounded-3 shadow border px-3 my-4 col-md-10 col-lg-8 mx-auto">
     {% for data in verbs_data %}
     <div class="row row-cols-md-4 g-3 align-items-center py-3 text-center border-bottom">
         <div class="d-flex flex-column {% if data.infinitive_is_success %}success{% else %}unsuccess{% endif %}">
