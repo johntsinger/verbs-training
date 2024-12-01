@@ -1,14 +1,7 @@
-import uuid
 from django.db import models
 
 
 class Verb(models.Model):
-    id = models.UUIDField(
-        primary_key=True,
-        unique=True,
-        editable=False,
-        default=uuid.uuid4
-    )
     infinitive = models.CharField(
         max_length=70,
     )
