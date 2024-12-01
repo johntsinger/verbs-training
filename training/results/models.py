@@ -1,7 +1,9 @@
 import uuid
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
+
 from verbs.models import Verb
 from profiles.models import Profile
 from tables.models import Table
