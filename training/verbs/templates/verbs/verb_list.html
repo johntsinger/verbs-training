@@ -3,3 +3,10 @@
 {% block content %}
     {% include 'verbs/includes/table.html' with verbs=verb_list %}
 {% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    var resetUrl = "{% url 'results:reset-all' %}";
+</script>
+{{ block.super }}
+{% endblock js %}
