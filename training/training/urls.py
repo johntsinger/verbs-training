@@ -28,5 +28,6 @@ urlpatterns = [
     path('', include('authentication.urls')),
     path('verbs/', include('verbs.urls')),
     path('tables/', include('tables.urls')),
+    path('tables/', include('results.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
