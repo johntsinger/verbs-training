@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from django.db.models import Q
 from django.db.models.constraints import UniqueConstraint
-from django.core.exceptions import ValidationError
+from django.db.models.functions import Lower
 from django.utils.text import slugify
 
 from verbs.models import Verb
@@ -55,14 +55,15 @@ class Table(models.Model):
     class Meta:
         constraints = [
             UniqueConstraint(
-                fields=['name'],
-                condition=Q(type='defaulttable'),
+                Lower('name'),
+                condition=Q(type='defaulttable',),
                 name=(
                     'unique_default_table_name'
                 )
             ),
             UniqueConstraint(
-                fields=['name', 'owner'],
+                Lower('name'),
+                'owner',
                 condition=Q(type='usertable'),
                 name=(
                     'unique_table_name_per_profile'
@@ -72,6 +73,7 @@ class Table(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug_name = slugify(self.name)
+        # self.clean()
         return super().save(*args, **kwargs)
 
     def get_verbs_success(self):
@@ -92,18 +94,26 @@ class Table(models.Model):
             if verb.is_success is None
         ]
 
+    def resolve_proxy_model(self):
+        """Get the proxy model."""
+        if self.type == self.DEFAULT_TABLE:
+            self.__class__ = DefaultTable
+        else:
+            self.__class__ = UserTable
+        return self
+
     def __str__(self):
         return f'{self.name}'
 
 
 class DefaultTableManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type='defaulttable')
+        return super().get_queryset().filter(type=self.model.DEFAULT_TABLE)
 
 
 class UserTableManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(type='usertable')
+        return super().get_queryset().filter(type=self.model.USER_TABLE)
 
 
 class DefaultTable(Table):
@@ -117,17 +127,6 @@ class DefaultTable(Table):
         self.owner = None
         return super().save(*args, **kwargs)
 
-    def clean(self):
-        if DefaultTable.objects.filter(
-            name=self.name
-        ).exclude(
-            id=self.id
-        ):
-            raise ValidationError(
-                'Default table with this Name already exists.',
-            )
-        return super().clean()
-
 
 class UserTable(Table):
     objects = UserTableManager()
@@ -139,14 +138,13 @@ class UserTable(Table):
         self.type = self.USER_TABLE
         return super().save(*args, **kwargs)
 
-    def clean(self):
-        if UserTable.objects.filter(
-            name=self.name,
-            owner=self.owner
-        ).exclude(
-            id=self.id
-        ):
-            raise ValidationError(
-                'User table with this Name and Owner already exists.',
-            )
-        return super().clean()
+    # def clean(self):
+    #     # UserTable must have an owner.
+    #     if not self.owner:
+    #         raise ValueError(
+    #             {
+    #                 'owner':
+    #                 'UserTable must have an owner.'
+    #             }
+    #         )
+    #     return super().clean()
