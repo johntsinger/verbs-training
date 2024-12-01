@@ -9,12 +9,12 @@
 {% block content %}
 <div class="my-4 col-11 col-md-10 mx-auto">
     <div id="default-tables">
-        <div class="d-flex flex-row gap-2 mb-3">
+        <div class="d-flex flex-row gap-2 mb-3 align-items-center">
             <h4 class="text-center text-md-start">
                 Default tables
             </h4>
             {% if request.user.is_staff %}
-            <a class="btn btn-link px-2 py-0" href="{% url 'tables:default:add' %}" aria-label="Add new table">
+            <a class="btn btn-link p-0 mx-2 mb-1" href="{% url 'tables:default:add' %}" aria-label="Add new table">
                 <img src="{% static 'img/svg/circle-plus.svg' %}" alt="add icon" title="Add new table"/>
             </a>
             {% endif %}
@@ -26,22 +26,35 @@
         </div>
     </div>
     <div id="user-tables">
-        <div class="d-flex flex-row gap-2 mb-3">
+        <div class="d-flex flex-row gap-2 mb-3 align-items-center">
             <h4 class="text-center text-md-start">
                 My tables
             </h4>
             <span class="fw-normal fs-5 text-nowrap">({{ user_tables_count }} / 10)</span>
-            <a class="btn btn-link px-2 py-0 {% if user_tables_count >= 10 %}disabled{% endif %}" href="{% url 'tables:user:add' %}" aria-label="Add new table">
-                <img src="{% static 'img/svg/circle-plus.svg' %}" alt="add icon" title="Add new table"/>
-            </a>
+            <span class="align-middle">
+                <a class="btn btn-link p-0 mx-2 mb-1 {% if user_tables_count >= 10 %}disabled{% endif %}" href="{% url 'tables:user:add' %}" aria-label="Add new table">
+                    <img src="{% static 'img/svg/circle-plus.svg' %}" alt="add icon" title="Add new table"/>
+                </a>
+            </span>
         </div>
-        
+        {% if user_tables %}
         <div class="user-tables__slick mx-md-5">
             {% for table in user_tables %}
                 {% include 'tables/includes/card.html' with table=table %}
             {% endfor %}
         </div>
-        
+        {% else %}
+        <div class="d-flex flex-column justify-content-center text-center my-4">
+            <p>You can create your own table!</p>
+            <p class="align-middle">
+                Click 
+                <a class="btn btn-link p-0 mx-2 mb-1 {% if user_tables_count >= 10 %}disabled{% endif %}" href="{% url 'tables:user:add' %}" aria-label="Add new table">
+                    <img src="{% static 'img/svg/circle-plus.svg' %}" alt="add icon" title="Add new table"/>
+                </a>
+                to add a new one.
+            </p>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}
