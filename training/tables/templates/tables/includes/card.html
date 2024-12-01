@@ -43,7 +43,7 @@
             <a class="order-1 link-primary link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% if table.type == table.USER_TABLE %}{% url 'tables:user:change' table.id table.slug_name %}{% else %}{% url 'tables:default:change' table.id table.slug_name %}{% endif %}" aria-label="edit table {{ table.name }}">Edit</a>
             <a class="order-3 link-danger link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% if table.type == table.USER_TABLE %}{% url 'tables:user:delete' table.id table.slug_name %}{% else %}{% url 'tables:default:delete' table.id table.slug_name %}{% endif %}" aria-label="delete table {{ table.name }}">Delete</a>
             {% endif %}
-            <a class="order-2 link-dark link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% if table.type == table.USER_TABLE %}{% url 'tables:user:reset' table.id table.slug_name %}{% else %}{% url 'tables:default:reset' table.id table.slug_name %}{% endif %}" aria-label="reset table {{ table.name }}">Reset</a>
+            <a class="order-2 link-dark link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% if table.type == table.USER_TABLE %}{% url 'results:user:reset' table.id table.slug_name %}{% else %}{% url 'results:default:reset' table.id table.slug_name %}{% endif %}" aria-label="reset table {{ table.name }}">Reset</a>
         </div>
     </div>
 </div>
