@@ -110,17 +110,12 @@ var table = $('#custom-dt').DataTable({
         topEnd: 'search',
         bottomStart: 'info',
         bottomEnd: function () {
-            if (typeof tableResetUrl !== 'undefined') {
-                let resetLink = document.createElement('a');
-                resetLink.href = tableResetUrl;
-                resetLink.className = 'link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover';
-                resetLink.ariaLabel = 'reset table';
-                resetLink.innerHTML = 'Reset';
-    
-                return resetLink;
-            } else {
-                return document.createElement('div')
-            }
+            let resetLink = document.createElement('a');
+            resetLink.href = resetUrl;
+            resetLink.className = 'link-opacity-100-hover link-offset-2 link-underline link-underline-opacity-0 link-underline-opacity-75-hover';
+            resetLink.ariaLabel = 'reset table';
+            resetLink.innerHTML = 'Reset';
+            return resetLink;
         }
     },
     // creates buttons
