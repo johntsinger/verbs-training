@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="col-md-10 col-lg-8 mx-auto">
+    {% include 'includes/buttons/return.html' %}
+</div>
+<div class="bg-white rounded-3 shadow border px-3 my-4 col-md-8 col-lg-6 mx-auto">
+    <div class="text-center pt-4">
+        {% if object.name %}
+        <p>Are you sure you want to reset the table <span class="fw-bold">{{ object.name|capfirst }}</span>?</p>
+        {% else %}
+        <p>Are you sure you want to reset <span class="fw-bold">your whole progression</span>?</p>
+        {% endif %}
+        <p>
+            <span class="success">Success</span>
+            and
+            <span class="unsuccess">Unsuccess</span>
+            status will be set to default!
+        </p>
+    </div>
+    <form method="post" class="p-3">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-flex flex-column flex-md-row justify-content-center">
+            <button type="submit" class="btn btn-outline-danger" aria-label="Reset table {{ object.name }}">Reset</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
