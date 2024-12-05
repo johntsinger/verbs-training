@@ -1,0 +1,6 @@
+-r base.txt # includes the base.txt requirements file
+
+coverage==7.6.8
+django-debug-toolbar==4.4.6
+django-extensions==3.2.3
+python-dotenv==1.0.1

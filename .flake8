@@ -4,4 +4,6 @@ exclude=
     __pycache__,
     env/,
     */migrations/*,
-    settings.py
+    config/settings/,
+
+max-line-length=88

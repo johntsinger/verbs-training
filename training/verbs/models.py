@@ -15,58 +15,58 @@ class Verb(models.Model):
         max_length=70,
     )
     similarity = models.ForeignKey(
-        to='Similarity',
+        to="Similarity",
         on_delete=models.PROTECT,
-        related_name='verbs',
-        null=True
+        related_name="verbs",
+        null=True,
     )
 
     def __str__(self) -> str:
         return (
-            f'{self.infinitive} {self.simple_past} '
-            f'{self.past_participle} {self.translation}'
+            f"{self.infinitive} {self.simple_past} "
+            f"{self.past_participle} {self.translation}"
         )
 
 
 class Info(models.Model):
     content = models.CharField(
-        max_length=255
+        max_length=255,
     )
     verb = models.ForeignKey(
         to=Verb,
         on_delete=models.CASCADE,
-        related_name='info'
+        related_name="info",
     )
 
     def __str__(self) -> str:
-        return f'Info for verb {self.verb.infinitive}'
+        return f"Info for verb {self.verb.infinitive}"
 
 
 class Example(models.Model):
     english = models.CharField(
-        max_length=255
+        max_length=255,
     )
     translation = models.CharField(
-        max_length=255
+        max_length=255,
     )
     verb = models.ForeignKey(
         to=Verb,
         on_delete=models.CASCADE,
-        related_name='examples'
+        related_name="examples",
     )
 
     def __str__(self) -> str:
-        return f'Example for verb {self.verb.infinitive}'
+        return f"Example for verb {self.verb.infinitive}"
 
 
 class Similarity(models.Model):
     name = models.CharField(
         max_length=50,
-        unique=True
+        unique=True,
     )
 
     class Meta:
-        verbose_name_plural = 'Similarities'
+        verbose_name_plural = "Similarities"
 
     def __str__(self) -> str:
-        return f'{self.name}'
+        return f"{self.name}"

@@ -4,22 +4,17 @@ from django import forms
 from django.contrib import admin
 from django.contrib.admin.widgets import (
     FilteredSelectMultiple,
-    RelatedFieldWidgetWrapper
+    RelatedFieldWidgetWrapper,
 )
 from django.db.models import Q
 from django.db.models.fields.related import ForeignKey
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
 
-from tables.models import (
-    DefaultTable,
-    UserTable,
-    Table
-)
-from verbs.models import Verb
-from profiles.models import Profile
-
-from common.admin.mixins import GetReadOnlyFieldsMixin
+from training.common.admin.mixins import GetReadOnlyFieldsMixin
+from training.profiles.models import Profile
+from training.tables.models import DefaultTable, Table, UserTable
+from training.verbs.models import Verb
 
 
 class TableAdminFormMixin:
@@ -33,10 +28,7 @@ class TableAdminFormMixin:
             self.fields["verbs"].initial = self.instance.verbs.all()
 
 
-class TableAdminForm(
-    TableAdminFormMixin,
-    forms.ModelForm
-):
+class TableAdminForm(TableAdminFormMixin, forms.ModelForm):
     # owner = forms.ModelChoiceField(
     #     queryset=Profile.objects.select_related('user'),
     #     required=False
@@ -48,12 +40,12 @@ class TableAdminForm(
         widget=RelatedFieldWidgetWrapper(
             FilteredSelectMultiple(
                 verbose_name="Verbs",
-                is_stacked=False
+                is_stacked=False,
             ),
             rel=Table._meta.get_field("verbs").remote_field,
             admin_site=admin.site,
-            can_add_related=True
-        )
+            can_add_related=True,
+        ),
     )
 
     class Meta:
@@ -63,39 +55,31 @@ class TableAdminForm(
             "name",
             "owner",
             "verbs",
-            "is_available"
+            "is_available",
         ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['owner'].required = False
+        self.fields["owner"].required = False
 
     def clean(self):
-        table_type = self.cleaned_data.get('type')
-        owner = self.cleaned_data.get('owner')
+        table_type = self.cleaned_data.get("type")
+        owner = self.cleaned_data.get("owner")
         if table_type == self.Meta.model.USER_TABLE and not owner:
-            raise forms.ValidationError(
-                {
-                    'owner': 'This field is required.'
-                }
-            )
+            raise forms.ValidationError({"owner": "This field is required."})
         if table_type == self.Meta.model.DEFAULT_TABLE and owner:
             raise forms.ValidationError(
                 {
-                    'owner':
-                    (
-                        'Default table must not have an owner. '
-                        'Leave this field blank.'
+                    "owner": (
+                        "Default table must not have an owner. "
+                        "Leave this field blank."
                     )
                 }
             )
         return super().clean()
 
 
-class DefaultTableAdminForm(
-    TableAdminFormMixin,
-    forms.ModelForm
-):
+class DefaultTableAdminForm(TableAdminFormMixin, forms.ModelForm):
     verbs = forms.ModelMultipleChoiceField(
         queryset=Verb.objects.all(),
         required=False,
@@ -103,12 +87,12 @@ class DefaultTableAdminForm(
         widget=RelatedFieldWidgetWrapper(
             FilteredSelectMultiple(
                 verbose_name="Verbs",
-                is_stacked=False
+                is_stacked=False,
             ),
             rel=DefaultTable._meta.get_field("verbs").remote_field,
             admin_site=admin.site,
-            can_add_related=True
-        )
+            can_add_related=True,
+        ),
     )
 
     class Meta:
@@ -116,14 +100,11 @@ class DefaultTableAdminForm(
         fields = [
             "name",
             "verbs",
-            "is_available"
+            "is_available",
         ]
 
 
-class UserTableAdminForm(
-    TableAdminFormMixin,
-    forms.ModelForm
-):
+class UserTableAdminForm(TableAdminFormMixin, forms.ModelForm):
     verbs = forms.ModelMultipleChoiceField(
         queryset=Verb.objects.all(),
         required=False,
@@ -131,12 +112,12 @@ class UserTableAdminForm(
         widget=RelatedFieldWidgetWrapper(
             FilteredSelectMultiple(
                 verbose_name="Verbs",
-                is_stacked=False
+                is_stacked=False,
             ),
             rel=UserTable._meta.get_field("verbs").remote_field,
             admin_site=admin.site,
-            can_add_related=True
-        )
+            can_add_related=True,
+        ),
     )
 
     class Meta:
@@ -145,37 +126,27 @@ class UserTableAdminForm(
             "name",
             "owner",
             "verbs",
-            "is_available"
+            "is_available",
         ]
 
 
 @admin.register(DefaultTable)
-class DefaultTableAdmin(
-    GetReadOnlyFieldsMixin,
-    admin.ModelAdmin
-):
+class DefaultTableAdmin(GetReadOnlyFieldsMixin, admin.ModelAdmin):
     form = DefaultTableAdminForm
-    list_display = [
-        "name",
-    ]
+    list_display = ["name"]
     readonly_fields = [
         "slug_name",
         "created_at",
-        "updated_at"
+        "updated_at",
     ]
     search_fields = ["name"]
-    search_help_text = (
-        "Search default tables by name."
-    )
+    search_help_text = "Search default tables by name."
     ordering = ("name",)
     list_per_page = 50
 
 
 @admin.register(UserTable)
-class UserTableAdmin(
-    GetReadOnlyFieldsMixin,
-    admin.ModelAdmin
-):
+class UserTableAdmin(GetReadOnlyFieldsMixin, admin.ModelAdmin):
     form = UserTableAdminForm
     list_display = [
         "name",
@@ -184,16 +155,14 @@ class UserTableAdmin(
     readonly_fields = [
         "slug_name",
         "created_at",
-        "updated_at"
+        "updated_at",
     ]
     search_fields = [
         "name",
-        "owner__user__username"
+        "owner__user__username",
     ]
-    search_help_text = (
-        "Search user tables by name and owner."
-    )
-    autocomplete_fields = ['owner']
+    search_help_text = "Search user tables by name and owner."
+    autocomplete_fields = ["owner"]
     ordering = ("name",)
     list_per_page = 50
 
@@ -202,10 +171,7 @@ class UserTableAdmin(
         return queryset.select_related("owner__user")
 
     def formfield_for_foreignkey(
-        self,
-        db_field: ForeignKey[Any],
-        request: HttpRequest | None,
-        **kwargs: Any
+        self, db_field: ForeignKey[Any], request: HttpRequest | None, **kwargs: Any
     ) -> forms.ModelChoiceField | None:
         # Select user to display foreignkey profile choices
         # to avoid duplicated query because profile's str method
@@ -219,23 +185,21 @@ class UserTableAdmin(
 class TableAdmin(admin.ModelAdmin):
     form = TableAdminForm
     list_display = [
-        'name',
-        'owner',
-        'type'
+        "name",
+        "owner",
+        "type",
     ]
     readonly_fields = [
         "slug_name",
         "created_at",
-        "updated_at"
+        "updated_at",
     ]
     search_fields = [
         "name",
-        "owner__user__username"
+        "owner__user__username",
     ]
-    search_help_text = (
-        "Search user tables by name and owner."
-    )
-    autocomplete_fields = ['owner']
+    search_help_text = "Search user tables by name and owner."
+    autocomplete_fields = ["owner"]
     ordering = ("name",)
     list_per_page = 50
 
@@ -243,10 +207,7 @@ class TableAdmin(admin.ModelAdmin):
         js = ("js/disableOwner.js",)
 
     def get_search_results(
-        self,
-        request: HttpRequest,
-        queryset: QuerySet[Any],
-        search_term: str
+        self, request: HttpRequest, queryset: QuerySet[Any], search_term: str
     ) -> tuple[QuerySet[Any], bool]:
         queryset, may_have_duplicates = super().get_search_results(
             request,
@@ -257,25 +218,20 @@ class TableAdmin(admin.ModelAdmin):
 
         # Returns an empty list to avoid obtaining a result
         # if the profile has not been selected
-        if (
-            not profile_id
-            and request.get_full_path() != '/admin/tables/table/'
-        ):
+        if not profile_id and request.get_full_path() != "/admin/tables/table/":
             return Table.objects.none(), may_have_duplicates
 
         # Return all tables to display on Table admin panel
-        if request.get_full_path() == '/admin/tables/table/':
-            return Table.objects.all().select_related(
-                'owner__user'
-            ).order_by('type'), may_have_duplicates
+        if request.get_full_path() == "/admin/tables/table/":
+            return (
+                Table.objects.all().select_related("owner__user").order_by("type"),
+                may_have_duplicates,
+            )
 
-        queryset = queryset.filter(
-            Q(owner=profile_id)
-            | Q(type=Table.DEFAULT_TABLE)
-        ).filter(
-            name__icontains=search_term
-        ).order_by(
-            "type"
+        queryset = (
+            queryset.filter(Q(owner=profile_id) | Q(type=Table.DEFAULT_TABLE))
+            .filter(name__icontains=search_term)
+            .order_by("type")
         )
         return queryset, may_have_duplicates
 
@@ -284,10 +240,7 @@ class TableAdmin(admin.ModelAdmin):
         return queryset.select_related("owner__user")
 
     def formfield_for_foreignkey(
-        self,
-        db_field: ForeignKey[Any],
-        request: HttpRequest | None,
-        **kwargs: Any
+        self, db_field: ForeignKey[Any], request: HttpRequest | None, **kwargs: Any
     ) -> forms.ModelChoiceField | None:
         # Select user to display foreignkey profile choices
         # to avoid duplicated query because profile's str method

@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
 from django.test import TestCase, override_settings
 
-from authentication.backends import EmailBackend
+from training.authentication.backends import EmailBackend
 
 
 User = get_user_model()
@@ -145,7 +145,7 @@ class CustomModelBackend(EmailBackend):
 
 
 @override_settings(
-    AUTHENTICATION_BACKENDS=['authentication.backends.EmailBackend']
+    AUTHENTICATION_BACKENDS=['training.authentication.backends.EmailBackend']
 )
 class UserWithPermTestCase(TestCase):
     @classmethod
@@ -273,7 +273,7 @@ class UserWithPermTestCase(TestCase):
 
     @override_settings(
         AUTHENTICATION_BACKENDS=[
-            'tests.authentication.test_models.CustomModelBackend'
+            'training.authentication.tests.test_models.CustomModelBackend'
         ]
     )
     def test_custom_backend(self):
@@ -286,7 +286,7 @@ class UserWithPermTestCase(TestCase):
 
     @override_settings(
         AUTHENTICATION_BACKENDS=[
-            'tests.authentication.test_models.CustomModelBackend'
+            'training.authentication.tests.test_models.CustomModelBackend'
         ]
     )
     def test_custom_backend_pass_obj(self):
@@ -299,7 +299,7 @@ class UserWithPermTestCase(TestCase):
 
     @override_settings(
         AUTHENTICATION_BACKENDS=[
-            'tests.authentication.test_models.CustomModelBackend',
+            'training.authentication.tests.test_models.CustomModelBackend',
             'django.contrib.auth.backends.ModelBackend',
         ]
     )
@@ -312,7 +312,7 @@ class UserWithPermTestCase(TestCase):
             User.objects.with_perm('auth.test')
 
         backend = (
-            'tests.authentication.test_models.CustomModelBackend'
+            'training.authentication.tests.test_models.CustomModelBackend'
         )
         self.assertCountEqual(
             User.objects.with_perm('auth.test', backend=backend),

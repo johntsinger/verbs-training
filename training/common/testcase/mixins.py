@@ -11,7 +11,7 @@ class RequestFactoryMixin:
 
     def setUp_session(self, request):
         """Set up session if request needs SessionMiddleware."""
-        setattr(request, 'session', {})
+        setattr(request, "session", {})
 
     def setUp_messages(self, request):
         """Set up messages if request needs MessageMiddleware."""
@@ -20,4 +20,4 @@ class RequestFactoryMixin:
         self.setUp_session(request)
 
         messages = FallbackStorage(request)
-        setattr(request, '_messages', messages)
+        setattr(request, "_messages", messages)

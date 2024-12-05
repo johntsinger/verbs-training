@@ -3,11 +3,11 @@
 # from django.test import TestCase  # override_settings
 # from django.urls import reverse_lazy
 
-# from common.testcase.mixins import RequestFactoryMixin
-# from results.models import Result
-# from tables.models import DefaultTable
-# from verbs.models import Verb, Similarity, Info, Example
-# from verbs.views import VerbListView
+# from training.common.testcase.mixins import RequestFactoryMixin
+# from training.results.models import Result
+# from training.tables.models import DefaultTable
+# from training.verbs.models import Verb, Similarity, Info, Example
+# from training.verbs.views import VerbListView
 
 
 # User = get_user_model()

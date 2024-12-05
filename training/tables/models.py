@@ -6,27 +6,27 @@ from django.db.models.constraints import UniqueConstraint
 from django.db.models.functions import Lower
 from django.utils.text import slugify
 
-from verbs.models import Verb
-from profiles.models import Profile
+from training.profiles.models import Profile
+from training.verbs.models import Verb
 
 
 class Table(models.Model):
-    DEFAULT_TABLE = 'defaulttable'
-    USER_TABLE = 'usertable'
+    DEFAULT_TABLE = "defaulttable"
+    USER_TABLE = "usertable"
 
     CHOICES = [
-        (DEFAULT_TABLE, 'Default Table'),
-        (USER_TABLE, 'User Table')
+        (DEFAULT_TABLE, "Default Table"),
+        (USER_TABLE, "User Table"),
     ]
     id = models.UUIDField(
         primary_key=True,
         unique=True,
         editable=False,
-        default=uuid.uuid4
+        default=uuid.uuid4,
     )
     type = models.CharField(
         max_length=12,
-        choices=CHOICES
+        choices=CHOICES,
     )
     name = models.CharField(
         max_length=30,
@@ -34,41 +34,39 @@ class Table(models.Model):
     slug_name = models.SlugField()
     verbs = models.ManyToManyField(
         to=Verb,
-        related_name='tables'
+        related_name="tables",
     )
     owner = models.ForeignKey(
         to=Profile,
         on_delete=models.CASCADE,
-        related_name='tables',
-        null=True
+        related_name="tables",
+        null=True,
     )
     is_available = models.BooleanField(
-        default=True
+        default=True,
     )
     created_at = models.DateTimeField(
-        auto_now_add=True
+        auto_now_add=True,
     )
     updated_at = models.DateTimeField(
-        auto_now=True
+        auto_now=True,
     )
 
     class Meta:
         constraints = [
             UniqueConstraint(
-                Lower('name'),
-                condition=Q(type='defaulttable',),
-                name=(
-                    'unique_default_table_name'
-                )
+                Lower("name"),
+                condition=Q(
+                    type="defaulttable",
+                ),
+                name=("unique_default_table_name"),
             ),
             UniqueConstraint(
-                Lower('name'),
-                'owner',
-                condition=Q(type='usertable'),
-                name=(
-                    'unique_table_name_per_profile'
-                )
-            )
+                Lower("name"),
+                "owner",
+                condition=Q(type="usertable"),
+                name=("unique_table_name_per_profile"),
+            ),
         ]
 
     def save(self, *args, **kwargs):
@@ -77,22 +75,13 @@ class Table(models.Model):
         return super().save(*args, **kwargs)
 
     def get_verbs_success(self):
-        return [
-            verb for verb in self.verbs.all()
-            if verb.is_success is True
-        ]
+        return [verb for verb in self.verbs.all() if verb.is_success is True]
 
     def get_verbs_unsuccess(self):
-        return [
-            verb for verb in self.verbs.all()
-            if verb.is_success is False
-        ]
+        return [verb for verb in self.verbs.all() if verb.is_success is False]
 
     def get_verbs_not_done(self):
-        return [
-            verb for verb in self.verbs.all()
-            if verb.is_success is None
-        ]
+        return [verb for verb in self.verbs.all() if verb.is_success is None]
 
     def resolve_proxy_model(self):
         """Get the proxy model."""
@@ -103,7 +92,7 @@ class Table(models.Model):
         return self
 
     def __str__(self):
-        return f'{self.name}'
+        return f"{self.name}"
 
 
 class DefaultTableManager(models.Manager):

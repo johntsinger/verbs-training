@@ -6,10 +6,10 @@ from django.contrib.auth import get_user_model, get_user
 from django.contrib.messages import constants
 from django.contrib.messages.storage.base import Message
 from django.contrib.messages.test import MessagesTestMixin
-from django.test import TestCase  # override_settings
+from django.test import TestCase
 from django.urls import reverse_lazy, reverse
 
-from authentication.views import (
+from training.authentication.views import (
     SignUpView
 )
 

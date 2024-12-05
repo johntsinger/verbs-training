@@ -1,9 +1,9 @@
 from itertools import groupby
 
 from django.forms.models import (
-    ModelChoiceIterator,
     ModelChoiceField,
-    ModelMultipleChoiceField
+    ModelChoiceIterator,
+    ModelMultipleChoiceField,
 )
 
 
@@ -14,7 +14,7 @@ class OptGroupMixin:
         group_by_field,
         group_label=None,
         *args,
-        **kwargs
+        **kwargs,
     ):
         """
         - queryset (queryset): The queryset, must be order_by.
@@ -31,13 +31,14 @@ class OptGroupMixin:
             self.group_label = group_label
 
     def _get_choices(self):
-        if hasattr(self, '_choices'):
+        if hasattr(self, "_choices"):
             return self._choices
         return GroupedModelChoiceIterator(self)
 
 
 class GroupedModelChoiceIterator(ModelChoiceIterator):
     """Yield grouped choices."""
+
     def __iter__(self):
         if self.field.empty_label is not None:
             yield ("", self.field.empty_label)
@@ -46,26 +47,24 @@ class GroupedModelChoiceIterator(ModelChoiceIterator):
             queryset = queryset.iterator()
         for group, choices in groupby(
             self.queryset.all(),
-            key=lambda table: getattr(table, self.field.group_by_field)
+            key=lambda table: getattr(table, self.field.group_by_field),
         ):
             yield (
                 self.field.group_label(group) or "(Nameless)",
-                [self.choice(choice) for choice in choices]
+                [self.choice(choice) for choice in choices],
             )
 
 
 class GroupedModelChoiceField(OptGroupMixin, ModelChoiceField):
     """Group for ModelChoiceField"""
-    choices = property(
-        OptGroupMixin._get_choices,
-        ModelChoiceField.choices.fset
-    )
+
+    choices = property(OptGroupMixin._get_choices, ModelChoiceField.choices.fset)
 
 
 class GroupedModelMultiChoiceField(OptGroupMixin, ModelMultipleChoiceField):
     """Group for ModelMultipleChoiceField"""
+
     # doesn't work with widget FilteredSelectMultiple
     choices = property(
-        OptGroupMixin._get_choices,
-        ModelMultipleChoiceField.choices.fset
+        OptGroupMixin._get_choices, ModelMultipleChoiceField.choices.fset
     )

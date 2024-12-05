@@ -5,14 +5,14 @@
 # from django.test import TestCase
 # from django.urls import reverse_lazy, reverse
 
-# from authentication.views import (
+# from training.authentication.views import (
 #     SignUpView,
 #     AccountView,
 #     UsernameChangeView,
 #     EmailChangeView,
 #     DeleteAccountView
 # )
-# from common.testcase.mixins import RequestFactoryMixin
+# from training.common.testcase.mixins import RequestFactoryMixin
 
 
 # User = get_user_model()

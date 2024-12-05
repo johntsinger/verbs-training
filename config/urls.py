@@ -25,9 +25,9 @@ admin_urls = admin.site.urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-    path('', include('authentication.urls')),
-    path('verbs/', include('verbs.urls')),
-    path('tables/', include('tables.urls')),
-    path('tables/', include('results.urls')),
+    path('', include('training.authentication.urls')),
+    path('verbs/', include('training.verbs.urls')),
+    path('tables/', include('training.tables.urls')),
+    path('tables/', include('training.results.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]

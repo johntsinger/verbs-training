@@ -6,7 +6,7 @@ from django.forms.fields import Field, EmailField
 from django.test import TestCase, override_settings
 from django.utils.text import capfirst
 
-from authentication.forms import (
+from training.authentication.forms import (
     LoginForm,
     SignUpForm,
     UsernameChangeForm,
@@ -150,7 +150,7 @@ class TestLoginForm(TestDataMixin, TestCase):
     # as EmailBackend rejects inactive users.
     @override_settings(
         AUTHENTICATION_BACKENDS=[
-            'authentication.backends.AllowAllUsersEmailBackend'
+            'training.authentication.backends.AllowAllUsersEmailBackend'
         ]
     )
     def test_inactive_user_error(self):

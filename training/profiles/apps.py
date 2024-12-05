@@ -2,8 +2,8 @@ from django.apps import AppConfig
 
 
 class ProfilesConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'profiles'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "training.profiles"
 
     def ready(self):
-        import profiles.signals  # noqa: F401
+        import training.profiles.signals  # noqa: F401

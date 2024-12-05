@@ -1,77 +1,74 @@
 from django.urls import include, path
-from tables import views
+
+from training.tables import views
 
 
-app_name = 'tables'
+app_name = "tables"
 
 default_tables_urls = [
     path(
-        '<uuid:pk>/<str:slug_name>/',
+        "<uuid:pk>/<str:slug_name>/",
         views.DefaultTableDetailView.as_view(),
-        name='detail'
+        name="detail",
     ),
+    path("add/", views.DefaultTableCreateView.as_view(), name="add"),
     path(
-        'add/',
-        views.DefaultTableCreateView.as_view(),
-        name='add',
-    ),
-    path(
-        '<uuid:pk>/<str:slug_name>/change/',
+        "<uuid:pk>/<str:slug_name>/change/",
         views.DefaultTableUpdateView.as_view(),
-        name='change'
+        name="change",
     ),
     path(
-        '<uuid:pk>/<str:slug_name>/delete/',
+        "<uuid:pk>/<str:slug_name>/delete/",
         views.DefaultTableDeleteView.as_view(),
-        name='delete'
+        name="delete",
     ),
     path(
-        '<uuid:pk>/<str:slug_name>/training/',
+        "<uuid:pk>/<str:slug_name>/training/",
         views.DefaultTableTrainingFormView.as_view(),
-        name='training'
+        name="training",
     ),
     path(
-        '<uuid:pk>/<str:slug_name>/training/results/',
+        "<uuid:pk>/<str:slug_name>/training/results/",
         views.DefaultTableResultView.as_view(),
-        name='results'
+        name="results",
     ),
 ]
 
 user_tables_urls = [
     path(
-        '<uuid:pk>/<str:slug_name>/',
+        "<uuid:pk>/<str:slug_name>/",
         views.UserTableDetailView.as_view(),
-        name='detail'
+        name="detail",
     ),
     path(
-        'add/',
+        "add/",
         views.UserTableCreateView.as_view(),
-        name='add',
+        name="add",
     ),
     path(
-        '<uuid:pk>/<str:slug_name>/change/',
+        "<uuid:pk>/<str:slug_name>/change/",
         views.UserTableUpdateView.as_view(),
-        name='change'
+        name="change",
     ),
     path(
-        '<uuid:pk>/<str:slug_name>/delete/',
+        "<uuid:pk>/<str:slug_name>/delete/",
         views.UserTableDeleteView.as_view(),
-        name='delete'
+        name="delete",
     ),
     path(
-        '<uuid:pk>/<str:slug_name>/training/',
+        "<uuid:pk>/<str:slug_name>/training/",
         views.UserTableTrainingFormView.as_view(),
-        name='training'
+        name="training",
     ),
     path(
-        '<uuid:pk>/<str:slug_name>/training/results/',
+        "<uuid:pk>/<str:slug_name>/training/results/",
         views.UserTableResultView.as_view(),
-        name='results'
+        name="results",
     ),
 ]
 
 urlpatterns = [
-    path('', views.TableListView.as_view(), name='list'),
-    path('default/', include((default_tables_urls, 'default'))),
-    path('user/', include((user_tables_urls, 'user'))),
+    path("", views.TableListView.as_view(), name="list"),
+    path("default/", include((default_tables_urls, "default"))),
+    path("user/", include((user_tables_urls, "user"))),
 ]

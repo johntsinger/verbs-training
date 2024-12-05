@@ -82,7 +82,7 @@ class TestEmailBackend(TestDataMixin, TestCase):
 
 @override_settings(
     AUTHENTICATION_BACKENDS=[
-        'authentication.backends.AllowAllUsersEmailBackend'
+        'training.authentication.backends.AllowAllUsersEmailBackend'
     ]
 )
 class TestAllowAllUsersEmailBackend(TestDataMixin, TestCase):

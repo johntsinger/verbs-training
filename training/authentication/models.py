@@ -2,10 +2,7 @@ import uuid
 
 from django.apps import apps
 from django.contrib import auth
-from django.contrib.auth.models import (
-    AbstractUser,
-    BaseUserManager
-)
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
@@ -18,25 +15,19 @@ class MyUserManager(BaseUserManager):
         username,
         email,
         password,
-        **extra_fields
+        **extra_fields,
     ):
         """
         Creates and saves a User with the given email, password and username.
         """
         if not email:
-            raise ValueError(
-                'Users must have an email address.'
-            )
+            raise ValueError("Users must have an email address.")
 
         if not username:
-            raise ValueError(
-                'Users must have a username.'
-            )
+            raise ValueError("Users must have a username.")
 
         if not password:
-            raise ValueError(
-                'Users must have a password.'
-            )
+            raise ValueError("Users must have a password.")
 
         # Lookup the real model class from the global app registry so this
         # manager method can be used in migrations. This is fine because
@@ -50,7 +41,7 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             username=username,
             email=email,
-            **extra_fields
+            **extra_fields,
         )
 
         user.set_password(password)
@@ -63,35 +54,45 @@ class MyUserManager(BaseUserManager):
         username,
         email,
         password,
-        **extra_fields
+        **extra_fields,
     ):
         """
         Creates a user.
         """
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
 
-        return self._create_user(username, email, password, **extra_fields)
+        return self._create_user(
+            username,
+            email,
+            password,
+            **extra_fields,
+        )
 
     def create_superuser(
         self,
         username,
         email,
         password,
-        **extra_fields
+        **extra_fields,
     ):
         """
         Creates a superuser.
         """
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
 
-        return self._create_user(username, email, password, **extra_fields)
+        return self._create_user(
+            username,
+            email,
+            password,
+            **extra_fields,
+        )
 
     def with_perm(
         self,
@@ -99,7 +100,7 @@ class MyUserManager(BaseUserManager):
         is_active=True,
         include_superusers=True,
         backend=None,
-        obj=None
+        obj=None,
     ):
         if backend is None:
             backends = auth._get_backends(return_tuples=True)
@@ -107,17 +108,16 @@ class MyUserManager(BaseUserManager):
                 backend, _ = backends[0]
             else:
                 raise ValueError(
-                    'You have multiple authentication backends configured and '
-                    'therefore must provide the `backend` argument.'
+                    "You have multiple authentication backends configured and "
+                    "therefore must provide the `backend` argument."
                 )
         elif not isinstance(backend, str):
             raise TypeError(
-                'backend must be a dotted import path string (got %r).'
-                % backend
+                "backend must be a dotted import path string (got %r)." % backend
             )
         else:
             backend = auth.load_backend(backend)
-        if hasattr(backend, 'with_perm'):
+        if hasattr(backend, "with_perm"):
             return backend.with_perm(
                 perm,
                 is_active=is_active,
@@ -132,30 +132,30 @@ class User(AbstractUser):
         primary_key=True,
         unique=True,
         editable=False,
-        default=uuid.uuid4
+        default=uuid.uuid4,
     )
     email = models.EmailField(
         unique=True,
         error_messages={
-            'unique': _('A user with that email already exists.'),
-        }
+            "unique": _("A user with that email already exists."),
+        },
     )
     updated_at = models.DateField(
-        verbose_name=_('updated at'),
-        auto_now=True
+        verbose_name=_("updated at"),
+        auto_now=True,
     )
 
-    EMAIL_FIELD = 'email'
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    EMAIL_FIELD = "email"
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     objects = MyUserManager()
 
     class Meta:
         constraints = [
             UniqueConstraint(
-                Lower('email'),
-                name='case_insensitive_unique_user_email',
+                Lower("email"),
+                name="case_insensitive_unique_user_email",
             ),
         ]
 

@@ -1,6 +1,7 @@
 from typing import Any
-from django.test.runner import DiscoverRunner
+
 from django.conf import settings
+from django.test.runner import DiscoverRunner
 
 
 class MyTestRunner(DiscoverRunner):
