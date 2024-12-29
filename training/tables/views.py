@@ -53,8 +53,6 @@ class TableListView(TitleMixin, ListView):
         context["user_tables_count"] = queryset.filter(type=Table.USER_TABLE).count()
         return context
 
-        return context
-
 
 class BaseTableDetailView(TitleMixin, PreviousPageURLMixin, DetailView):
     """Base view for DefaultTableDetailView and UserTableDetailView."""
