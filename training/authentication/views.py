@@ -44,10 +44,10 @@ class LoginView(TitleMixin, PreviousPageURLMixin, BaseLoginView):
 class SignUpView(TitleMixin, PreviousPageURLMixin, SuccessMessageMixin, CreateView):
     template_name = "authentication/signup.html"
     form_class = SignUpForm
-    success_message = _("Your account was created successfully")
+    success_message = _("Your account was created successfully.")
     success_url = reverse_lazy(settings.LOGIN_REDIRECT_URL)
     redirect_authenticated_user = True
-    previous_page_url = reverse_lazy("authentication:login")
+    previous_page_url = reverse_lazy("verbs:list")
     title = _("Sign Up")
 
     @method_decorator(sensitive_post_parameters())
@@ -119,7 +119,7 @@ class UsernameChangeView(
 ):
     template_name = "authentication/change.html"
     form_class = UsernameChangeForm
-    success_message = _("Your username has been successfully updated !")
+    success_message = _("Your username has been successfully updated.")
     success_url = reverse_lazy("authentication:account")
     previous_page_url = reverse_lazy("authentication:account")
     title = _("Change my username")
@@ -136,7 +136,7 @@ class EmailChangeView(
 ):
     template_name = "authentication/change.html"
     form_class = EmailChangeForm
-    success_message = _("Your email has been successfully updated !")
+    success_message = _("Your email has been successfully updated.")
     success_url = reverse_lazy("authentication:account")
     previous_page_url = reverse_lazy("authentication:account")
     title = _("Change my email")
@@ -152,7 +152,7 @@ class PasswordChangeView(
     BasePasswordChangeView,
 ):
     template_name = "authentication/change.html"
-    success_message = _("Your password has been successfully updated !")
+    success_message = _("Your password has been successfully updated.")
     success_url = reverse_lazy("authentication:account")
     previous_page_url = reverse_lazy("authentication:account")
     title = _("Change my password")
@@ -181,6 +181,6 @@ class DeleteAccountView(
     def form_valid(self, form):
         messages.success(
             self.request,
-            gettext("Your account has been sucessfully deleted !"),
+            gettext("Your account has been sucessfully deleted."),
         )
         return super().form_valid(form)
