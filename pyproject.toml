@@ -4,3 +4,7 @@ omit = [
     "*/manage.py",
     "*/tests/*",
 ]
+
+[tool.isort]
+multi_line_output = 3
+lines_after_imports = 2
