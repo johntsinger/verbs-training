@@ -11,6 +11,7 @@ from django.urls import reverse, reverse_lazy
 
 from training.authentication.views import SignUpView
 
+
 User = get_user_model()
 
 
@@ -43,7 +44,7 @@ class AuthenticationViewsTestCase(AssertionMixin, TestCase):
         )
 
 
-class TestLoginView(AuthenticationViewsTestCase):
+class LoginViewTests(AuthenticationViewsTestCase):
     url = reverse_lazy("authentication:login")
 
     def test_redirect_authenticated_users(self):
@@ -75,7 +76,7 @@ class TestLoginView(AuthenticationViewsTestCase):
         self.assertContainsFormErrors(response, response.context["form"])
 
 
-class TestSignupView(MessagesTestMixin, AuthenticationViewsTestCase):
+class SignupViewTests(MessagesTestMixin, AuthenticationViewsTestCase):
     url = reverse_lazy("authentication:signup")
 
     @patch.object(SignUpView, "success_url", url)
@@ -136,7 +137,7 @@ class TestSignupView(MessagesTestMixin, AuthenticationViewsTestCase):
         self.assertContainsFormErrors(response, response.context["form"])
 
 
-class TestAccountView(AuthenticationViewsTestCase):
+class AccountViewTests(AuthenticationViewsTestCase):
     url = reverse_lazy("authentication:account")
 
     def setUp(self):
@@ -157,7 +158,7 @@ class TestAccountView(AuthenticationViewsTestCase):
         self.assertTemplateUsed(response, template_expected)
 
 
-class TestUsernameChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
+class UsernameChangeViewTests(MessagesTestMixin, AuthenticationViewsTestCase):
     url = reverse_lazy("authentication:change-username")
 
     def setUp(self):
@@ -200,7 +201,7 @@ class TestUsernameChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
         self.assertContainsFormErrors(response, response.context["form"])
 
 
-class TestEmailChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
+class EmailChangeViewTests(MessagesTestMixin, AuthenticationViewsTestCase):
     url = reverse_lazy("authentication:change-email")
 
     def setUp(self):
@@ -243,7 +244,7 @@ class TestEmailChangeView(MessagesTestMixin, AuthenticationViewsTestCase):
         self.assertContainsFormErrors(response, response.context["form"])
 
 
-class TestDeleteAccountView(MessagesTestMixin, AuthenticationViewsTestCase):
+class DeleteAccountViewTests(MessagesTestMixin, AuthenticationViewsTestCase):
     url = reverse_lazy("authentication:delete-account")
 
     def setUp(self):

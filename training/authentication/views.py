@@ -32,7 +32,11 @@ from training.common.views.mixins import PreviousPageURLMixin, TitleMixin
 
 
 @method_decorator(login_not_required, name="dispatch")
-class LoginView(TitleMixin, PreviousPageURLMixin, BaseLoginView):
+class LoginView(
+    TitleMixin,
+    PreviousPageURLMixin,
+    BaseLoginView,
+):
     template_name = "authentication/login.html"
     authentication_form = LoginForm
     redirect_authenticated_user = True
@@ -41,7 +45,12 @@ class LoginView(TitleMixin, PreviousPageURLMixin, BaseLoginView):
 
 
 @method_decorator(login_not_required, name="dispatch")
-class SignUpView(TitleMixin, PreviousPageURLMixin, SuccessMessageMixin, CreateView):
+class SignUpView(
+    TitleMixin,
+    PreviousPageURLMixin,
+    SuccessMessageMixin,
+    CreateView,
+):
     template_name = "authentication/signup.html"
     form_class = SignUpForm
     success_message = _("Your account was created successfully.")
@@ -91,19 +100,28 @@ class PasswordResetView(
 
 
 @method_decorator(login_not_required, name="dispatch")
-class PasswordResetConfirmView(PreviousPageURLMixin, BasePasswordResetConfirmView):
+class PasswordResetConfirmView(
+    PreviousPageURLMixin,
+    BasePasswordResetConfirmView,
+):
     template_name = "authentication/password_reset_confirm.html"
     success_url = reverse_lazy("authentication:login")
     previous_page_url = reverse_lazy("authentication:login")
 
 
 @method_decorator(login_not_required, name="dispatch")
-class PasswordResetDoneView(PreviousPageURLMixin, BasePasswordResetDoneView):
+class PasswordResetDoneView(
+    PreviousPageURLMixin,
+    BasePasswordResetDoneView,
+):
     template_name = "authentication/password_reset_done.html"
     previous_page_url = reverse_lazy("authentication:login")
 
 
-class AccountView(TitleMixin, DetailView):
+class AccountView(
+    TitleMixin,
+    DetailView,
+):
     template_name = "authentication/account.html"
     title = _("Account settings")
 
