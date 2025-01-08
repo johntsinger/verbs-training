@@ -21,8 +21,12 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": get_env_variable("POSTGRES_NAME"),
+        "USER": get_env_variable("POSTGRES_USER"),
+        "PASSWORD": get_env_variable("POSTGRES_PASSWORD"),
+        "HOST": get_env_variable("POSTGRES_HOST"),
+        "PORT": get_env_variable("POSTGRES_PORT"),
     }
 }
 
@@ -60,11 +64,11 @@ STORAGES = {
 # Email configs
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = get_env_variable("EMAIL_HOST")
+EMAIL_PORT = get_env_variable("EMAIL_PORT")
+EMAIL_HOST_USER = get_env_variable("EMAIL_USER")
+EMAIL_HOST_PASSWORD = get_env_variable("EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get("DJANGO_EMAIL_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("DJANGO_EMAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = "contact@verbs-training.com"
 
 # Logging
@@ -87,7 +91,7 @@ LOGGING = {
 # Sentry
 
 sentry_sdk.init(
-    dsn=os.environ.get("SENTRY_DSN"),
+    dsn=get_env_variable("SENTRY_DSN"),
     traces_sample_rate=1.0,
     profiles_sample_rate=1.0,
     enable_tracing=True,
