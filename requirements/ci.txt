@@ -1,3 +1,7 @@
 -r base.txt # includes the base.txt requirements file
 
 coverage==7.6.8
+flake8==7.1.1
+mccabe==0.7.0
+pycodestyle==2.12.1
+pyflakes==3.2.0

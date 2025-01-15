@@ -1,1 +1,4 @@
 -r base.txt # includes the base.txt requirements file
+
+gunicorn==23.0.0
+packaging==24.2
