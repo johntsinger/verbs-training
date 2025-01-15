@@ -3,6 +3,8 @@
 venv
 env
 .env
+.env.*
 *.sqlite3
 .vscode
 data/
+custom_migrations/
