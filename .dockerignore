@@ -1,0 +1,50 @@
+# Include any files or directories that you don't want to be copied to your
+# container here (e.g., local build artifacts, temporary files, etc.).
+#
+# For more help, visit the .dockerignore file reference guide at
+# https://docs.docker.com/go/build-context-dockerignore/
+
+**/__pycache__
+
+env/
+.env
+.env.*
+
+.git
+.gitignore
+
+.github/
+
+.vscode/
+
+**/.dockerignore
+**/docker-compose*
+**/compose*
+**/Dockerfile*
+ 
+htmlcov/
+.coverage
+
+**/LICENSE
+**/README.md
+
+**/docs/
+**/.readthedocs.yaml
+
+**/*.sqlite3
+
+**/.flake8
+
+requirements/ci.txt
+requirements/local.txt
+requirements/requirements.txt
+
+config/settings/local.py
+config/settings/test.py
+
+config/urls/local.py
+config/urls/test.py
+
+data/
+training/custom_migrations/
+docker_usage.txt
