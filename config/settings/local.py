@@ -21,6 +21,8 @@ INSTALLED_APPS += [
 
 MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
+ROOT_URLCONF = "config.urls.local"
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 

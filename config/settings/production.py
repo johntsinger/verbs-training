@@ -16,17 +16,31 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
 
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.LoginRequiredMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+ROOT_URLCONF = "config.urls.production"
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": get_env_variable("POSTGRES_NAME"),
-        "USER": get_env_variable("POSTGRES_USER"),
-        "PASSWORD": get_env_variable("POSTGRES_PASSWORD"),
-        "HOST": get_env_variable("POSTGRES_HOST"),
-        "PORT": get_env_variable("POSTGRES_PORT"),
+        "NAME": os.environ.get("POSTGRES_NAME"),
+        "USER": os.environ.get("POSTGRES_USER"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+        "HOST": os.environ.get("POSTGRES_HOST"),
+        "PORT": os.environ.get("POSTGRES_PORT"),
     }
 }
 
@@ -64,12 +78,12 @@ STORAGES = {
 # Email configs
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = get_env_variable("EMAIL_HOST")
-EMAIL_PORT = get_env_variable("EMAIL_PORT")
-EMAIL_HOST_USER = get_env_variable("EMAIL_USER")
-EMAIL_HOST_PASSWORD = get_env_variable("EMAIL_PASSWORD")
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "contact@verbs-training.com"
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
 
 # Logging
 
@@ -91,7 +105,7 @@ LOGGING = {
 # Sentry
 
 sentry_sdk.init(
-    dsn=get_env_variable("SENTRY_DSN"),
+    dsn=os.environ.get("SENTRY_DSN"),
     traces_sample_rate=1.0,
     profiles_sample_rate=1.0,
     enable_tracing=True,

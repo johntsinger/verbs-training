@@ -3,6 +3,8 @@
 from .base import *
 
 
+ROOT_URLCONF = "config.urls.test"
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
