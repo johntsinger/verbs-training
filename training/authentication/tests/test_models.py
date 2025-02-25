@@ -58,7 +58,7 @@ class UserManagerTests(TestCase):
         self.assertEqual(user.username, expected_username)
 
     def test_create_user_missing_email(self):
-        with self.assertRaises(ValueError, msg="Users must have an email address."):
+        with self.assertRaisesMessage(ValueError, "Users must have an email address."):
             User.objects.create_user(
                 username="user",
                 email="",
@@ -66,7 +66,7 @@ class UserManagerTests(TestCase):
             )
 
     def test_create_user_missing_username(self):
-        with self.assertRaises(ValueError, msg="Users must have a username."):
+        with self.assertRaisesMessage(ValueError, "Users must have a username."):
             User.objects.create_user(
                 username="",
                 email="user@email.com",
@@ -74,7 +74,7 @@ class UserManagerTests(TestCase):
             )
 
     def test_create_user_missing_password(self):
-        with self.assertRaises(ValueError, msg="Users must have a password."):
+        with self.assertRaisesMessage(ValueError, "Users must have a password."):
             User.objects.create_user(
                 username="user",
                 email="user@email.com",
