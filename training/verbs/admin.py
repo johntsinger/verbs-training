@@ -97,7 +97,7 @@ class VerbAdmin(admin.ModelAdmin):
 
         # verb ids that already have a result for this profile and this table
         excluded_verbs = Result.objects.filter(
-            profile=profile_id, table=table_id
+            owner=profile_id, table=table_id
         ).values_list("verb_id", flat=True)
 
         queryset = (

@@ -33,7 +33,7 @@ class VerbsViewsTestCase(TestCase):
         cls.default_table.verbs.add(cls.verb)
         cls.result = Result.objects.create(
             verb=cls.verb,
-            profile=cls.user.profile,
+            owner=cls.user.profile,
             table=cls.default_table,
             is_success=True,
         )

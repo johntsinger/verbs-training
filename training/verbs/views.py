@@ -24,7 +24,7 @@ class VerbListView(TitleMixin, ListView):
                 is_success=Subquery(
                     Result.objects.filter(
                         verb=OuterRef("id"),
-                        profile=self.request.user.profile,
+                        owner=self.request.user.profile,
                     )
                     .order_by("-updated_at")
                     .values("is_success")[:1]

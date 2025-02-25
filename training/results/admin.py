@@ -18,7 +18,7 @@ class ResultAdminChangeForm(forms.ModelForm):
     class Meta:
         model = Result
         fields = [
-            "profile",
+            "owner",
             "verb",
             "is_success",
         ]
@@ -28,7 +28,7 @@ class ResultAdminAddForm(forms.ModelForm):
     class Meta:
         model = Result
         fields = [
-            "profile",
+            "owner",
             "table",
             "verb",
             "is_success",
@@ -40,34 +40,34 @@ class ResultAdmin(GetReadOnlyFieldsMixin, admin.ModelAdmin):
     change_form = ResultAdminChangeForm
     add_form = ResultAdminAddForm
     list_display = [
-        "profile",
+        "owner",
         "table",
         "verb",
         "is_success",
     ]
     list_display_links = [
-        "profile",
+        "owner",
         "table",
         "verb",
     ]
     readonly_fields = [
-        "profile",
+        "owner",
         "get_table",
         "verb",
         "created_at",
         "updated_at",
     ]
     autocomplete_fields = [
-        "profile",
+        "owner",
         "table",
         "verb",
     ]
     search_fields = [
-        "profile__user__username",
+        "owner__user__username",
         "table__name",
         "verb__infinitive",
     ]
-    search_help_text = "Search results by profile, table name and verb infinitive."
+    search_help_text = "Search results by owner, table name and verb infinitive."
     list_filter = [
         ("is_success", admin.BooleanFieldListFilter),
     ]
@@ -101,7 +101,7 @@ class ResultAdmin(GetReadOnlyFieldsMixin, admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.select_related(
             "verb",
-            "profile__user",
+            "owner__user",
             "table__owner__user",
         )
 
@@ -111,10 +111,10 @@ class ResultAdmin(GetReadOnlyFieldsMixin, admin.ModelAdmin):
         request: HttpRequest | None,
         **kwargs: Any,
     ) -> forms.ModelChoiceField | None:
-        # Select user to display foreignkey profile and table choices
-        # to avoid duplicated query because profile and table str method
+        # Select related user to display owner and table choices
+        # to avoid duplicated queries because profile and table str method
         # access to user.username
-        if db_field.name == "profile":
+        if db_field.name == "owner":
             kwargs["queryset"] = Profile.objects.select_related("user")
         if db_field.name == "table":
             kwargs["queryset"] = Table.objects.select_related("owner__user")
