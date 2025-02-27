@@ -14,10 +14,7 @@ class BaseResetView(
     PreviousPageURLMixin,
     DeleteView,
 ):
-    """
-    Base reset view.
-    Delete Result objects.
-    """
+    """Base view for deleting Result."""
 
     pk_url_kwarg = "pk"
     query_pk_and_slug = True
@@ -25,15 +22,25 @@ class BaseResetView(
     slug_url_kwarg = "slug_name"
     template_name = "results/reset.html"
 
-    def form_valid(self, form):
-        verbs = self.get_verbs()
-        verbs.delete()
-        return HttpResponseRedirect(self.get_success_url())
+    def delete(self, request, *args, **kwargs):
+        """
+        Call the delete() method on fetched Result objects and redirect
+        to the success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        results = self.get_results()
+        results.delete()
+        return HttpResponseRedirect(success_url)
 
-    def get_verbs(self):
-        if self.object is not None:
-            return self.object.results.all()
-        return self.get_queryset()
+    def form_valid(self, form):
+        """
+        Delete results on form validation and redirect to success URL.
+        """
+        success_url = self.get_success_url()
+        results = self.get_results()
+        results.delete()
+        return HttpResponseRedirect(success_url)
 
     def get_previous_page_url(self):
         """
@@ -43,29 +50,51 @@ class BaseResetView(
         """
         return self.get_success_url()
 
+    def get_results(self):
+        """
+        Return a queryset of Result objects to delete.
+        Must be implemented in subclasses.
+        """
+        raise NotImplementedError("Subclasses must implement get_results()")
+
 
 class AllTablesResetView(BaseResetView):
+    """
+    View for deleting all Result objects related to the logged-in user
+    profile.
+    """
+
     model = Result
     success_url = reverse_lazy("verbs:list")
     title = _("Reset all")
 
     def get_object(self):
+        # We don't want to retreive a single object as we are deleting
+        # the Result queryset.
         return None
 
-    def get_queryset(self):
-        return self.model.objects.filter(profile=self.request.user.profile)
+    def get_results(self):
+        return self.model.objects.filter(owner=self.request.user.profile)
 
     def get_success_url(self):
         return self.success_url
 
 
 class DefaultTableResetView(BaseResetView):
+    """
+    View for deleting all Result objects belonging to a DefaultTable
+    and related to the logged-in user's profile.
+    """
+
     model = DefaultTable
+
+    def get_results(self):
+        return self.object.results.filter(owner=self.request.user.profile)
 
     def get_success_url(self):
         return reverse(
             "tables:default:detail",
-            kwargs={"pk": self.object.id, "slug_name": self.object.slug_name},
+            kwargs={"pk": self.object.id, self.slug_field: self.object.slug_name},
         )
 
     def get_title(self):
@@ -75,10 +104,15 @@ class DefaultTableResetView(BaseResetView):
 
 
 class UserTableResetView(BaseResetView):
+    """
+    View for deleting all Result objects belonging to a UserTable
+    and related to the logged-in user's profile.
+    """
+
     model = UserTable
 
-    def get_queryset(self):
-        return self.model.objects.filter(owner=self.request.user.profile)
+    def get_results(self):
+        return self.object.results.all()
 
     def get_success_url(self):
         return reverse(
