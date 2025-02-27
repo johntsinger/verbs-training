@@ -9,6 +9,17 @@ from training.tables.models import Table
 from training.verbs.models import Verb
 
 
+class ResultManager(models.Manager):
+    def create(self, *, owner, table, verb, **kwargs):
+        if not owner:
+            raise ValueError("Result must have an owner")
+        if not table:
+            raise ValueError("Result must have a table")
+        if not verb:
+            raise ValueError("Result must have a verb")
+        return super().create(owner=owner, table=table, verb=verb, **kwargs)
+
+
 class Result(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -21,7 +32,7 @@ class Result(models.Model):
         on_delete=models.CASCADE,
         related_name="results",
     )
-    profile = models.ForeignKey(
+    owner = models.ForeignKey(
         to=Profile,
         on_delete=models.CASCADE,
         related_name="results",
@@ -41,42 +52,48 @@ class Result(models.Model):
         auto_now=True,
     )
 
+    objects = ResultManager()
+
     class Meta:
         constraints = [
             UniqueConstraint(
                 fields=[
-                    "profile",
+                    "owner",
                     "table",
                     "verb",
                 ],
-                name="unique_result_for_verb_in_table_per_profile",
+                name="unique_result_for_verb_in_table_per_owner",
             )
         ]
 
     def clean(self):
-        if (
-            getattr(self, "table", None)
-            and getattr(self, "verb", None)
-            and not self.table.verbs.filter(id=self.verb_id)
-        ):
-            raise ValidationError({"verb": "Verb must belong to table."})
-
-        if (
-            getattr(self, "table", None)
-            and getattr(self, "profile", None)
-            and self.table.owner
-            and self.table.owner != self.profile
-        ):
-            raise ValidationError({"table": "Table must belong to profile"})
+        if not self.table.verbs.filter(id=self.verb.id).exists():
+            raise ValidationError(
+                {
+                    "verb": (
+                        f"The verb '{self.verb}' does not belong to "
+                        f"'{self.table}' table."
+                    )
+                }
+            )
+        if self.table.owner and self.table.owner.id != self.owner.id:
+            raise ValidationError(
+                {
+                    "table": (
+                        f"The table '{self.table}' does not belong to "
+                        f"'{self.owner} profile"
+                    )
+                }
+            )
 
     def save(self, *args, **kwargs):
-        self.full_clean()
-        super().save(*args, **kwargs)
+        self.clean()
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return (
             "Result: "
-            f"user <{self.profile}> "
+            f"owner <{self.owner}> "
             f"table <{self.table}> "
             f"verb <{self.verb.infinitive}>"
         )
