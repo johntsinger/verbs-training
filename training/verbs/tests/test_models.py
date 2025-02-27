@@ -3,35 +3,51 @@ from django.test import TestCase
 from training.verbs.models import Example, Info, Similarity, Verb
 
 
-class TestModels(TestCase):
-
-    @classmethod
-    def setUpTestData(cls):
-        cls.similarity = Similarity.objects.create(name="similarity name")
-        cls.verb = Verb.objects.create(
+class TestVerbModel(TestCase):
+    def test_str(self):
+        verb = Verb.objects.create(
             infinitive="begin",
             simple_past="began",
             past_participle="begun",
             translation="commencer",
-            similarity=cls.similarity,
         )
-        cls.info = Info.objects.create(content="info content", verb=cls.verb)
-        cls.example = Example.objects.create(
-            english="example english", translation="example translation", verb=cls.verb
+        expected = (
+            f"{verb.infinitive} {verb.simple_past} {verb.past_participle} "
+            f"{verb.translation}"
         )
+        self.assertEqual(str(verb), expected)
 
-    def test_verb_str(self):
-        expected = "begin began begun commencer"
-        self.assertEqual(str(self.verb), expected)
 
-    def test_similarity_str(self):
-        expected = "similarity name"
-        self.assertEqual(str(self.similarity), expected)
+class TestSimilarityModel(TestCase):
+    def test_str(self):
+        similarity = Similarity.objects.create(name="similarity name")
+        expected = f"{similarity.name}"
+        self.assertEqual(str(similarity), expected)
 
-    def test_info_str(self):
-        expected = "Info for verb begin"
-        self.assertEqual(str(self.info), expected)
 
-    def test_example_str(self):
-        expected = "Example for verb begin"
-        self.assertEqual(str(self.example), expected)
+class TestInfoModel(TestCase):
+    def test_str(self):
+        verb = Verb.objects.create(
+            infinitive="begin",
+            simple_past="began",
+            past_participle="begun",
+            translation="commencer",
+        )
+        info = Info.objects.create(content="info content", verb=verb)
+        expected = f"Info for verb {verb.infinitive}"
+        self.assertEqual(str(info), expected)
+
+
+class TestExampleModel(TestCase):
+    def test_str(self):
+        verb = Verb.objects.create(
+            infinitive="begin",
+            simple_past="began",
+            past_participle="begun",
+            translation="commencer",
+        )
+        example = Example.objects.create(
+            english="example english", translation="example translation", verb=verb
+        )
+        expected = f"Example for verb {verb.infinitive}"
+        self.assertEqual(str(example), expected)
