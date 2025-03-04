@@ -71,17 +71,31 @@ class Table(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug_name = slugify(self.name)
-        # self.clean()
         return super().save(*args, **kwargs)
 
-    def get_verbs_success(self):
-        return [verb for verb in self.verbs.all() if verb.is_success is True]
+    def _get_verbs(self, *, is_success, user):
+        """Return a list of verbs filtered by the is_success attribute."""
+        try:
+            # On the views the verbs queryset is
+            # annotated with the is_success attribute.
+            return [verb for verb in self.verbs.all() if verb.is_success is is_success]
+        except AttributeError:
+            if user is None:
+                raise TypeError(f"'user' must be a User instance not {type(user)}")
+            return [
+                verb
+                for verb in self.verbs.with_results(user=user, table=self)
+                if verb.is_success is is_success
+            ]
 
-    def get_verbs_unsuccess(self):
-        return [verb for verb in self.verbs.all() if verb.is_success is False]
+    def get_verbs_success(self, user=None):
+        return self._get_verbs(is_success=True, user=user)
 
-    def get_verbs_not_done(self):
-        return [verb for verb in self.verbs.all() if verb.is_success is None]
+    def get_verbs_unsuccess(self, user=None):
+        return self._get_verbs(is_success=False, user=user)
+
+    def get_verbs_not_done(self, user=None):
+        return self._get_verbs(is_success=None, user=user)
 
     def resolve_proxy_model(self):
         """Get the proxy model."""
@@ -126,14 +140,3 @@ class UserTable(Table):
     def save(self, *args, **kwargs):
         self.type = self.USER_TABLE
         return super().save(*args, **kwargs)
-
-    # def clean(self):
-    #     # UserTable must have an owner.
-    #     if not self.owner:
-    #         raise ValueError(
-    #             {
-    #                 'owner':
-    #                 'UserTable must have an owner.'
-    #             }
-    #         )
-    #     return super().clean()
