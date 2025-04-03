@@ -1,12 +1,23 @@
 {% extends 'verbs/verb_base.html' %}
 
 {% block content %}
-    {% include 'verbs/includes/table.html' with verbs=verb_list %}
+<div class="row justify-content-between justify-content-lg-center">
+    <div class="mb-4 col-md-5 col-lg-4 col-xl-3 me-md-5">
+        <p class="text-center">Want to train?</p>
+        <div class="d-flex flex-column justify-content-center">
+            <a class="btn btn-outline-primary text-nowrap" href="{% if user.is_authenticated %}{% url 'tables:list' %}{% else %}{% url 'authentication:login' %}{% endif %}" aria-label="train yourself">
+                Access tables
+            </a>
+        </div>
+    </div>
+    <div class="mb-4 col-md-5 col-lg-4 col-xl-3 ms-md-5">
+        <p class="text-center text-nowrap">Want to reset your whole progression?</p>
+        <div class="d-flex flex-column justify-content-center">
+            <a class="btn btn-outline-danger text-nowrap" href="{% if user.is_authenticated %}{% url 'results:reset-all' %}{% else %}{% url 'authentication:login' %}{% endif %}" aria-label="train yourself">
+                Reset
+            </a>
+        </div>
+    </div>
+</div>
+{% include 'verbs/includes/table.html' with verbs=verb_list %}
 {% endblock content %}
-
-{% block js %}
-<script type="text/javascript">
-    var resetUrl = "{% url 'results:reset-all' %}";
-</script>
-{{ block.super }}
-{% endblock js %}
