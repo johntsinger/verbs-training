@@ -24,19 +24,11 @@ class TableListView(TitleMixin, ListView):
     title = _("Tables")
 
     def get_queryset(self):
-        # Subquery to get is_success for each Verb
-        result_subquery = Result.objects.filter(
-            profile=self.request.user.profile,
-            table=OuterRef("tables"),
-            verb=OuterRef("pk"),
-        ).values("is_success")[:1]
-
-        # Prefetch related verbs with the annotated is_success
         verbs_prefetch = Prefetch(
             "verbs",
-            queryset=Verb.objects.annotate(is_success=Subquery(result_subquery))
-            .distinct()
-            .order_by("infinitive"),
+            queryset=Verb.objects.with_results(
+                user=self.request.user, table=OuterRef("tables")
+            ),
         )
 
         queryset = Table.objects.filter(
@@ -67,7 +59,7 @@ class BaseTableDetailView(TitleMixin, PreviousPageURLMixin, DetailView):
     def prefetch_verbs(self, table_id):
         # Subquery to get is_success for each Verb
         result_subquery = Result.objects.filter(
-            profile=self.request.user.profile,
+            owner=self.request.user.profile,
             table_id=table_id,
             verb=OuterRef("pk"),
         ).values("is_success")[:1]
@@ -75,10 +67,17 @@ class BaseTableDetailView(TitleMixin, PreviousPageURLMixin, DetailView):
         # Prefetch related verbs with the annotated is_success
         verbs_prefetch = Prefetch(
             "verbs",
-            queryset=Verb.objects.annotate(is_success=Subquery(result_subquery))
-            .prefetch_related("info", "examples")
-            .order_by("infinitive"),
+            queryset=Verb.objects.annotate(
+                is_success=Subquery(result_subquery)
+            ).prefetch_related("info", "examples"),
         )
+
+        # verbs_prefetch = Prefetch(
+        #     "verbs",
+        #     queryset=Verb.objects.with_results(
+        #         user=self.request.user, table=table_id
+        #     ).prefetch_related("info", "examples"),
+        # )
 
         return verbs_prefetch
 
@@ -368,7 +367,7 @@ class BaseTrainingFormView(
         for cleaned_data, verb in zip(form.cleaned_data, self.verbs):
             data = self.get_data(cleaned_data, verb)
             result = Result(
-                profile=self.request.user.profile,
+                owner=self.request.user.profile,
                 table_id=self.object.id,
                 verb_id=verb.id,
                 is_success=data["is_success"],
@@ -383,7 +382,7 @@ class BaseTrainingFormView(
             results,
             update_conflicts=True,
             update_fields=["is_success"],
-            unique_fields=["profile_id", "table_id", "verb_id"],
+            unique_fields=["owner_id", "table_id", "verb_id"],
         )
         # self.request.session['results'] = form.cleaned_data
         self.request.session["verbs_data"] = verbs_data
@@ -474,6 +473,13 @@ class BaseResultView(TitleMixin, PreviousPageURLMixin, DetailView):
 
     def get_title(self):
         return gettext("%(name)s - Results" % {"name": self.object.name.capitalize()})
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        if not context.get("verbs_data"):
+            return redirect(self.get_previous_page_url())
+        return self.render_to_response(context)
 
 
 class DefaultTableResultView(BaseResultView):
