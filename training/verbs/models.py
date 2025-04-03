@@ -52,22 +52,19 @@ class VerbManager(models.Manager):
 
     def _user_owns_table(self, user, table):
         """Ensure that user owns the table if it's a UserTable."""
-        if (
-            isinstance(table, self.table_model)
-            and table.owner is not None
-            and user.profile != table.owner
-        ):
+        if table.owner is not None and user.profile != table.owner:
             raise PermissionError("This user does not have access to this table.")
 
     def with_results(self, *, user, table=None):
         table = self._get_table(table)
-        self._user_owns_table(user, table)
-        queryset = self.get_queryset_annotated(user=user, table=table)
         # When the table argument is an OuterRef object (views),
         # it cannot be directly used to filter the queryset.
         if isinstance(table, self.table_model):
-            queryset = queryset.filter(tables=table)
-        return queryset
+            self._user_owns_table(user, table)
+            return self.get_queryset_annotated(user=user, table=table).filter(
+                tables=table
+            )
+        return self.get_queryset_annotated(user=user, table=table)
 
 
 class Verb(models.Model):
