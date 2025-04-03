@@ -1,0 +1,3 @@
+<a class="btn btn-outline-danger text-nowrap" href="{% if object.type == object.USER_TABLE %}{% url 'results:user:reset' object.id object.slug_name %}{% else %}{% url 'results:default:reset' object.id object.slug_name %}{% endif %}" aria-label="train yourself">
+    Reset
+</a>

@@ -1,0 +1,4 @@
+<a class="btn btn-link icon-link link-body-emphasis text-decoration-none px-0" href="{% if object.type == object.USER_TABLE %}{% url 'tables:user:change' object.id object.slug_name %}{% else %}{% url 'tables:default:change' object.id object.slug_name %}{% endif %}" aria-label="update table {{ table.name }}">
+    Edit
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ms-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+</a>
