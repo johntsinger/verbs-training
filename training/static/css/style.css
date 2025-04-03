@@ -1,10 +1,13 @@
 @charset "UTF-8";
 
 :root {
-    --page-bg-color: #ffffff;
+    --page-bg-color: #f7f9fc; /* #ffffff */
     --focus-color: #0d6efd40;
-    --nav-bg-color: #ffffff;
-    --title-bg-color: #efeefd;
+    --nav-bg-color: #ffffff; /* #ffefef */
+    --title-bg-color: #140642; /* #efeefd */
+    --title-color: #ffffff;
+    --success-bg-color: rgba(0, 128, 0, 0.1);
+    --unsuccess-bg-color: rgba(255, 0, 0, 0.1);
     --success-color: #008000;
     --unsuccess-color: #ff0000;
     --dt-head-bg-color: #4f46e5;
@@ -48,6 +51,8 @@ nav .container-fluid {
     color: #fff!important;
     background-color: var(--nav-bg-color)!important;
 }
+
+
 
 /*
 #######
@@ -94,9 +99,18 @@ Focus
     border-radius: 5px;
 }
 
+table.dataTable thead>tr>th.dt-orderable-asc:focus-visible,
+table.dataTable thead>tr>th.dt-orderable-desc:focus-visible,
+table.dataTable thead>tr>td.dt-orderable-asc:focus-visible,
+table.dataTable thead>tr>td.dt-orderable-desc:focus-visible {
+    outline: 0;
+    box-shadow: inset 0 0 0 .25rem var(--focus-color);
+    border-radius: 5px;
+}
+
 .dt-scroll-head :focus-visible {
     outline: 0;
-    box-shadow: inset 0 0 0 .25rem #ffffffbf;
+    box-shadow: inset 0 0 0 .25rem var(--focus-color);
     border-radius: 5px;
 }
 
@@ -120,7 +134,13 @@ Title
 
 #title {
     background-color: var(--title-bg-color);
+    color: var(--title-color);
 }
+
+#title a {
+    color: var(--title-color) !important;
+}
+
 
 /*
 #######################
@@ -145,45 +165,8 @@ DataTables adjustements
     height: 40px;
 }
 
-.dt-scroll-body tbody tr {
+.dt-scroll-body #custom-dt tbody tr {
     height: 88px;
-}
-
-/* table border */
-.dt-scroll {
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
-/* head color and border */
-.dt-scroll-head {
-    /* background-color: #f3fafd; */
-    background-color: var(--dt-head-bg-color);
-    color: var(--dt-body-bg-color);
-    border-radius: 4px 4px 0 0;
-    border-bottom: 1px solid black !important;
-}
-
-table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:after, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:before, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:after, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:after, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:after, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:before, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
-    opacity: 0.6;
-}
-
-table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
-    opacity: 1;
-}
-
-/* remove thead and tbody boder bottom */
-div.dt-container.dt-empty-footer .dt-scroll-body,
-table.dataTable>thead>tr>th,
-table.dataTable>thead>tr>td {
-    border-bottom: none;
-}
-
-/* body color and adjustement to prevent the scroll bar from overlapping the table border */
-.dt-scroll-body {
-    background-color: var(--dt-body-bg-color);
-    width: 99.9% !important;
-    border-radius: 0 0 5px 5px;
 }
 
 /* remove original datatable child rows bullet and add custom one */
@@ -195,8 +178,9 @@ td.dt-control {
     background: url('../img/svg/chevron-right.svg') no-repeat center center;
 }
 
-tr.shown td.dt-control {
+tr.dt-hasChild.shown td.dt-control {
     background: url('../img/svg/chevron-down.svg') no-repeat center center;
+    border-bottom: 0;
 }
 
 /* search bar background color */
@@ -204,13 +188,20 @@ div.dt-container .dt-search input {
    background-color: var(--dt-search-bg-color);
 }
 
-/* success and unsuccess colors */
 .success {
     color: var(--success-color);
 }
-
 .unsuccess {
     color: var(--unsuccess-color);
+}
+
+/* success and unsuccess colors */
+tbody.colored.active .success {
+    background-color: var(--success-bg-color) !important;
+}
+
+tbody.colored.active .unsuccess {
+    background-color: var(--unsuccess-bg-color) !important;
 }
 
 /* first column min width  */
@@ -264,8 +255,8 @@ Slick adjustements
 }
 
 /* button previous and next */
-.slick-prev, .slick-next {
-    z-index: 999;
+/* .slick-prev, .slick-next {
+    z-index: 2;
     width: 30px;
     height: 30px;
 }
@@ -277,10 +268,15 @@ Slick adjustements
     .slick-next {
         right: -30px
     }
+} */
+
+.slick-prev, .slick-next {
+    top: unset;
+    bottom: 0%;
 }
 
 .slick-prev:before, .slick-next:before {
-    font-size: 30px;
+    /* font-size: 30px; */
     color: var(--btn-bg-color);
 }
 
