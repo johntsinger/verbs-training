@@ -33,33 +33,33 @@ function format(d) {
     return $(subrow).toArray()
 }
 
-// dataTables configuration
 var table = $("#custom-dt").DataTable({
     initComplete: function () {
         // display table, hidden by css #custom-dt display: none to avoid FOUC
         var api = this.api();
         api.columns.adjust();
         $("#custom-dt").show();
-        // Remove conflicting button classes and add desired class
-        // $('#export .dt-buttons button').removeClass('btn-secondary').addClass('btn btn-outline-secondary');
+        // add flex and spaces to datatable wrapper
+        $("#custom-dt_wrapper").addClass("d-flex flex-column gap-4 mt-4");
         // remove btn-group class to prevent broder radius top-left and bottom-left to be cleared
-        $(".dt-buttons").removeClass("btn-group").addClass("d-flex flex-column flex-md-row gap-3");
+        $(".dt-buttons").removeClass("btn-group").addClass("d-flex flex-column flex-md-row gap-4");
         // searchPanes keyboard navigation
-        $("#custom-dt_wrapper button").attr("tabindex", "0");
-        $("#sp-layout .dt-buttons button").keydown(function(event) {
+        $("#filter").on("keydown", function(event) {
             if(event.keyCode == 13) {
-                if($("#sp-layout .dt-buttons .dropdown-menu").length === 1) {
-                    $("#sp-layout .dt-button-background").click();
-                } else{
+                if($("#layout-top-start .dt-buttons .dropdown-menu").length) {
+                    // trigger a click on background if the dropdown menu is displayed to close it
+                    $("#layout-top-start .dt-button-background").click();
+                } else {
                     $(this).click();
                 }
                 $(this).focus();
                 event.preventDefault();
             }
-        }).removeClass('btn-secondary').addClass('btn btn-outline-secondary');
+        });
+        // keyboard thead th navigation
         $(".dt-scroll-head thead tr th:not(:first-child)").attr("tabindex", "0");
-        // add space between searchPanes div and search on small screen
-        $("#searchpanes-search").addClass("gap-3");
+        // disable colors and filter buttons if user is not authenticated
+        $("#colors, #filter").prop("disabled", !(isAuthenticated === "true"));
     },
     scrollX: true,
     scrollCollapse: true,
@@ -78,10 +78,9 @@ var table = $("#custom-dt").DataTable({
         infoFiltered: "",
         infoEmpty: "No verbs to show"
     },
-    // display position
     layout: {
         top2: {
-            id: "export",
+            id: "layout-top2",
             features: {
                 buttons: [
                     {
@@ -89,6 +88,11 @@ var table = $("#custom-dt").DataTable({
                         text: "Export to PDF",
                         title: "Irregular Verbs",
                         filename: "irregular_verbs",
+                        attr: {
+                            id: "pdf",
+                            tabindex: "0",
+                            "aria-label": "Export to pdf",
+                        },
                         exportOptions: {
                             orthogonal: "pdf",
                             columns: [1, 2, 3, 4, 7],
@@ -113,6 +117,11 @@ var table = $("#custom-dt").DataTable({
                         text: "Print the table",
                         title: "<h1 class='text-center pb-5'>Irregular Verbs</h1>",
                         autoPrint: false,
+                        attr: {
+                            id: "print",
+                            tabindex: "0",
+                            "aria-label": "Show a printable version of the table",
+                        },
                         exportOptions: {
                             columns: [1, 2, 3, 4, 7],
                             stripHtml: false,
@@ -123,20 +132,45 @@ var table = $("#custom-dt").DataTable({
                                     } else {
                                         return data;
                                     }
-                                }
-                            }
-                        }
-                    }
-                ]
-            }
+                                },
+                            },
+                        },
+                    },
+                ],
+            },
         },
         topStart: {
-            rowId: "searchpanes-search",
-            id: "sp-layout",
+            // rowId and rowClass used for topStart and topEnd parent element
+            rowId: "layout-top",
+            rowClass: "row mt-2 justify-content-between gap-4",
+            // id of topStart
+            id: "layout-top-start",
             features: {
                 buttons: [
                     {
+                        text: "Enable colors",
+                        attr: {
+                            id: "colors",
+                            class: "btn btn-light border",
+                            tabindex: "0",
+                            "data-bs-toggle": "button",
+                            "arial-label": "Enable / Disable row colors"
+                        },
+                        action: function (e, dt, node, config) {
+                            let tbody = $("#custom-dt tbody");
+                            tbody.toggleClass("colored");
+                            let isColored = tbody.hasClass("colored");
+                            this.text(isColored ? "Disable colors" : "Enable colors");
+                        },
+                    },
+                    {
                         extend: "searchPanes",
+                        attr: {
+                            id: "filter",
+                            class: "btn btn-light border",
+                            tabindex: "0",
+                            "aria-label": "Open / Close search panes"
+                        },
                         config: {
                             controls: false,
                             collapse: false,
@@ -153,7 +187,6 @@ var table = $("#custom-dt").DataTable({
         },
         topEnd: "search",
     },
-    // column
     columnDefs: [
         {
             searchPanes: {
@@ -238,97 +271,7 @@ var table = $("#custom-dt").DataTable({
         },
     ],
     order: [],
-    // creates buttons
-    // buttons: {
-    //     dom: {
-    //         // common classes for each button
-    //         button: {
-    //             className: "btn mb-3 mb-md-0",
-    //         },
-    //     },
-    //     buttons: [
-    //         {
-    //             text: "Disable colors",
-    //             attr: {
-    //                 id: "colors",
-    //                 "arial-label": "Enable / Disable row colors"
-    //             },
-    //             className: "btn-outline-primary colors active",
-    //         },
-    //         {
-    //             text: function (dt, button, config) {
-    //                 return "success (" + dt.rows(".success").count() + ")";
-    //             },
-    //             attr: {
-    //                 id: "success",
-    //                 "arial-label": "Switch success filter"
-    //             },
-    //             className: "btn-outline-success filter",
-    //         },
-    //         {
-    //             text: function (dt, button, config) {
-    //                 return "unsuccess (" + dt.rows(".unsuccess").count() + ")";
-    //             },
-    //             attr: {
-    //                 id: "unsuccess",
-    //                 "arial-label": "Switch unsuccess filter"
-    //             },
-    //             className: "btn-outline-danger filter",
-    //         },
-    //         {
-    //             text: function (dt, button, config) {
-    //                 return "not-tested (" + dt.rows(".not-tested").count() + ")";
-    //             },
-    //             attr: {
-    //                 id: "not-tested",
-    //                 "arial-label": "Switch not tested filter"
-    //             },
-    //             className: "btn-outline-secondary filter",
-    //         },
-    //     ],
-    // }
 });
-
-// // Define buttons actions
-// table.buttons().action(function (e, dt, button, config) {
-//     // if user not authenticated redirect to login page
-//     if (!(isAuthenticated === "true")) {
-//         location.href = loginUrl;
-//         return;
-//     }
-
-//     // button colors
-//     if (button.attr("id") === "colors") {
-//         // button.toggleClass("active")
-//         $("tbody.colored").toggleClass("active");
-//         if ($("tbody.colored").hasClass("active")) {
-//             button.text("Disable colors")
-//             button.addClass("active")
-//         } else {
-//             button.text("Enable colors")
-//             button.removeClass("active")
-//         }
-//     //buttons filter
-//     } else {
-//         // saves the state of the button"s active class
-//         let isActive = button.hasClass("active");
-//         // removes active class for each buttons in dt and reset filter
-//         dt.buttons(".filter").nodes().removeClass("active"); // $.fn.dataTable.ext.search.pop()
-//         $(dt).dataTableExt.search.pop();
-
-//         // adds class active to clicked button if it was not active and display matching rows
-//         if (!(isActive)) {
-//             button.addClass("active");
-//             // $.fn.dataTable.ext.search.push( // same as next
-//             $(dt).dataTableExt.search.push(
-//                 function(settings, data, dataIndex) {
-//                     return $(dt.row(dataIndex).node()).hasClass(button.attr("id"));
-//                 }
-//             );
-//         }
-//     }
-//     dt.draw();
-// })
 
 // Add event listener for opening and closing details
 table.on("click", "tbody td.dt-control", function () {
@@ -347,9 +290,29 @@ table.on("click", "tbody td.dt-control", function () {
     }
 });
 
+// Change buttons action if user is not authenticated to redirect on the login page
+if (isAuthenticated === "false") {
+    table.buttons().action(function (e, dt, button, config) {
+        location.href = loginUrl;
+        return;
+    })
+}
+
 // Add event listener to expand row when enter key is pressed
-$(".dt-control").keypress(function(event){
+$(".dt-control").on("keypress", function(event){
     if(event.keyCode == 13) {
         $(this).click();
     }
 });
+
+// Toggle the active class on the button when clicked
+$("#filter").on('click', function() {
+    $(this).toggleClass('active');
+    // Remove the active class when the searchPanes container is hidden
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.dtsp-panes, #filter').length) {
+            $('#filter').removeClass('active');
+        }
+    })
+});
+
