@@ -1,3 +1,3 @@
-<a class="btn btn-outline-primary text-nowrap" href="{% if object.type == object.USER_TABLE %}{% url 'tables:user:training' object.id object.slug_name %}{% else %}{% url 'tables:default:training' object.id object.slug_name %}{% endif %}" aria-label="train yourself">
+<a class="btn btn-outline-primary text-nowrap" href="{% if object.type == object.USER_TABLE %}{% url 'tables:user:training' object.id object.slug_name %}{% else %}{% url 'tables:default:training' object.id object.slug_name %}{% endif %}" aria-label="Train yourself">
     Train yourself
 </a>

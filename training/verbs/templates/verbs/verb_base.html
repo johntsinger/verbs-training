@@ -11,7 +11,7 @@
 <script src="https://cdn.datatables.net/v/bs5/dt-2.2.2/b-3.2.2/b-html5-3.2.2/b-print-3.2.2/sp-2.3.3/sl-3.0.0/datatables.min.js" integrity="sha384-peBuKKhniHHzOyymyL754NUbuj1djB6WL3waDAwYGiKN5HuJ1tD6r3reLcKyabqY" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    var isAuthenticated = "{{ user.is_authenticated|yesno:'true, false' }}";
+    var isAuthenticated = "{{ user.is_authenticated|yesno:'true,false' }}";
     var loginUrl = "{% url 'authentication:login' %}";
 </script>
 <script src="{% static 'js/datatables-config.js' %}"></script>

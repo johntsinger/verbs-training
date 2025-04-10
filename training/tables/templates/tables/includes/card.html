@@ -1,11 +1,16 @@
 <div class="my-2 mx-1">
-    <div class="card shadow-sm h-100">
+    <div class="card shadow-sm h-100 w-100">
         <div class="card-wrap card-body d-flex flex-column p-0">
             <div class="card-header">
-                <h5 class="card-title text-center">{{ table.name|capfirst }}</h5>
+                <h5 class="card-title text-center text-truncate">{{ table.name|capfirst }}</h5>
             </div>
-            <div class="card-body d-flex flex-row">
-                {% if table.get_verbs_success %}
+            <div class="card-body d-flex flex-row justify-content-center">
+                <div class="d-flex flex-column text-center align-items-center gap-2 w-100">
+                    <span class="success rounded w-100 p-3">Successfull: {{ table.get_verbs_success_count }}</span>
+                    <span class="unsuccess rounded w-100 p-3">Failed: {{ table.get_verbs_unsuccess_count }}</span>
+                    <span class="not-done rounded w-100 p-3">Not done: {{ table.get_verbs_not_done_count }}</span>
+                </div>
+                <!-- {% if table.get_verbs_success %}
                 <div class="success col text-center overflow-hidden px-2">
                     <div class="fw-bold text-secondary border-bottom pb-1">Success</div>
                     <div class="py-1 text-nowrap">
@@ -34,7 +39,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                {% endif %}
+                {% endif %} -->
             </div>
             <a class="stretched-link text-decoration-none" href="{% if table.type == table.USER_TABLE %}{% url 'tables:user:detail' table.id table.slug_name %}{% else %}{% url 'tables:default:detail' table.id table.slug_name %}{% endif %}" aria-label="access table {{ table.name }}"></a>
         </div>

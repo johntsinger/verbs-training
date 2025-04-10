@@ -1,0 +1,15 @@
+{% load static %}
+
+<div class="slider-controls d-flex flex-row justify-content-between m-2">
+    <div class="prev-container">
+        <button class="prev btn rounded-circle p-0" aria-label="Previous" type="button">
+            <img class="object-fit-cover rounded-circle" src="{% static 'img/svg/arrow-left-circle.svg' %}" alt="prev">
+        </button>
+    </div>
+    <div class="dots-container"></div>
+    <div class="next-container">
+        <button class="next btn rounded-circle p-0" aria-label="Next" type="button">
+            <img class="object-fit-cover rounded-circle" src="{% static 'img/svg/arrow-right-circle.svg' %}" alt="next">
+        </button>
+    </div>
+</div>

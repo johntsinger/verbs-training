@@ -5,15 +5,15 @@
     <div class="mb-4 col-md-5 col-lg-4 col-xl-3 me-md-5">
         <p class="text-center">Want to train?</p>
         <div class="d-flex flex-column justify-content-center">
-            <a class="btn btn-outline-primary text-nowrap" href="{% if user.is_authenticated %}{% url 'tables:list' %}{% else %}{% url 'authentication:login' %}{% endif %}" aria-label="train yourself">
+            <a class="btn btn-outline-primary text-nowrap" href="{% if user.is_authenticated %}{% url 'tables:list' %}{% else %}{% url 'authentication:login' %}{% endif %}" aria-label="Train yourself">
                 Access tables
             </a>
         </div>
     </div>
     <div class="mb-4 col-md-5 col-lg-4 col-xl-3 ms-md-5">
-        <p class="text-center text-nowrap">Want to reset your whole progression?</p>
+        <p class="text-center text-nowrap">Reset all progress?</p>
         <div class="d-flex flex-column justify-content-center">
-            <a class="btn btn-outline-danger text-nowrap" href="{% if user.is_authenticated %}{% url 'results:reset-all' %}{% else %}{% url 'authentication:login' %}{% endif %}" aria-label="train yourself">
+            <a class="btn btn-outline-danger text-nowrap" href="{% if user.is_authenticated %}{% url 'results:reset-all' %}{% else %}{% url 'authentication:login' %}{% endif %}" aria-label="Reset your whole progress">
                 Reset
             </a>
         </div>
