@@ -3,20 +3,19 @@
 :root {
     --page-bg-color: #f7f9fc; /* #ffffff */
     --focus-color: #0d6efd40;
+    --focus-color-alt: #ffffff;
     --nav-bg-color: #ffffff; /* #ffefef */
     --title-bg-color: #140642; /* #efeefd */
     --title-color: #ffffff;
     --success-bg-color: rgba(0, 128, 0, 0.1);
     --unsuccess-bg-color: rgba(255, 0, 0, 0.1);
+    --not-done-bg-color: rgba(31, 32, 32, 0.1);
     --success-color: #008000;
     --unsuccess-color: #ff0000;
-    --dt-head-bg-color: #4f46e5;
     --dt-body-bg-color: #ffffff;
     --dt-search-bg-color: #ffffff;
     --btn-bg-color: #4f46e5;
-    --slick-arrows-color: #e54f46;
     --card-head-bg-color: #4f46e5;
-    --bg-color: #14227a;
     --card-body-hover-bg-color: #edf6ff;
     --dropdown-link-hover-bg-color: #e2e2e6;
 
@@ -26,6 +25,7 @@
     --darkened-bg: #f8f8f8;
     --header-link-color: #fff;
     --selected-bg: #e4e4e4;
+    --selector-head-bg-color: #4f46e5;
 }
 
 /* add margin for fixed navbar */
@@ -120,6 +120,12 @@ a:focus-visible, .nav-link:focus-visible, input:focus-visible, select:focus-visi
     border-radius: 5px !important;
 }
 
+#title a:focus-visible {
+    outline: 0 !important;
+    box-shadow: 0 0 0 .25rem var(--focus-color-alt) !important;
+    border-radius: 5px !important;
+}
+
 #nav-user:focus-visible {
     border-radius: 50rem !important;
 }
@@ -188,20 +194,28 @@ div.dt-container .dt-search input {
    background-color: var(--dt-search-bg-color);
 }
 
-.success {
+#results .success {
     color: var(--success-color);
 }
-.unsuccess {
+#results .unsuccess {
     color: var(--unsuccess-color);
 }
 
 /* success and unsuccess colors */
-tbody.colored.active .success {
+#custom-dt tbody.colored .success, #tables .success {
     background-color: var(--success-bg-color) !important;
 }
 
-tbody.colored.active .unsuccess {
+#custom-dt tbody.colored .unsuccess, #tables .unsuccess {
     background-color: var(--unsuccess-bg-color) !important;
+}
+
+#tables .not-done {
+    background-color: var(--not-done-bg-color) !important;
+}
+
+table.table.dataTable>:not(caption)>*>* {
+    background-color: unset;
 }
 
 /* first column min width  */
@@ -218,9 +232,9 @@ Cards adjustements
 ##################
 */
 
-.card {
-    max-width: 484px;
-}
+/* .card {
+    max-width: 350px;
+} */
 
 .card-header {
     background-color: var(--card-head-bg-color);
@@ -251,51 +265,51 @@ Slick adjustements
 /* card body text truncate 3 lines max */
 
 .slick-track {
-    height: 300px !important
+    height: 300px !important;
 }
 
 /* button previous and next */
-/* .slick-prev, .slick-next {
-    z-index: 2;
-    width: 30px;
-    height: 30px;
+
+.slick-disabled {
+    opacity: .25;
 }
 
-@media only screen and (width >= 576px) {
-    .slick-prev {
-        left: -30px;
-    }
-    .slick-next {
-        right: -30px
-    }
-} */
-
-.slick-prev, .slick-next {
-    top: unset;
-    bottom: 0%;
-}
-
-.slick-prev:before, .slick-next:before {
-    /* font-size: 30px; */
-    color: var(--btn-bg-color);
-}
 
 /* dots */
 
-.slick-dotted.slick-slider {
-    margin-bottom: 40px;
-}
-
+/* 
 .slick-dots li {
     margin: 0;
+}
+*/
+
+.slick-dotted.slick-slider {
+    margin-bottom: 0px;
 }
 
 .slick-dots li button:before {
     font-size: 8px;
 }
 
+.slick-dots {
+    position: relative;
+    bottom: 0px;
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+}
 
 
+/*
+######################
+
+FilteredSelectMultiple
+
+######################
+*/
 
 .selector h2 {
     font-size: 1rem;
@@ -308,7 +322,7 @@ Slick adjustements
 }
 
 .selector-chosen h2 {
-    background: var(--card-head-bg-color) !important;
+    background: var(--selector-head-bg-color) !important;
 }
 
 .selector input {
