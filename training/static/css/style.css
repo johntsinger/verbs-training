@@ -52,8 +52,6 @@ nav .container-fluid {
     background-color: var(--nav-bg-color)!important;
 }
 
-
-
 /*
 #######
 
@@ -78,7 +76,6 @@ nav bar
 .btn-primary {
     background-color: var(--btn-bg-color);
 }
-
 
 /*
 #####
@@ -146,7 +143,6 @@ Title
 #title a {
     color: var(--title-color) !important;
 }
-
 
 /*
 #######################
@@ -274,14 +270,7 @@ Slick adjustements
     opacity: .25;
 }
 
-
 /* dots */
-
-/* 
-.slick-dots li {
-    margin: 0;
-}
-*/
 
 .slick-dotted.slick-slider {
     margin-bottom: 0px;
@@ -301,7 +290,6 @@ Slick adjustements
     list-style: none;
     text-align: center;
 }
-
 
 /*
 ######################
