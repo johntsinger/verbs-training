@@ -88,14 +88,26 @@ class Table(models.Model):
                 if verb.is_success is is_success
             ]
 
-    def get_verbs_success(self, user=None):
-        return self._get_verbs(is_success=True, user=user)
+    def _get_count(self, *, is_success, user):
+        return self.verbs.filter(is_success=is_success).count()
 
-    def get_verbs_unsuccess(self, user=None):
-        return self._get_verbs(is_success=False, user=user)
+    def get_verbs_success_count(self, user=None):
+        return len(self._get_verbs(is_success=True, user=user))
 
-    def get_verbs_not_done(self, user=None):
-        return self._get_verbs(is_success=None, user=user)
+    def get_verbs_unsuccess_count(self, user=None):
+        return len(self._get_verbs(is_success=False, user=user))
+
+    def get_verbs_not_done_count(self, user=None):
+        return len(self._get_verbs(is_success=None, user=user))
+
+    # def get_verbs_success(self, user=None):
+    #     return self._get_verbs(is_success=True, user=user)
+
+    # def get_verbs_unsuccess(self, user=None):
+    #     return self._get_verbs(is_success=False, user=user)
+
+    # def get_verbs_not_done(self, user=None):
+    #     return self._get_verbs(is_success=None, user=user)
 
     def resolve_proxy_model(self):
         """Get the proxy model."""
